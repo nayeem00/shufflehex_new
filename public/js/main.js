@@ -51,21 +51,7 @@ $('#menu-content .collapsed').click(function (e) {
     let submenu = $(this).attr('data-target');
     $(submenu).toggleClass('in');
 });
-// function openSidebarmenu(event){
-//     event.preventDefault();
-//     event.stopPropagation();
-//     $('#menu-sidebar').addClass('active');
-//     document.getElementById("menu-sidebar").style.width = "250px";
-//     // fade in the overlay
-//     $('.page-overlay').addClass('active');
-// }
-// function closeSidebarMenu(event){
-//     event.stopPropagation();
-//     $('#menu-sidebar').removeClass('active');
-//     document.getElementById("menu-sidebar").style.width = "0";
-//     // hide overlay
-//     $('.page-overlay').removeClass('active');
-// }
+
 $('body,html').click(function (e) {
     // $('#menu-sidebar').removeClass('active');
     document.getElementById("menu-sidebar").style.marginLeft = "-250px";

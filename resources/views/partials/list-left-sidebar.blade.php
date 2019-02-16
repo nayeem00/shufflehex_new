@@ -44,7 +44,8 @@
                     <li class="list-group-item list-group-title">TOPICS</li>
                     @foreach($topics as $topic)
                         @if(isset($page1) && !empty($page1) && $page1=='all')
-                            <a href="{{ url('/category/'.$topic->category) }}" id="{{ $topic->category }}" class="list-group-item active">
+                            <a href="{{ url('/category/'.$topic->category) }}" id="{{ $topic->category }}"
+                               class="list-group-item">
                                 <img src="{{ asset('images/icons/Topic.svg') }}">{{ $topic->category }}</a>
                         @else
                             <a href="{{ url('/category/'.$topic->category) }}" id="{{ $topic->category }}" class="list-group-item">

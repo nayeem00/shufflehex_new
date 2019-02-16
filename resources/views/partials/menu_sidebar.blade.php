@@ -1,8 +1,8 @@
 <nav id="menu-sidebar" class="animated">
     <div class="nav-side-menu">
         <div class="sidebar-menu-brand w-100 text-center">
-            <a class="d-inline-block" href="{{ url('/story') }}"><img class="sidebar-logo img-responsive"
-                                                                      src="{{ asset('img/logo/shufflehex.png') }}"></a>
+            <a class="d-inline-block" href="{{ url('/story') }}">
+                <img class="sidebar-logo img-responsive" src="{{ asset('img/logo/shufflehex.png') }}"></a>
         </div>
         <div class="menu-list">
             <ul id="menu-content" class="menu-content">
