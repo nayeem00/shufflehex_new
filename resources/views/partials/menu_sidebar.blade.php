@@ -6,7 +6,7 @@
         </div>
         <div class="menu-list">
             <ul id="menu-content" class="menu-content">
-                <li data-toggle="collapse" data-target="#stories-menu" class="collapsed">
+                <li data-toggle="collapse" data-target="#stories-menu" class="collapsed" aria-controls="stories-menu">
                     <a href="#">Stories <span class="arrow"></span></a>
                 </li>
                 <ul class="sub-menu collapse" id="stories-menu">
