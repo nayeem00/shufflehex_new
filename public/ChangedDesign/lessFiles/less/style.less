@@ -138,7 +138,7 @@ a, a:hover, a:focus {
   display: none;
 }
 
-@media only screen and(min-width: 769px) {
+@media only screen and(min-width: 1025px) {
   #mainNav{
     display: block;
   }
@@ -185,6 +185,20 @@ a, a:hover, a:focus {
         a.bell-icon {
           font-size: 20px;
           padding: 5px;
+        }
+        a#mobile_nav_user_icon {
+          margin-top: -4px;
+          img {
+            width: 30px;
+            height: 30px;
+          }
+        }
+        a.user-no-img {
+          margin-top: -4px;
+          img {
+            width: 30px;
+            height: 30px;
+          }
         }
         a{
           display: inline-block;
@@ -270,17 +284,6 @@ a, a:hover, a:focus {
   //}
 
 }
-
-#sidebar-close-btn {
-  width: 35px;
-  height: 35px;
-  position: absolute;
-  border: 2px solid @default-red;
-  line-height: 2.3;
-  text-align: center;
-  top: 10px;
-  right: 10px;
-}
 .page-overlay {
   display: none;
   position: fixed;
@@ -308,8 +311,64 @@ a, a:hover, a:focus {
   transform: translate3d(0, 0, 0);
 }
 
-@media only screen and(max-width: 768px) {
+#mobile_user_sidebar {
+  position: fixed;
+  margin-right: -250px;
+  width: 250px;
+  display: none;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #F8F8F8;
+  //border: 1px solid #f3f3f3;
+  top: 0;
+  right: 0;
+  /* top layer */
+  z-index: 9999;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+
+  .user-header {
+    padding: 50px 15px 20px 15px;
+    .user_img {
+      width: 92px;
+      height: 92px;
+      img {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+      }
+    }
+  }
+  .mobile_user_footer {
+    margin-top: 15px;
+    text-align: center;
+    a {
+      font-size: 12px;
+      display: inline-block;
+      padding: 2px;
+
+    }
+  }
+  .user-links {
+    li {
+      a {
+        padding: 5px;
+        font-size: 18px;
+        color: @color555;
+      }
+    }
+  }
+}
+
+@media only screen and(max-width: 1024px) {
   #mobileNav{
+    display: block;
+  }
+
+  #mobile_user_sidebar {
     display: block;
   }
 }

@@ -55,7 +55,19 @@ $('#menu-content .collapsed').click(function (e) {
 $('body,html').click(function (e) {
     // $('#menu-sidebar').removeClass('active');
     document.getElementById("menu-sidebar").style.marginLeft = "-250px";
+    document.getElementById("mobile_user_sidebar").style.marginRight = "-250px";
     $('body').removeClass('lock-scroll');
 
     $('.page-overlay').removeClass('active');
+});
+
+$('#mobile_nav_user_icon').click(function (e) {
+    e.stopPropagation();
+    $('#mobile_user_sidebar').toggleClass('show-sidebar-menu');
+    document.getElementById("mobile_user_sidebar").style.marginRight = "0";
+    $('body').addClass('lock-scroll');
+    $('.page-overlay').addClass('active');
+});
+$('#mobile_user_sidebar').click(function (e) {
+    e.stopPropagation();
 });

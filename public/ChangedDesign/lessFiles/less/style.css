@@ -131,7 +131,7 @@ a:focus {
 #mainNav {
   display: none;
 }
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 1025px) {
   #mainNav {
     display: block;
   }
@@ -176,6 +176,20 @@ a:focus {
 #mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list a.bell-icon {
   font-size: 20px;
   padding: 5px;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list a#mobile_nav_user_icon {
+  margin-top: -4px;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list a#mobile_nav_user_icon img {
+  width: 30px;
+  height: 30px;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list a.user-no-img {
+  margin-top: -4px;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list a.user-no-img img {
+  width: 30px;
+  height: 30px;
 }
 #mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list a {
   display: inline-block;
@@ -229,16 +243,6 @@ a:focus {
   vertical-align: middle;
   float: right;
 }
-#sidebar-close-btn {
-  width: 35px;
-  height: 35px;
-  position: absolute;
-  border: 2px solid #e74c3c;
-  line-height: 2.3;
-  text-align: center;
-  top: 10px;
-  right: 10px;
-}
 .page-overlay {
   display: none;
   position: fixed;
@@ -264,8 +268,55 @@ a:focus {
   -ms-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
-@media only screen and (max-width: 768px) {
+#mobile_user_sidebar {
+  position: fixed;
+  margin-right: -250px;
+  width: 250px;
+  display: none;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #F8F8F8;
+  top: 0;
+  right: 0;
+  /* top layer */
+  z-index: 9999;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+#mobile_user_sidebar .user-header {
+  padding: 50px 15px 20px 15px;
+}
+#mobile_user_sidebar .user-header .user_img {
+  width: 92px;
+  height: 92px;
+}
+#mobile_user_sidebar .user-header .user_img img {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+#mobile_user_sidebar .mobile_user_footer {
+  margin-top: 15px;
+  text-align: center;
+}
+#mobile_user_sidebar .mobile_user_footer a {
+  font-size: 12px;
+  display: inline-block;
+  padding: 2px;
+}
+#mobile_user_sidebar .user-links li a {
+  padding: 5px;
+  font-size: 18px;
+  color: #555;
+}
+@media only screen and (max-width: 1024px) {
   #mobileNav {
+    display: block;
+  }
+  #mobile_user_sidebar {
     display: block;
   }
 }

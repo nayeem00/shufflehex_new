@@ -36,6 +36,9 @@
 <div class="page-overlay"></div>
 @if( !(Request::is('page404')) )
     @include('partials.menu_sidebar')
+    @if (!Auth::guest())
+        @include('partials.mobile_user_menu')
+    @endif
 @endif
 <div id="wrapper">
 	@if( !(Request::is('page404')) )

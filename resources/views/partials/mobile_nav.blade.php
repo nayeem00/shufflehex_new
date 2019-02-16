@@ -13,13 +13,24 @@
                 </div>
                 <div class="mobile-nav-list mobile-nav-right pull-right">
                     <div class="mobile-nav__link-list">
-                        <a class="bell-icon notification-icon">
+                        @if (!Auth::guest())
+                            <a id="mobile_ntf_nav_icon" class="bell-icon notification-icon">
                             <i class="fa fa-bell-o"></i>
                         </a>
-                        <a>
-                            <i class="fa fa-user-circle"></i>
-                        </a>
+                        @endif
+                        @if (Auth::guest())
+                            <a class="user-no-img" href="{{ url('/login') }}">
+                                <img class="img-circle"
+                                     src="@if (!empty(Auth::user()->mini_profile_picture_link)) {{url(Auth::user()->mini_profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                            </a>
+                        @else
+                            <a id="mobile_nav_user_icon" href="#">
+                                <img class="img-circle"
+                                     src="@if (!empty(Auth::user()->mini_profile_picture_link)) {{url(Auth::user()->mini_profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                            </a>
+                        @endif
                     </div>
+
                 </div>
             </div>
 
