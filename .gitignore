@@ -1,6 +1,5 @@
 .env
 /vendor
-/public/images
 .envs
 vendor/
 node_modules/
