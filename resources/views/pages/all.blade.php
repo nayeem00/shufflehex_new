@@ -46,19 +46,18 @@
                 <h4 class="filter-title">Topics</h4>
                 <hr>
                 <ul class="list-unstyled">
-                    <li><a id="all" class="topics-filter-item">All</a></li>
-                    <li><a id="web" class="topics-filter-item">Web</a></li>
-                    <li><a id="images" class="topics-filter-item">Images</a></li>
-                    <li><a id="videos" class="topics-filter-item">Videos</a></li>
+                    <li><a id="link" class="topics-filter-item">Web</a></li>
+                    <li><a id="image" class="topics-filter-item">Images</a></li>
+                    <li><a id="video" class="topics-filter-item">Videos</a></li>
+                    <li><a id="article" class="topics-filter-item">Articles</a></li>
                 </ul>
             </div>
             <div class="col-md-3  topics-filter">
                 <h4 class="filter-title">Topics</h4>
                 <hr>
                 <ul class="list-unstyled">
-                    <li><a id="articles" class="topics-filter-item">Articles</a></li>
-                    <li><a id="lists" class="topics-filter-item">Lists</a></li>
-                    <li><a id="pool" class="topics-filter-item">Pool</a></li>
+                    <li><a id="list" class="topics-filter-item">Lists</a></li>
+                    <li><a id="poll" class="topics-filter-item">poll</a></li>
                     {{--<li><a href="#">Type 1</a></li>--}}
                 </ul>
             </div>

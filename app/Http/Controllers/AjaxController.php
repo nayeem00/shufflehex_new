@@ -48,18 +48,19 @@ class AjaxController extends Controller
             ->with('comments')
             ->with('saved_stories');
 
+
         if($request->timefilter != "none"){
             $posts = $posts->where('created_at',">=",$filterDate);
         }
 
         if($request->topicsfilter != "none"){
-
+            $fieldName = "is_".$request->topicsfilter;
+            $posts = $posts->where($fieldName,"=",1);
         }
 
         if($request->otherfilter != "none"){
 
         }
-
         $posts = $posts
             ->orderBy('views', 'DESC')
             ->offset(0)
