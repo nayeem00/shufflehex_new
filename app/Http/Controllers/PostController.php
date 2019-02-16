@@ -727,64 +727,38 @@ class PostController extends Controller
         }
     }
 
-    public function trendingPost($page)
+    public function trendingPost()
     {
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-        $date = new Carbon\Carbon; //  DateTime string will be 2014-04-03 13:57:34
 
-        $date->subWeek(); // or $date->subDays(7),  2014-03-27 13:58:25
-        // dd($date);
-        if ($page == 'all') {
-            $posts = Post::with('votes')->with('comments')->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->orderBy('post_comments', 'DESC')->get();
-            $page1 = 'all';
-            $page2 = 'Trending';
+        $posts = Post::select('posts.*')->with('votes')->with('comments')->with('saved_stories')
+            ->leftJoin("votes", "votes.post_id", "=", "posts.id")
+            ->leftJoin("comments", "comments.post_id", "=", "posts.id")
+            ->leftJoin("replies", "replies.post_id", "=", "posts.id")
+            ->where("votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->orWhere("comments.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->orWhere("replies.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->groupBy("posts.id")
+//            ->orderBy(DB::raw('SUM(votes.vote)'))
+            ->orderByDesc(DB::raw("SUM(votes.vote) + COUNT(comments.id)+ COUNT(replies.id)"))
+            ->get();
+            $page = 'Trending';
+        foreach ($posts as $post) {
+            if ($post->is_link == 1) {
+//                $fbCount = $this->getFacebookCount($post->link);
+//                $pinCount = $this->getPinterestCount($post->link);
+                $post->fb_count = 0;
+                $post->pin_count = 0;
+
+            }
         }
-
-        if ($page == 'web') {
-            $posts = Post::with('votes')->with('comments')->where('is_link', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->orderBy('post_comments', 'DESC')->get();
-            $page1 = 'web';
-            $page2 = 'Trending';
-        }
-
-        if ($page == 'images') {
-            $posts = Post::with('votes')->with('comments')->where('is_image', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->orderBy('post_comments', 'DESC')->get();
-            $page1 = 'images';
-            $page2 = 'Trending';
-        }
-
-        if ($page == 'videos') {
-            $posts = Post::with('votes')->with('comments')->where('is_video', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->orderBy('post_comments', 'DESC')->get();
-            $page1 = 'videos';
-            $page2 = 'Trending';
-        }
-
-
-        if ($page == 'articles') {
-            $posts = Post::with('votes')->with('comments')->where('is_article', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->orderBy('post_comments', 'DESC')->get();
-            $page1 = 'articles';
-            $page2 = 'Trending';
-        }
-
-
-        if ($page == 'lists') {
-            $posts = Post::with('votes')->with('comments')->where('is_list', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->orderBy('post_comments', 'DESC')->get();
-            $page1 = 'lists';
-            $page2 = 'Trending';
-        }
-
-
-        if ($page == 'polls') {
-            $posts = Post::with('votes')->with('comments')->where('is_poll', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->orderBy('post_comments', 'DESC')->get();
-            $page1 = 'polls';
-            $page2 = 'Trending';
-        }
-
+//        dd($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/' . $page1, compact('posts', 'folders', 'page1', 'page2'));
+            return view('pages/all' , compact('posts', 'folders', 'page'));
         } else {
-            return view('pages/' . $page1, compact('posts', 'page1', 'page2'));
+            return view('pages/all', compact('posts', 'page'));
         }
     }
 

@@ -4,34 +4,34 @@
             <div class="list-group">
 
                 <li class="list-group-item list-group-title">CATEGORIES</li>
-                @if(isset($page2) && !empty($page2) && $page2=='Trending')
-                    <a id="trending_stories" class="list-group-item active">
+                @if(isset($page) && !empty($page) && $page=='Trending')
+                    <a id="trending_stories" class="list-group-item active" href="{{ url('/story/trending') }}">
                         <img src="{{ asset('icons/trending-stories.svg') }}">Trending Stories</a>
                 @else
-                    <a id="trending_stories" class="list-group-item">
+                    <a id="trending_stories" class="list-group-item" href="{{ url('/story/trending') }}">
                         <img src="{{ asset('icons/trending-stories.svg') }}">Trending Stories</a>
                 @endif
-                @if(isset($page2) && !empty($page2) && $page2=='Latest')
-                <a id="latest_stories" class="list-group-item active">
+                @if(isset($page) && !empty($page) && $page=='Latest')
+                <a id="latest_stories" class="list-group-item active" href="{{ url('/story/latest') }}">
                     <img src="{{ asset('icons/latest-stories.svg') }}">Latest Stories</a>
                 @else
-                <a id="latest_stories" class="list-group-item">
+                <a id="latest_stories" class="list-group-item" href="{{ url('/story/latest') }}">
                     <img src="{{ asset('icons/latest-stories.svg') }}">Latest Stories</a>
                 @endif
 
-                @if(isset($page2) && !empty($page2) && $page2=='Top')
-                <a id="top_stories" class="list-group-item active">
+                @if(isset($page) && !empty($page) && $page=='Top')
+                <a id="top_stories" class="list-group-item active" href="{{ url('/story/top') }}">
                     <img src="{{ asset('icons/top-stories.svg') }}">Top Stories</a>
                 @else
-                <a id="top_stories" class="list-group-item">
+                <a id="top_stories" class="list-group-item" href="{{ url('/story/top') }}">
                     <img src="{{ asset('icons/top-stories.svg') }}">Top Stories</a>
                 @endif
 
-                @if(isset($page2) && !empty($page2) && $page2=='Popular')
-                <a id="popular_stories" class="list-group-item active">
+                @if(isset($page) && !empty($page) && $page=='Popular')
+                <a id="popular_stories" class="list-group-item active" href="{{ url('/story/popular') }}">
                     <img src="{{ asset('icons/popular-stories.svg') }}">Popular Stories</a>
                 @else
-                <a id="popular_stories" class="list-group-item">
+                <a id="popular_stories" class="list-group-item" href="{{ url('/story/popular') }}">
                     <img src="{{ asset('icons/popular-stories.svg') }}">Popular Stories</a>
                 @endif
             </div>

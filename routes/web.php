@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::get('/story/latest/{page}', 'PostController@latestPost');
 Route::get('/story/top/{page}', 'PostController@topPost');
 Route::get('/story/popular/{page}', 'PostController@popularPost');
-Route::get('/story/trending/{page}', 'PostController@trendingPost');
+Route::get('/story/trending/', 'PostController@trendingPost');
 Route::get('/story/web', 'PostController@webPost');
 Route::get('/story/images', 'PostController@imagesPost');
 Route::get('/story/videos', 'PostController@videosPost');
