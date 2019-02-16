@@ -36,7 +36,7 @@
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0), 0 0 8px #eaeaea;
 }
 #account-form #loginForm .btn-login {
-    background-color: #e74c3c;
+  background-color: #e74c3c;
   color: #fff;
   border-radius: 3px;
   font-weight: 700;

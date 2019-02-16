@@ -175,11 +175,11 @@
 }
 .comment-section .comment-rating .rating:not(:hover) .rarting-star-label input:checked ~ .icon,
 .comment-section .comment-rating .rating:hover .rarting-star-label:hover input ~ .icon {
-    color: #e74c3c;
+  color: #e74c3c;
 }
 .comment-section .comment-rating .rating .rarting-star-label input:focus:not(:checked) ~ .icon:last-child {
   color: #000;
-    text-shadow: 0 0 5px #e74c3c;
+  text-shadow: 0 0 5px #e74c3c;
 }
 .product-comment .panel-comment .panel-heading .comment-user .comment-user-img {
   position: absolute;

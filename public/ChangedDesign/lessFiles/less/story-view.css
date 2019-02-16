@@ -2,7 +2,7 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-    src: url(https://fonts.gstatic.com/s/materialicons/v43/flUhRq6tzZclQEJ-Vdg-IuiaDsNZ.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/materialicons/v43/flUhRq6tzZclQEJ-Vdg-IuiaDsNZ.ttf) format('truetype');
 }
 .material-icons {
   font-family: 'Material Icons';
@@ -135,7 +135,7 @@ select:focus {
   outline: none;
 }
 select option {
-    background: transparent;
+  background: transparent;
 }
 .device-chooser {
   margin: 0;
