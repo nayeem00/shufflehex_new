@@ -64,12 +64,11 @@ class CategoryController extends Controller
             $folders = Folder::where('user_id','=',Auth::user()->id)->get();
         }
         $posts = Post::with('votes')->with('comments')->with('saved_stories')->where('category','=',$category)->orderBy('views', 'DESC')->get();
-        $page1 = 'all';
 
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/categoryWisePosts', compact('posts', 'folders', 'page1','category'));
+            return view('pages/categoryWisePosts', compact('posts', 'folders', 'category'));
         } else{
-            return view('pages/categoryWisePosts', compact('posts', 'page1','category'));
+            return view('pages/categoryWisePosts', compact('posts', 'category'));
         }
     }
 

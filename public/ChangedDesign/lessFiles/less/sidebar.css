@@ -17,7 +17,6 @@
 }
 #list-left-sidebar .active {
   background-color: #fafafa;
-  box-shadow: -4px 0px 0px 0px black;
   margin-left: 4px;
 }
 #list-left-sidebar .sidebar-menu-header h5 {
