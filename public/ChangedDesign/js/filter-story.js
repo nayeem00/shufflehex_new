@@ -85,6 +85,7 @@ function updateFilterResults() {
 
 function addPosts(data) {
     $(".posts").html("");
+    $(".no-post-available").html("");
     if(data.sucess == "true"){
         $.each( data.posts, function (index,value) {
             var html = "\n" +
