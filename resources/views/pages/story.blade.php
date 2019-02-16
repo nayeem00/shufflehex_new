@@ -238,15 +238,18 @@ $title = $title . '-' . $post->id;
             $title = $title . '-' . $relPost->id;
             ?>
             <div class="row stories-item">
-                <div class="col-md-1 col-sm-2 col-xs-2 pl-0">
-                    <a href="{{ url('story/'.$title) }}">
-                        <img class="img-responsive" src="{{ url($relPost->related_story_image) }}" alt="Image not found!">
-                    </a>
+                <div class="col-sm-9 col-xs-11 pr-0 pl-0">
+                    <div class="img_box57_32">
+                        <a href="{{ url('story/'.$title) }}">
+                            <img class="img-responsive" src="{{ url($relPost->related_story_image) }}"
+                                 alt="Image not found!">
+                        </a>
+                    </div>
+                    <div class="img_box57_right">
+                        <a href="{{ url('story/'.$title) }}"><span class="story-title">{{ $relPost->title }}</span></a>
+                    </div>
                 </div>
-                <div class="col-md-9 col-sm-8 col-xs-9 pl-0">
-                    <a href="{{ url('story/'.$title) }}"><span class="story-title">{{ $relPost->title }}</span></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-1 pt-5 p-0 pr-0">
+                <div class="col-sm-3 col-xs-1 pl-0 pr-0">
 
                     {{--@if($upVoteMatched == 1)--}}
                     {{--<a class="btn btn-xs" onclick="upVote({{ $post->id }})"><span  id="btn_upVote_{{ $post->id }}" class="thumb-up glyphicon glyphicon-triangle-top" style="color: green"></span></a>--}}
@@ -259,21 +262,23 @@ $title = $title . '-' . $post->id;
                     {{--<span class="vote-counter text-center">Upvote</span>--}}
                     {{--<span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>--}}
                     {{--@endif--}}
-
-
                     @if($upVoteMatched == 1)
-                        <a class="pull-right li-1" onclick="upVote({{ $relPost->id }})">
+                        <a class="pull-right li-1 text-center" onclick="upVote({{ $relPost->id }})">
                             <span id="btn_upVote_{{ $relPost->id }}"  class="thumb-up glyphicon glyphicon-triangle-top" style="color: green"></span>
-                            <span id="btn_upVote_text_{{ $relPost->id }}" class="vote-counter text-center dis-n" style="color: green">Upvote &nbsp;</span>
+                            <span id="btn_upVote_text_{{ $relPost->id }}" class="vote-counter text-center dis-n"
+                                  style="color: green">Upvote&nbsp;</span>
                             <span id="vote_count_{{ $relPost->id }}" class="vote-counter text-center" style="color: green">{{ $votes }}</span>
                         </a>
                     @else
-                        <a class="pull-right li-1" onclick="upVote({{ $relPost->id }})">
-                            <span id="btn_upVote_{{ $relPost->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span>
-                            <span id="btn_upVote_text_{{ $relPost->id }}" class="vote-counter text-center dis-n" >Upvote &nbsp;</span>
+                        <a class="pull-right li-1 text-center" onclick="upVote({{ $relPost->id }})">
+                            <span id="btn_upVote_{{ $relPost->id }}"
+                                  class="thumb-up glyphicon glyphicon-triangle-top"></span>
+                            <span id="btn_upVote_text_{{ $relPost->id }}" class="vote-counter text-center dis-n">Upvote&nbsp;</span>
                             <span id="vote_count_{{ $relPost->id }}" class="vote-counter text-center" >{{ $votes }}</span>
                         </a>
                     @endif
+
+
                 </div>
             </div>
         @endforeach
@@ -345,17 +350,21 @@ $title = $title . '-' . $post->id;
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-1 col-md-1">
-                                <a href="#">
-                                    <img class="img-circle" src="{{ asset('img/profile-header-orginal.jpg') }}" alt="user profile">
-                                </a>
-                            </div>
-                            <div class="col-md-11 col-xs-11 pl-0">
+                            <div class="col-xs-12">
+                                <div class="img-box32_32">
+                                    <a href="#">
+                                        <img class="img-circle" src="{{ asset('img/profile-header-orginal.jpg') }}"
+                                             alt="user profile">
+                                    </a>
+                                </div>
+                                <div class="img_box32_right">
                                     <span class="comment-user text-primary"><strong>{{ $comment->username }}</strong>&nbsp;
                                         <span class="small text-muted commentTime postTime">
                                             {{ $comment->created_at }}
                                         </span>
                                     </span>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -398,17 +407,22 @@ $title = $title . '-' . $post->id;
                                     <div class="panel panel-success">
                                         <div class="panel-heading">
                                             <div class="row">
-                                                <div class="col-xs-1 col-md-1">
-                                                    <a href="#">
-                                                        <img class="img-circle" src="{{ asset('img/profile-header-orginal.jpg') }}" alt="user profile">
-                                                    </a>
-                                                </div>
-                                                <div class="col-md-11 col-xs-11 pl-0">
-                                                    <span class="reply-user text-primary"><strong>{{ $reply->username }}</strong>&nbsp;
+                                                <div class="col-xs-12">
+                                                    <div class="img-box32_32">
+                                                        <a href="#">
+                                                            <img class="img-circle"
+                                                                 src="{{ asset('img/profile-header-orginal.jpg') }}"
+                                                                 alt="user profile">
+                                                        </a>
+                                                    </div>
+                                                    <div class="img_box32_right">
+                                                        <span class="reply-user text-primary"><strong>{{ $reply->username }}</strong>&nbsp;
                                                         <span class="small text-muted commentTime postTime">
                                                             {{ $reply->created_at }}
                                                         </span>
                                                     </span>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>

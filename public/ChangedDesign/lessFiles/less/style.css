@@ -336,25 +336,25 @@ a:focus {
   height: auto;
 }
 .img_box32_right {
-  margin-left: 50px;
+  margin-left: 36px;
 }
-.img-box52_32 {
-  width: 52px;
+.img_box57_32 {
+  width: 57px;
   height: 32px;
   float: left;
   display: inline-block;
   position: absolute;
   text-align: center;
 }
-.img-box52_32 img {
+.img_box57_32 img {
   max-width: 100%;
   max-height: 100%;
   width: auto;
   margin: auto;
   height: auto;
 }
-.img_box52_right {
-  margin-left: 70px;
+.img_box57_right {
+  margin-left: 62px;
 }
 .img-box150_84 {
   width: 150px;
@@ -619,19 +619,17 @@ a:focus {
   color: #000000;
 }
 #top-bar .profile .noti-true .noti {
-  display: flex;
-  position: relative;
-  top: -28px;
-  margin-left: 4px;
+  margin-top: -5px;
+  margin-left: -6px;
+  display: inline-block;
+  position: absolute;
   background-color: #ee5253;
-  width: 16px;
+  width: 8px;
+  height: 8px;
   color: #fff;
   border-radius: 50%;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-  padding-left: 4px;
   z-index: 1;
+  text-align: center;
 }
 #top-bar .profile .noti-true .noti-fa {
   color: #ee5253;
