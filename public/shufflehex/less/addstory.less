@@ -1,0 +1,71 @@
+#storyForm{
+  text-align: center;
+}
+.addLinksForm{
+  max-width: 656px;
+  margin: auto auto 50px auto;
+  .bootstrap-select{
+    margin-bottom: 15px !important;
+    width: 100% !important;
+    ul.dropdown-menu{
+      max-height: 150px !important;
+    }
+  }
+  label{
+    text-align: left;
+    width: 100%;
+    float: left;
+  }
+  .form-control{
+    border-radius: 0;
+  }
+  .btn-link-submit{
+    padding: 8px 5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+}
+#addImageStory{
+  .btn-file {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    opacity: 0;
+    outline: none;
+    cursor: inherit;
+    display: block;
+  }
+  .form-control input[type=file]{
+    background-color: #f6f6f6;
+  }
+}
+.add-story-pills{
+  padding: 8px 5px;
+  margin-top: 20px;
+  .nav-pills{
+    a{
+      box-shadow: 1px -1px 2px 1px #c2c2c2;
+      border-radius: 2px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 8px;
+      color: #6f6f6f;
+      background-color: #f0f0f0 !important;
+      margin-right: 4px;
+    }
+    li.active>a{
+      background-color: #c9302c !important;
+      color: whitesmoke !important;
+    }
+  }
+}

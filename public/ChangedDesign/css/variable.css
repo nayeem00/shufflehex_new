@@ -1,0 +1,24 @@
+.pl-0 {
+  padding-left: 0;
+}
+.pr-0 {
+  padding-right: 0;
+}
+.plr-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+.plr-1 {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+.ml-0 {
+  margin-left: 0;
+}
+.mr-0 {
+  margin-right: 0;
+}
+.mlr-0 {
+  margin-left: 0;
+  margin-right: 0;
+}

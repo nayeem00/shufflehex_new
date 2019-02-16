@@ -1,0 +1,41 @@
+.table-folder tr td {
+  font-size: 18px;
+}
+.table-folder tr td .fa-folder {
+  font-size: 22px;
+}
+.folder-wise-story {
+  max-width: 800px;
+}
+.folder-wise-story .folder-story .folder-item {
+  padding: 20px 10px;
+}
+.folder-wise-story .folder-story .folder-item .row {
+  margin: auto 0;
+}
+.folder-wise-story .folder-story .folder-item .btn-action {
+  margin-bottom: 5px;
+  display: inline-block;
+}
+.folder-wise-story .folder-story .folder-item .folder-img {
+  width: 57px;
+  height: 32px;
+  float: left;
+  position: absolute;
+  display: inline-block;
+}
+.folder-wise-story .folder-story .folder-item .folder-img img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+.folder-wise-story .folder-story .folder-item .folder-content {
+  display: inline-block;
+  margin-left: 70px;
+}
+.folder-wise-story .folder-story .folder-item .folder-content .story-title {
+  font-size: 16px;
+  margin-top: -2px;
+}
+/*# sourceMappingURL=folder.css.map */

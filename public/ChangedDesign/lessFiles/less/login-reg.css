@@ -1,0 +1,97 @@
+#account-form #loginForm {
+  max-width: 380px;
+  margin: auto;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 50px 30px;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0), 0 0 8px #eaeaea;
+  border-radius: 3px;
+  margin-bottom: 30px;
+}
+#account-form #loginForm .remember-me {
+  color: rgba(69, 131, 207, 0.78);
+  text-align: left;
+}
+#account-form #loginForm .login-title {
+  margin-bottom: 30px;
+}
+#account-form #loginForm .login-title h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ee5253a6;
+  margin: 0;
+}
+#account-form #loginForm .form-control {
+  border-radius: 3px;
+  height: 36px;
+}
+#account-form #loginForm .form-control:focus {
+  height: 36px !important;
+  outline: 0 none;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.64);
+  border-color: #eaeaea;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0), 0 0 8px #eaeaea;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0), 0 0 8px #eaeaea;
+}
+#account-form #loginForm .btn-login {
+    background-color: #e74c3c;
+  color: #fff;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+}
+#account-form #loginForm .forgot-password {
+  color: rgba(69, 131, 207, 0.78);
+  font-size: 12px;
+  margin-top: 36px;
+  margin-bottom: 0;
+}
+#account-form #loginForm .signup {
+  color: #4583cf;
+}
+#account-form #loginForm .signup:hover {
+  color: #4583cf;
+}
+#account-form #signupForm {
+  max-width: 380px;
+  margin: auto;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 50px 30px;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0), 0 0 8px #eaeaea;
+  border-radius: 3px;
+  margin-bottom: 30px;
+}
+#account-form #signupForm .form-control {
+  border-radius: 3px;
+  height: 36px;
+}
+#account-form #signupForm .form-control:focus {
+  height: 36px !important;
+  outline: 0 none;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.64);
+  border-color: #eaeaea;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0), 0 0 8px #eaeaea;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0), 0 0 8px #eaeaea;
+}
+#account-form #signupForm .btn {
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+}
+#account-form #signupForm .signup-title {
+  margin-bottom: 30px;
+}
+#account-form #signupForm .signup-title h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ee5253a6;
+  margin: 0;
+}
+/*# sourceMappingURL=login-reg.css.map */

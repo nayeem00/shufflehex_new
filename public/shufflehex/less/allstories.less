@@ -1,0 +1,71 @@
+@import "voting";
+.category-tab{
+  background-color: #fff;
+  box-shadow: 0 1px 2px 1px grey;
+  a{
+    color: #000;
+  }
+}
+#catPost{
+  margin-top: 20px;
+  position: relative;
+}
+.navbar-cat{
+  .nav-tabs{
+    padding: 0 2% 0 2%;
+    border-bottom: 0;
+  }
+}
+
+.link-item{
+  display: block;
+  margin-bottom: 15px;
+  min-height: 100px;
+  padding: 10px 0;
+  height: auto;
+}
+.link-thumb{
+  width: 70px;
+  float: left;
+  box-shadow: 0 0 0 2px grey;
+  display: inline-block;
+  margin-right: 10px;
+  height: 60px;
+  img{
+    display: block;
+    max-width: 100%;
+    height: 100%;
+    margin: auto;
+  }
+}
+.link-content{
+  vertical-align:top;
+  line-height: 1;
+  position: absolute;
+  margin-left: 120px;
+  margin-top: -5px;
+  *{
+    margin: auto;
+  }
+  h4 a{
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #091b2c;
+    vertical-align: text-top;
+    text-transform: capitalize;
+    font-weight: 600;
+  }
+  a:hover{
+    text-decoration: none;
+  }
+  p{
+    font-size: 13px;
+  }
+  p.link-desc{
+  }
+}
+@media screen and (max-width: 480px){
+  .link-desc{
+    display: none;
+  }
+}
