@@ -58,11 +58,12 @@ class AjaxController extends Controller
             $posts = $posts->where($fieldName,"=",1);
         }
 
-        if($request->otherfilter != "none"){
-
-        }
+//        if($request->otherfilter != "none"){
+//            if($request->otherfilter == 'upvote'){
+//                $posts = $posts->orderByDesc(DB::raw('SUM(votes.vote)'));
+//            }
+//        }
         $posts = $posts
-            ->orderBy('views', 'DESC')
             ->offset(0)
             ->limit(10)
             ->get();
@@ -72,5 +73,15 @@ class AjaxController extends Controller
         }else{
             return response()->json(['sucess'=>'false']);
         }
+    }
+
+    public function popularTopics(){
+        $categories = Category::join("post_views", "post_views.category_id", "=", "categories.id")
+            ->where("post_views.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
+            ->groupBy("categories.id")
+            ->orderByDesc(DB::raw('COUNT(post_views.view)'))
+            ->limit(5)
+            ->get();
+        return $categories;
     }
 }
