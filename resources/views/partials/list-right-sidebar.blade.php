@@ -2,39 +2,12 @@
     <div id="list-right-sidebar">
         <div class="sibebar-panel">
             <div class="list-group ">
-                <li class="list-group-item list-group-title">TOP PRODUCT</li>
+                <li class="list-group-item list-group-title">TRENDING PRODUCTS</li>
                 <div class="right-sidebar">
-                    @if(isset($page2) && !empty($page2) && $page2=='Latest')
-                    <a id="latest_stories" class="list-group-item active">
-                        <img src="{{ asset('img/profile-header-orginal.jpg') }}">Latest Stories</a>
-                    @else
-                    <a id="latest_stories" class="list-group-item">
-                        <img src="{{ asset('img/profile-header-orginal.jpg') }}">Latest Stories</a>
-                    @endif
-
-                    @if(isset($page2) && !empty($page2) && $page2=='Top')
-                    <a id="top_stories" class="list-group-item active">
-                        <img src="{{ asset('img/profile-header-orginal.jpg') }}">Top Stories</a>
-                    @else
-                    <a id="top_stories" class="list-group-item">
-                        <img src="{{ asset('img/profile-header-orginal.jpg') }}">Top Stories</a>
-                    @endif
-
-                    @if(isset($page2) && !empty($page2) && $page2=='Popular')
-                    <a id="popular_stories" class="list-group-item active">
-                        <img src="{{ asset('img/profile-header-orginal.jpg') }}">Popular Stories</a>
-                    @else
-                    <a id="popular_stories" class="list-group-item">
-                        <img src="{{ asset('img/profile-header-orginal.jpg') }}">Popular Stories</a>
-                    @endif
-
-                    @if(isset($page2) && !empty($page2) && $page2=='Trending')
-                    <a id="trending_stories" class="list-group-item active">
-                        <img src="{{ asset('img/profile-header-orginal.jpg') }}">Trending Stories</a>
-                    @else
-                    <a id="trending_stories" class="list-group-item">
-                        <img src="{{ asset('img/profile-header-orginal.jpg') }}">Trending Stories</a>
-                    @endif
+                    @foreach($products as $product)
+                    <a id="top-product" class="list-group-item" href="{{ url($product->product_link) }}">
+                        <img src="{{ url($product->related_product_image) }}">{{ $product->product_title }}</a>
+                     @endforeach
                 </div>
 
             </div>
@@ -44,7 +17,7 @@
         <div class="sibebar-panel">
             <div class="sidebar-link-list">
                 <div class="list-group">
-                    <li class="list-group-item list-group-title">RELATED PRODUCT</li>
+                    <li class="list-group-item list-group-title">TRENDING PROJECTS</li>
                     <div class="right-sidebar">
                         @if(isset($page1) && !empty($page1) && $page1=='all')
                     <a href="{{ url('/story') }}" id="all" class="list-group-item ">

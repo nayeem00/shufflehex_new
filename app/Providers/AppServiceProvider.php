@@ -191,6 +191,30 @@ class AppServiceProvider extends ServiceProvider
 //        dd($categories);
         return $categories;
     }
+
+    public function topProduct()
+    {
+        $products = Product::select('products.*')
+            ->leftJoin("product_votes", "product_votes.product_id", "=", "products.id")
+            ->leftJoin("product_reviews", "product_reviews.product_id", "=", "products.id")
+            ->where("product_votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->orWhere("product_reviews.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->groupBy("products.id")
+//            ->orderBy(DB::raw('SUM(votes.vote)'))
+            ->orderByDesc(DB::raw("SUM(product_votes.vote) + COUNT(product_reviews.id)"))
+            ->get();
+        foreach ($products as $product){
+            $productTitle = $this->limit_text($product->product_name, 3);
+            $title = preg_replace('/\s+/', '-', $product->product_name);
+            $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+            $title = $title . '-' . $product->id;
+            $productLink = 'product/' . $title;
+            $product->product_link = $productLink;
+            $product->product_title = $productTitle;
+        }
+        return $products;
+    }
+
     public function boot()
     {
         Schema::defaultStringLength(191);
@@ -216,6 +240,11 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('partials.list-left-sidebar',function($view){
             $categories = $this->popularTopics();
             $view->with('topics',$categories);
+        });
+
+        view()->composer('partials.list-right-sidebar',function($view){
+            $products = $this->topProduct();
+            $view->with('products',$products);
         });
 
     }

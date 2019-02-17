@@ -39,7 +39,7 @@ $title = $title . '-' . $post->id;
 
 <div class="shuffle-box" id="shuffle_box">
 	<div class="box-image">
-	    <img src="{{ url($post->shuffle_box_image) }}">
+	    <a class="d-inline-block" href="{{ url('story/'.$title) }}" target="_blank" rel="nofollow"> <img class="img-responsive" src="{{ url($post->shuffle_box_image) }}"></a>
 	</div>
     <div class="text-center" id="wait" style="display: none">
         <div style="height: 87px"><img src={{ asset('images/preloader/preloader_3.svg') }} width="100" height="87" /></div>
@@ -48,7 +48,7 @@ $title = $title . '-' . $post->id;
         <a href="{{ $post->link }}" target="_blank" rel="nofollow">
     	<h5>{{ $post->domain }}</h5>
         </a>
-    	<a href="{{ url('story/'.$title) }}">
+    	<a href="{{ url('story/'.$title) }}" target="_blank" rel="nofollow">
     		<p class="title">{{ $post->title }}</p>
     	</a>
     </div>
