@@ -55,48 +55,43 @@ $title = $title . '-' . $post->id;
 
     <div class="row dis-n share-section">
         <div class="col-md-6 col-sm-6 col-xs-12 vote">
-            <div class="col-md-6 col-sm-6 col-xs-6 p-0 up-btn">
-                    @if($upVoteMatched == 1)
-                        <a class="btn btn-xs" onclick="upVote({{
+            <div class="d-inline-block">
+                @if($upVoteMatched == 1)
+                    <a class="btn btn-xs" onclick="upVote({{
                         $post->id
                         }})"><span  id="btn_upVote_{{ $post->id }}" class="thumb-up glyphicon glyphicon-triangle-top" style="color: green"></span></a>
-                        <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center" style="color: green;">Upvote</span>
-                        <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                    @else
-                        <a class="" onclick="upVote({{
+                    <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center"
+                          style="color: green;"></span>
+                    <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
+                @else
+                    <a class="" onclick="upVote({{
                         $post->id
                         }})"><span id="btn_upVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span></a>
-                        <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center">Upvote</span>
-                        <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                    @endif
+                    <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center"></span>
+                    <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
+                @endif
             </div>
-            @if($savedStory == 1)
-                <div class="col-md-2 col-sm-2 col-xs-2 p-0 saved-btn">
+            <div class="d-inline-block">
+                @if($savedStory == 1)
                     <a class="" onclick="saveStory({{
                         $post->id
                         }})">
                         <span class="saved glyphicon glyphicon-bookmark" id="btn_saveStory_{{ $post->id }}" style="color: green"></span>
                     </a>
-                </div>
-            @else
-                    <div class="col-md-2 col-sm-2 col-xs-2 p-0 saved-btn">
-                        <a class="" onclick="saveStory({{
+
+                @else
+                    <a class="" onclick="saveStory({{
                         $post->id
                         }})">
-                            <span class="saved glyphicon glyphicon-bookmark" id="btn_saveStory_{{ $post->id }}"></span>
-                        </a>
-                    </div>
-            @endif
-            <div class="col-md-2 col-sm-2 col-xs-2 p-0 down-btn">
-                <a type="button" data-toggle="modal" data-target="#share">
-                    <span class="thumb glyphicon glyphicon-share-alt"></span>
-                </a>
-            </div>
+                        <span class="saved glyphicon glyphicon-bookmark" id="btn_saveStory_{{ $post->id }}"></span>
+                    </a>
+                @endif
+        </div>
         </div>
         <div class="col-sm-6 col-md-6 col-xs-6 new-story">
-    	    <a class="btn btn-danger btn-sm pull-right" id="shuffle_new_story" onclick="shuffleNewStory()">
-    		    <span>SHUFFLE NEW STORY</span>
-    	    </a>
+            <a class="btn btn-danger btn-sm pull-right" id="shuffle_new_story" onclick="shuffleNewStory()">
+                <span>SHUFFLE NEW STORY</span>
+            </a>
         </div>
     </div>
 
