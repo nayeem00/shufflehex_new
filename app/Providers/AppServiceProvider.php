@@ -200,8 +200,8 @@ class AppServiceProvider extends ServiceProvider
             ->where("product_votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
             ->orWhere("product_reviews.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
             ->groupBy("products.id")
-//            ->orderBy(DB::raw('SUM(votes.vote)'))
             ->orderByDesc(DB::raw("SUM(product_votes.vote) + COUNT(product_reviews.id)"))
+            ->limit(5)
             ->get();
 //        dd($products);
         foreach ($products as $product){
@@ -228,6 +228,7 @@ class AppServiceProvider extends ServiceProvider
             ->groupBy("projects.id")
 //            ->orderBy(DB::raw('SUM(votes.vote)'))
             ->orderByDesc(DB::raw("SUM(project_votes.vote) + COUNT(project_comments.id) + COUNT(project_replies.id)"))
+            ->limit(5)
             ->get();
 //        dd($products);
         foreach ($projects as $project){
