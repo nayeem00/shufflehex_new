@@ -18,10 +18,10 @@ Route::get('/', function () {
 //Route::get('/pages/add', function () {
 //    return view('pages.add');
 //});
-Route::get('/story/latest/{page}', 'PostController@latestPost');
-Route::get('/story/top/{page}', 'PostController@topPost');
-Route::get('/story/popular/{page}', 'PostController@popularPost');
-Route::get('/story/trending/', 'PostController@trendingPost');
+Route::get('/story/latest', 'PostController@latestPost');
+Route::get('/story/top/', 'PostController@topPost');
+Route::get('/story/popular/', 'PostController@popularPost');
+Route::get('/story/trending', 'PostController@trendingPost');
 Route::get('/story/web', 'PostController@webPost');
 Route::get('/story/images', 'PostController@imagesPost');
 Route::get('/story/videos', 'PostController@videosPost');

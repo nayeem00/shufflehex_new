@@ -182,12 +182,13 @@ class AppServiceProvider extends ServiceProvider
         $this->notifications = $notifications;
     }
     public function popularTopics(){
-        $categories = Category::join("post_views", "post_views.category_id", "=", "categories.id")
+        $categories = Category::select('categories.*')->leftJoin("post_views", "post_views.category_id", "=", "categories.id")
             ->where("post_views.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
             ->groupBy("categories.id")
             ->orderByDesc(DB::raw('COUNT(post_views.view)'))
             ->limit(5)
             ->get();
+//        dd($categories);
         return $categories;
     }
     public function boot()

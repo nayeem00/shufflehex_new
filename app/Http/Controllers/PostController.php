@@ -8,6 +8,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Embed\Embed;
 use App\Post;
+use App\PostView;
 use App\PollItem;
 use App\PollVote;
 use App\Image;
@@ -305,6 +306,18 @@ class PostController extends Controller
      */
     public function show($title)
     {
+        if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+        {
+            $client_ip=$_SERVER['HTTP_CLIENT_IP'];
+        }
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+        {
+            $client_ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        else
+        {
+            $client_ip=$_SERVER['REMOTE_ADDR'];
+        }
 //        $post = Post::find($id);
 //        return view('pages.OldPages.iframeView', compact('post'));
         $exploded = explode('-', $title);
@@ -313,12 +326,20 @@ class PostController extends Controller
         $views = Post::find($id);
         $views->views += 1;
         $views->update();
+        $category = Category::where('category',$views->category)->first();
         $user = User::find($views->user_id);
-        $totalViews = Post::where('user_id', $views->user_id)->sum('views');
+        $totalViews = PostView::where('user_id', $views->user_id)->sum('view');
         if ($totalViews >= 1000) {
             $totalViews = (int)($totalViews / 1000);
             $totalViews = $totalViews . 'K';
         }
+        $postView = new PostView();
+        $postView->view = 1;
+        $postView->client_ip = $client_ip;
+        $postView->post_id = $id;
+        $postView->category_id = $category->id;
+        $postView->user_id = $user->id;
+        $postView->save();
 //        dd($totalViews);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $userId = Auth::user()->id;
@@ -541,189 +562,62 @@ class PostController extends Controller
         return view('pages.view', compact('post'));
     }
 
-    public function latestPost($page)
-    {
-//        dd($page);
-        if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
-        }
-
-        $date = new Carbon\Carbon; //  DateTime string will be 2014-04-03 13:57:34
-
-        $date->subWeek(); // or $date->subDays(7),  2014-03-27 13:58:25
-        // dd($date);
-        if ($page == 'all') {
-            $posts = Post::with('votes')->with('comments')->where('created_at', '>=', $date->toDateTimeString())->orderBy('created_at', 'DESC')->get();
-            $page1 = 'all';
-            $page2 = 'Latest';
-        }
-
-        if ($page == 'web') {
-            $posts = Post::with('votes')->with('comments')->where('is_link', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('created_at', 'DESC')->get();
-            $page1 = 'web';
-            $page2 = 'Latest';
-        }
-
-        if ($page == 'images') {
-            $posts = Post::with('votes')->with('comments')->where('is_image', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('created_at', 'DESC')->get();
-            $page1 = 'images';
-            $page2 = 'Latest';
-        }
-
-        if ($page == 'videos') {
-            $posts = Post::with('votes')->with('comments')->where('is_video', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('created_at', 'DESC')->get();
-            $page1 = 'videos';
-            $page2 = 'Latest';
-        }
-
-
-        if ($page == 'articles') {
-            $posts = Post::with('votes')->with('comments')->where('is_article', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('created_at', 'DESC')->get();
-            $page1 = 'articles';
-            $page2 = 'Latest';
-        }
-
-
-        if ($page == 'lists') {
-            $posts = Post::with('votes')->with('comments')->where('is_list', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('created_at', 'DESC')->get();
-            $page1 = 'lists';
-            $page2 = 'Latest';
-        }
-
-
-        if ($page == 'polls') {
-            $posts = Post::with('votes')->with('comments')->where('is_poll', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('created_at', 'DESC')->get();
-            $page1 = 'polls';
-            $page2 = 'Latest';
-        }
-
-        if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/' . $page1, compact('posts', 'folders', 'page1', 'page2'));
-        } else {
-            return view('pages/' . $page1, compact('posts', 'page1', 'page2'));
-        }
-
-    }
-
-    public function topPost($page)
+    public function latestPost()
     {
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-        $date = new Carbon\Carbon; //  DateTime string will be 2014-04-03 13:57:34
+        $posts = Post::with('votes')->with('comments')->with('saved_stories')->orderByDesc('created_at')->get();
 
-        $date->subWeek(); // or $date->subDays(7),  2014-03-27 13:58:25
-        // dd($date);
-        if ($page == 'all') {
-            $posts = Post::with('votes')->with('comments')->where('created_at', '>=', $date->toDateTimeString())->orderBy('views', 'DESC')->get();
-            $page1 = 'all';
-            $page2 = 'Top';
-        }
+        $page = 'Latest';
 
-        if ($page == 'web') {
-            $posts = Post::with('votes')->with('comments')->where('is_link', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('views', 'DESC')->get();
-            $page1 = 'web';
-            $page2 = 'Top';
-        }
-
-        if ($page == 'images') {
-            $posts = Post::with('votes')->with('comments')->where('is_image', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('views', 'DESC')->get();
-            $page1 = 'images';
-            $page2 = 'Top';
-        }
-
-        if ($page == 'videos') {
-            $posts = Post::with('votes')->with('comments')->where('is_video', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('views', 'DESC')->get();
-            $page1 = 'videos';
-            $page2 = 'Top';
-        }
-
-
-        if ($page == 'articles') {
-            $posts = Post::with('votes')->with('comments')->where('is_article', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('views', 'DESC')->get();
-            $page1 = 'articles';
-            $page2 = 'Top';
-        }
-
-
-        if ($page == 'lists') {
-            $posts = Post::with('votes')->with('comments')->where('is_list', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('views', 'DESC')->get();
-            $page1 = 'lists';
-            $page2 = 'Top';
-        }
-
-
-        if ($page == 'polls') {
-            $posts = Post::with('votes')->with('comments')->where('is_poll', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('views', 'DESC')->get();
-            $page1 = 'polls';
-            $page2 = 'Top';
-        }
 
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/' . $page1, compact('posts', 'folders', 'page1', 'page2'));
+            return view('pages/all', compact('posts', 'folders', 'page'));
         } else {
-            return view('pages/' . $page1, compact('posts', 'page1', 'page2'));
+            return view('pages/all', compact('posts', 'page'));
         }
     }
 
-    public function popularPost($page)
+    public function topPost()
     {
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-        $date = new Carbon\Carbon; //  DateTime string will be 2014-04-03 13:57:34
 
-        $date->subWeek(); // or $date->subDays(7),  2014-03-27 13:58:25
-        // dd($date);
-        if ($page == 'all') {
-            $posts = Post::with('votes')->with('comments')->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->get();
-            $page1 = 'all';
-            $page2 = 'Popular';
-        }
-
-        if ($page == 'web') {
-            $posts = Post::with('votes')->with('comments')->where('is_link', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->get();
-            $page1 = 'web';
-            $page2 = 'Popular';
-        }
-
-        if ($page == 'images') {
-            $posts = Post::with('votes')->with('comments')->where('is_image', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->get();
-            $page1 = 'images';
-            $page2 = 'Popular';
-        }
-
-        if ($page == 'videos') {
-            $posts = Post::with('votes')->with('comments')->where('is_video', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->get();
-            $page1 = 'videos';
-            $page2 = 'Popular';
-        }
-
-
-        if ($page == 'articles') {
-            $posts = Post::with('votes')->with('comments')->where('is_article', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->get();
-            $page1 = 'articles';
-            $page2 = 'Popular';
-        }
-
-
-        if ($page == 'lists') {
-            $posts = Post::with('votes')->with('comments')->where('is_list', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->get();
-            $page1 = 'lists';
-            $page2 = 'Popular';
-        }
-
-
-        if ($page == 'polls') {
-            $posts = Post::with('votes')->with('comments')->where('is_poll', '=', 1)->where('created_at', '>=', $date->toDateTimeString())->orderBy('post_votes', 'DESC')->get();
-            $page1 = 'polls';
-            $page2 = 'Popular';
-        }
-
+        $posts = Post::select('posts.*')->with('votes')->with('comments')->with('saved_stories')
+            ->leftJoin("votes", "votes.post_id", "=", "posts.id")
+            ->where("votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->groupBy("posts.id")
+            ->orderByDesc(DB::raw("SUM(votes.vote)"))
+            ->get();
+        $page = 'Top';
+//        dd($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/' . $page1, compact('posts', 'folders', 'page1', 'page2'));
+            return view('pages/all' , compact('posts', 'folders', 'page'));
         } else {
-            return view('pages/' . $page1, compact('posts', 'page1', 'page2'));
+            return view('pages/all', compact('posts', 'page'));
+        }
+    }
+
+    public function popularPost()
+    {
+        if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
+            $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
+        }
+
+        $posts = Post::select('posts.*')->with('votes')->with('comments')->with('saved_stories')
+            ->leftJoin("post_views", "post_views.post_id", "=", "posts.id")
+            ->where("post_views.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->groupBy("posts.id")
+            ->orderByDesc(DB::raw("COUNT(post_views.id)"))
+            ->get();
+        $page = 'Popular';
+//        dd($posts);
+        if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
+            return view('pages/all' , compact('posts', 'folders', 'page'));
+        } else {
+            return view('pages/all', compact('posts', 'page'));
         }
     }
 
@@ -745,15 +639,6 @@ class PostController extends Controller
             ->orderByDesc(DB::raw("SUM(votes.vote) + COUNT(comments.id)+ COUNT(replies.id)"))
             ->get();
             $page = 'Trending';
-        foreach ($posts as $post) {
-            if ($post->is_link == 1) {
-//                $fbCount = $this->getFacebookCount($post->link);
-//                $pinCount = $this->getPinterestCount($post->link);
-                $post->fb_count = 0;
-                $post->pin_count = 0;
-
-            }
-        }
 //        dd($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/all' , compact('posts', 'folders', 'page'));

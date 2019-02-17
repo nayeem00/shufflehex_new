@@ -44,6 +44,10 @@ class CommentController extends Controller
         $views = Post::find($request->post_id);
         $views->post_comments += 1;
         $views->update();
+//        $title = preg_replace('/\s+/', '-', $views->title);
+//        $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+//        $title = $title . '-' . $views->id;
+//        $storyLink = 'story/' . $title;
         $userOfPost = User::find($views->user_id);
 
         $user = User::find(Auth::user()->id);
@@ -53,7 +57,7 @@ class CommentController extends Controller
         $comment->user_id = $user->id;
         $comment->username = $user->username;
         $comment->save();
-        Toastr::success('comment successfully done', 'Success', ["positionClass" => "toast-top-right"]);
+        Toastr::success('Your comment submitted successfully', 'Success', ["positionClass" => "toast-top-right"]);
         $userOfPost->notify(new UserNotifications($comment));
         return back();
     }
