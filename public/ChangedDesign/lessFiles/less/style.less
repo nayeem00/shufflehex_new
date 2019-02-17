@@ -1053,12 +1053,14 @@ a[aria-expanded="true"]::before {
   .box-image{
     display: inline-block;
     padding: 15px;
-    height: 390px;
+    max-width: 650px;
+    min-height: 200px;
+    max-height: 365px;
 
     img{
       position: relative;
-      height: 360px;
       width: 100%;
+      height: auto;
     }
   }
   .box-content{

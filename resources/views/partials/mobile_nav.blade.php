@@ -13,6 +13,7 @@
                 </div>
                 <div class="mobile-nav-list mobile-nav-right pull-right">
                     <ul class="mobile-nav__link-list list-inline">
+                        @if (!Auth::guest())
                         <li class="dropdown">
                             <a id="mobile_ntf_nav_icon" class="bell-icon" data-toggle="dropdown" onclick="markAsRead({{ count($notifications) }}),markNotificationAsRead({{ count($notifications) }})">
                                 <i class="fa fa-bell-o"></i>
@@ -42,6 +43,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
                         <li>
                             @if (Auth::guest())
                                 <a class="user-no-img" href="{{ url('/login') }}">

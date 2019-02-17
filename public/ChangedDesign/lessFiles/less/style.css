@@ -863,12 +863,14 @@ a[aria-expanded="true"]::before {
 .shuffle-box .box-image {
   display: inline-block;
   padding: 15px;
-  height: 390px;
+    max-width: 650px;
+    min-height: 200px;
+    max-height: 365px;
 }
 .shuffle-box .box-image img {
   position: relative;
-  height: 360px;
   width: 100%;
+    height: auto;
 }
 .shuffle-box .box-content {
   border-bottom: 1px solid #eaeaea;
