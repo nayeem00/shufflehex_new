@@ -237,6 +237,13 @@ class AppServiceProvider extends ServiceProvider
             $view->with('notifications',$this->notifications);
         });
 
+        view()->composer('partials.mobile_nav',function($view){
+            if (isset(auth()->user()->id) && !empty(auth()->user()->id)){
+                $this->notificationHandler();
+            }
+            $view->with('notifications',$this->notifications);
+        });
+
         view()->composer('partials.list-left-sidebar',function($view){
             $categories = $this->popularTopics();
             $view->with('topics',$categories);
