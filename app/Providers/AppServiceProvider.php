@@ -192,7 +192,7 @@ class AppServiceProvider extends ServiceProvider
         return $categories;
     }
 
-    public function topProduct()
+    public function trendingProduct()
     {
         $products = Product::select('products.*')
             ->leftJoin("product_votes", "product_votes.product_id", "=", "products.id")
@@ -203,8 +203,9 @@ class AppServiceProvider extends ServiceProvider
 //            ->orderBy(DB::raw('SUM(votes.vote)'))
             ->orderByDesc(DB::raw("SUM(product_votes.vote) + COUNT(product_reviews.id)"))
             ->get();
+//        dd($products);
         foreach ($products as $product){
-            $productTitle = $this->limit_text($product->product_name, 3);
+            $productTitle = $this->limit_text($product->product_name, 2);
             $title = preg_replace('/\s+/', '-', $product->product_name);
             $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
             $title = $title . '-' . $product->id;
@@ -213,6 +214,32 @@ class AppServiceProvider extends ServiceProvider
             $product->product_title = $productTitle;
         }
         return $products;
+    }
+
+    public function trendingProject()
+    {
+        $projects = Project::select('projects.*')
+            ->leftJoin("project_votes", "project_votes.project_id", "=", "projects.id")
+            ->leftJoin("project_comments", "project_comments.project_id", "=", "projects.id")
+            ->leftJoin("project_replies", "project_replies.project_id", "=", "projects.id")
+            ->where("project_votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->orWhere("project_comments.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->orWhere("project_replies.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->groupBy("projects.id")
+//            ->orderBy(DB::raw('SUM(votes.vote)'))
+            ->orderByDesc(DB::raw("SUM(project_votes.vote) + COUNT(project_comments.id) + COUNT(project_replies.id)"))
+            ->get();
+//        dd($products);
+        foreach ($projects as $project){
+            $projectTitle = $this->limit_text($project->title, 2);
+            $title = preg_replace('/\s+/', '-', $project->title);
+            $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+            $title = $title . '-' . $project->id;
+            $projectLink = 'project/' . $title;
+            $project->project_link = $projectLink;
+            $project->project_title = $projectTitle;
+        }
+        return $projects;
     }
 
     public function boot()
@@ -250,8 +277,13 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer('partials.list-right-sidebar',function($view){
-            $products = $this->topProduct();
+            $products = $this->trendingProduct();
             $view->with('products',$products);
+        });
+
+        view()->composer('partials.list-right-sidebar',function($view){
+            $projects = $this->trendingProject();
+            $view->with('projects',$projects);
         });
 
     }
