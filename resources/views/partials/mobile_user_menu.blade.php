@@ -5,8 +5,6 @@
                  src="@if (!empty(Auth::user()->profile_picture_link)) {{url(Auth::user()->profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
         </div>
         <h3>@<span>{{ Auth::user()->username }}</span></h3>
-        <h4><span>{{ Auth::user()->name }}</span></h4>
-        <h5><strong>{{ Auth::user()->email }}</strong></h5>
         <p>Elite Point: <strong>50</strong></p>
     </div>
     <div class="user-links w-100 text-center">

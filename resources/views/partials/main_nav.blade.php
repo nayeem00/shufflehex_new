@@ -45,10 +45,12 @@
 
                                     <li class="dropdown noti-true">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"         aria-expanded="false" onclick="markAsRead({{ count($notifications) }}),markNotificationAsRead({{ count($notifications) }})">
-                                            <span><i class="fa fa-bell"></i></span>
-                                            @if(count($notifications) > 0)
-                                                <span class="noti"></span>
-                                            @endif
+                                            <span class="bell-icon"><i class="fa fa-bell-o"></i>
+                                                @if(count($notifications) > 0)
+                                                    <sup><span class="notify-active-dot"><i class="fa fa-circle"></i></span></sup>
+                                                @endif
+                                            </span>
+
                                         </a>
                                         <ul class="dropdown-menu">
                                             <p class="noti-title">Notification</p>

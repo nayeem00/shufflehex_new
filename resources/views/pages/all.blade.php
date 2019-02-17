@@ -32,7 +32,7 @@
             @endif
         </div>
         <div id="filter" class="row collapse m-0 story-filter">
-            <div class="col-md-3 time-filter">
+            <div class="col-md-3 col-sm-4 col-xs-6 time-filter">
                 <h4 class="filter-title">Upload Date</h4>
                 <hr>
                 <ul class="list-unstyled">
@@ -42,7 +42,7 @@
                     <li><a id="year" class="time-filter-item">This year</a></li>
                 </ul>
             </div>
-            <div class="col-md-3 topics-filter">
+            <div class="col-md-3 col-sm-4 col-xs-6 topics-filter">
                 <h4 class="filter-title">Topics</h4>
                 <hr>
                 <ul class="list-unstyled">
@@ -52,7 +52,7 @@
                     <li><a id="article" class="topics-filter-item">Articles</a></li>
                 </ul>
             </div>
-            <div class="col-md-3  topics-filter">
+            <div class="col-md-3 col-sm-4 col-xs-6 topics-filter">
                 <h4 class="filter-title">Topics</h4>
                 <hr>
                 <ul class="list-unstyled">
@@ -61,7 +61,7 @@
                     {{--<li><a href="#">Type 1</a></li>--}}
                 </ul>
             </div>
-            <div class="col-md-3 other-filter">
+            <div class="col-md-3 col-sm-4 col-xs-6 other-filter">
                 <h4 class="filter-title">Other</h4>
                 <hr>
                 <ul class="list-unstyled">

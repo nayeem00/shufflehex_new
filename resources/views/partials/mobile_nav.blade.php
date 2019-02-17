@@ -12,24 +12,49 @@
                     </form>
                 </div>
                 <div class="mobile-nav-list mobile-nav-right pull-right">
-                    <div class="mobile-nav__link-list">
-                        @if (!Auth::guest())
-                            <a id="mobile_ntf_nav_icon" class="bell-icon notification-icon">
-                            <i class="fa fa-bell-o"></i>
-                        </a>
-                        @endif
-                        @if (Auth::guest())
-                            <a class="user-no-img" href="{{ url('/login') }}">
-                                <img class="img-circle"
-                                     src="@if (!empty(Auth::user()->mini_profile_picture_link)) {{url(Auth::user()->mini_profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                    <ul class="mobile-nav__link-list list-inline">
+                        <li class="dropdown">
+                            <a id="mobile_ntf_nav_icon" class="bell-icon" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+                                @if(count($notifications) > 0)
+                                    <sup><span class="notify-active-dot"><i class="fa fa-circle"></i></span></sup>
+                                @endif
                             </a>
-                        @else
-                            <a id="mobile_nav_user_icon" href="#">
-                                <img class="img-circle"
-                                     src="@if (!empty(Auth::user()->mini_profile_picture_link)) {{url(Auth::user()->mini_profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
-                            </a>
-                        @endif
-                    </div>
+                            <ul class="dropdown-menu">
+                                <p class="noti-title">Notification</p>
+
+                                @foreach($notifications as $notification)
+                                    <li><a style="padding: 8px;" href="{{ url($notification->story_link) }}">
+                                            <img class="img-responsive nav-img" src="{{ url($notification->user_profile_picture) }}">
+                                            <div class="dis-infl">
+                                                <p>{!! $notification->notification !!}</p>
+                                                <p style="color: #999999;"> {{ $notification->story_title }} </p>
+                                            </div>
+
+                                        </a>
+                                    </li>
+                                @endforeach
+                                <li >
+                                    <a href="{{ url('/user/notifications') }}" class="all-noti">
+                                        <p>All notification</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            @if (Auth::guest())
+                                <a class="user-no-img" href="{{ url('/login') }}">
+                                    <img class="img-circle"
+                                         src="@if (!empty(Auth::user()->mini_profile_picture_link)) {{url(Auth::user()->mini_profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                                </a>
+                            @else
+                                <a id="mobile_nav_user_icon" href="#">
+                                    <img class="img-circle"
+                                         src="@if (!empty(Auth::user()->mini_profile_picture_link)) {{url(Auth::user()->mini_profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                                </a>
+                            @endif
+                        </li>
+                    </ul>
 
                 </div>
             </div>

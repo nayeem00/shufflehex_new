@@ -2,12 +2,6 @@
   font-family: 'Crimson Text', serif;
   src: url("https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,600,600i,700,700i");
 }
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
-}
 .fontAwesome {
   font-family: FontAwesome, sans-serif;
 }
@@ -30,9 +24,12 @@ body {
   background-color: #fafafa !important;
   color: #555;
 }
+p,
+a {
+  font-size: 16px;
+}
 p {
   font-family: 'Crimson Text', serif;
-  font-size: 14px;
   font-weight: 300;
   line-height: 1.5;
   color: #555;
@@ -136,6 +133,20 @@ a:focus {
     display: block;
   }
 }
+.bell-icon {
+  font-size: 20px;
+}
+.bell-icon .notify-active-dot {
+  font-size: 10px;
+  color: #e74c3c;
+  margin-top: 0;
+  position: absolute;
+  margin-left: -6px;
+}
+#mainNav .bell-icon {
+  margin: 5px 10px 5px 0;
+  display: inline-block;
+}
 #mobileNav {
   display: none;
 }
@@ -172,6 +183,12 @@ a:focus {
 #mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list {
   margin-bottom: 0;
   list-style: none;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0 !important;
+  float: left;
 }
 #mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list a.bell-icon {
   font-size: 20px;
@@ -558,10 +575,6 @@ a:focus {
 }
 #top-bar .profile .noti-false a :hover {
   text-decoration: none;
-}
-#top-bar .profile .noti-true {
-  margin-right: 20px;
-  margin-top: 10px;
 }
 #top-bar .profile .noti-true a:focus {
   text-decoration: none;

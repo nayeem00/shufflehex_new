@@ -4,12 +4,6 @@
   src: url("https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,600,600i,700,700i");
 }
 
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
-}
 .fontAwesome {
   font-family: FontAwesome, sans-serif;
 }
@@ -27,10 +21,11 @@ body {
   background-color: #fafafa !important;
   color: @color555;
 }
-
+p,a{
+  font-size: 16px;
+}
 p {
   font-family: 'Crimson Text', serif;
-  font-size: 14px;
   font-weight: 300;
   line-height: 1.5;
   color: @color555;
@@ -144,6 +139,23 @@ a, a:hover, a:focus {
   }
 
 }
+.bell-icon{
+  font-size: 20px;
+
+  .notify-active-dot{
+    font-size: 10px;
+    color: @default-red;
+    margin-top: 0;
+    position: absolute;
+    margin-left: -6px;
+  }
+}
+#mainNav{
+  .bell-icon{
+    margin: 5px 10px 5px 0;
+    display: inline-block;
+  }
+}
 #mobileNav{
   display: none;
   .mobile-nav{
@@ -182,10 +194,17 @@ a, a:hover, a:focus {
       .mobile-nav__link-list{
         margin-bottom: 0;
         list-style: none;
+        li{
+          display: inline-block;
+          padding: 0;
+          margin: 0 !important;
+          float: left;
+        }
         a.bell-icon {
           font-size: 20px;
           padding: 5px;
         }
+
         a#mobile_nav_user_icon {
           margin-top: -4px;
           img {
@@ -669,8 +688,6 @@ a, a:hover, a:focus {
     }
 
     .noti-true{
-      margin-right: 20px;
-      margin-top: 10px;
 
       a:focus{
         text-decoration: none;
