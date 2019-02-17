@@ -146,7 +146,7 @@ class ProductController extends Controller
         $product->username = $user->username;
         $product->views = 0;
         $product->product_votes = 0;
-        $product->product_comments = 0;
+        $product->product_review = 0;
         $product->save();
 
         return redirect('products');
@@ -178,8 +178,6 @@ class ProductController extends Controller
         $post->product_replies = $post->product_replies()->get();
         $post->product_votes = $post->product_votes()->get();
         $post->saved_products = $post->saved_products()->get();
-        $post->product_comment_votes = $post->product_comment_votes()->get();
-        $post->product_comment_reply_votes = $post->product_comment_reply_votes()->get();
         $post->product_url = '/go/'.$post->store_name.$post->product_id;
         $post->product_images = explode(',',$post->product_images);
         $tags = $post->tags;
@@ -312,6 +310,7 @@ class ProductController extends Controller
         $affiliatePrefix = ProductSetting::first();
         $product = Product::where('product_id',$productId)->first();
         $finalUrl = $affiliatePrefix->affiliate_prefix.$product->store_url;
-        return Redirect::to($finalUrl);
+//        return Redirect::to($finalUrl);
+        return Redirect::to($product->store_url);
     }
 }
