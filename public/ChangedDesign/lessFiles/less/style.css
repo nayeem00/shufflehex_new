@@ -194,6 +194,49 @@ a:focus {
   font-size: 20px;
   padding: 5px;
 }
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list #mobile_ntf_nav_icon::before {
+  display: none;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list ul.notification-list {
+  margin: 10px 0 0;
+  left: -265px;
+  border-radius: 0;
+  border: none;
+  width: 350px;
+  padding: 0;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list ul.notification-list .noti-title {
+  margin: 0;
+  padding: 5px 8px;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list ul.notification-list li {
+  width: 100%;
+  float: left;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list ul.notification-list li a {
+  display: inline-block;
+  width: 100%;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list ul.notification-list li a .user-img {
+  float: left;
+  position: absolute;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list ul.notification-list li a .dis-notification {
+  margin-left: 35px;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list ul.notification-list li a .dis-notification p {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+#mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list ul.notification-list .notification-list-footer a {
+  font-size: 12px;
+  background-color: #eeeeee;
+  text-align: center;
+  display: inline-block;
+  color: #555;
+  width: 100%;
+  padding: 5px 2px;
+}
 #mobileNav .mobile-nav .mobile-nav-right .mobile-nav__link-list a#mobile_nav_user_icon {
   margin-top: -4px;
 }

@@ -14,29 +14,30 @@
                 <div class="mobile-nav-list mobile-nav-right pull-right">
                     <ul class="mobile-nav__link-list list-inline">
                         <li class="dropdown">
-                            <a id="mobile_ntf_nav_icon" class="bell-icon" data-toggle="dropdown">
+                            <a id="mobile_ntf_nav_icon" class="bell-icon" data-toggle="dropdown" onclick="markAsRead({{ count($notifications) }}),markNotificationAsRead({{ count($notifications) }})">
                                 <i class="fa fa-bell-o"></i>
                                 @if(count($notifications) > 0)
                                     <sup><span class="notify-active-dot"><i class="fa fa-circle"></i></span></sup>
                                 @endif
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu notification-list">
                                 <p class="noti-title">Notification</p>
 
                                 @foreach($notifications as $notification)
-                                    <li><a style="padding: 8px;" href="{{ url($notification->story_link) }}">
-                                            <img class="img-responsive nav-img" src="{{ url($notification->user_profile_picture) }}">
-                                            <div class="dis-infl">
-                                                <p>{!! $notification->notification !!}</p>
+                                    <li>
+                                        <a style="padding: 8px;" href="{{ url($notification->story_link) }}">
+                                            <img class="img-responsive user-img" src="{{ url($notification->user_profile_picture) }}">
+                                            <div class="dis-notification">
+                                                <p style="color: #555;">{!! $notification->notification !!}</p>
                                                 <p style="color: #999999;"> {{ $notification->story_title }} </p>
                                             </div>
 
                                         </a>
                                     </li>
                                 @endforeach
-                                <li >
+                                <li class="notification-list-footer">
                                     <a href="{{ url('/user/notifications') }}" class="all-noti">
-                                        <p>All notification</p>
+                                        All notification
                                     </a>
                                 </li>
                             </ul>

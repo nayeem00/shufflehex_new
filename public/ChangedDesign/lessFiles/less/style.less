@@ -204,7 +204,53 @@ a, a:hover, a:focus {
           font-size: 20px;
           padding: 5px;
         }
-
+        #mobile_ntf_nav_icon{
+          &::before{
+            display: none;
+          }
+        }
+        ul.notification-list{
+          margin: 10px 0 0;
+          left: -265px;
+          border-radius: 0;
+          border: none;
+          width: 350px;
+          padding: 0;
+          .noti-title{
+            margin: 0;
+            padding: 5px 8px;
+          }
+          li{
+            width: 100%;
+            float: left;
+            a{
+              display: inline-block;
+              width: 100%;
+              .user-img{
+                float: left;
+                position: absolute;
+              }
+              .dis-notification{
+                margin-left: 35px;
+                p{
+                  font-size: 12px;
+                  margin-bottom: 0;
+                }
+              }
+            }
+          }
+          .notification-list-footer{
+            a{
+              font-size: 12px;
+              background-color: #eeeeee;
+              text-align: center;
+              display: inline-block;
+              color: @color555;
+              width: 100%;
+              padding: 5px 2px;
+            }
+          }
+        }
         a#mobile_nav_user_icon {
           margin-top: -4px;
           img {
