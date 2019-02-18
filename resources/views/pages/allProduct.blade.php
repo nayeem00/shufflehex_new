@@ -20,14 +20,16 @@
     {{-------------------------------------------------------------------------------------}}
 
     <div class="box">
-        <div class="row box-header">
-            <div class="col-md-4">
-                <h3>All Product</h3>
+        <div class="row box-header m-0">
+            <div class="col-md-4 col-sm-5 text-sm-left text-xs-center">
+                <h3 class="text-sm-left text-xs-center">All Product</h3>
             </div>
-            <div class="col-md-5 col-md-offset-3 filter">
-                <a href="#">TRENDING</a>
-                <a href="#">NEWEST</a>
-                <a href="#">PUPOLER</a>
+            <div class="col-md-8  col-sm-7 filter text-sm-right text-xs-center">
+                <ul class="list-inline mb-0 text-xs-center m-auto">
+                    <li><a href="#">TRENDING</a></li>
+                    <li><a href="#">NEWEST</a></li>
+                    <li><a href="#">PUPOLER</a></li>
+                </ul>
             </div>
         </div>
         <?php
@@ -108,87 +110,45 @@ $title = $title . '-' . $post->id;
 //                    ---------------------------- Time conversion --------------------------------
 $date = time_elapsed_string($post->created_at, false);
 ?>
-                    <div class="col-md-2 col-sm-2 col-xs-2 pr-0">
-                        <div class="product-img">
+                    <div class="col-xs-12">
+                        <div class="img_box84_84">
                             <a href="{{ url('product/'.$title) }}" target="_blank"><img class="" src="{{ url($post->product_list_image) }}"></a>
                         </div>
-                    </div>
-                    <div class="col-md-10 col-sm-10 col-xs-9 pr-0">
-
-                        <h4 class="story-title"><a href="{{ url('product/'.$title) }}" target="_blank"> {{ $post->product_name }}</a></h4>
-                        <div class="price ">
-                            <h5>{{ $post->price }}</h5>
-                        </div>
-
-                        <div class="row ">
-                            <div class="col-md-6">
-                                <div class="star-rating">
-                                    <span class="star-icon">
-                                        <i class="fa fa-star-o"></i>
-                                    </span>
-                                    <span class="star-icon">
-                                        <i class="fa fa-star-o"></i>
-                                    </span>
-                                    <span class="star-icon">
-                                        <i class="fa fa-star-o"></i>
-                                    </span>
-                                    <span class="star-icon">
-                                        <i class="fa fa-star-o"></i>
-                                    </span>
-                                    <span class="star-icon">
-                                        <i class="fa fa-star-o"></i>
-                                    </span>
-                                </div>
+                        <div class="img_box84_right mr-40">
+                            <h4 class="story-title"><a href="{{ url('product/'.$title) }}"
+                                                       target="_blank"> {{ $post->product_name }}</a></h4>
+                            <div class="price ">
+                                <h5>{{ $post->price }}</h5>
                             </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12 vote">
-                                <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-2 p-0 up-btn">
-                                    @if($upVoteMatched == 1)
-                                        <a class="" onclick="upVote({{
-                                        $post->id
-                                        }})"><span id="btn_upVote_{{ $post->id }}" class="thumb-up glyphicon glyphicon-triangle-top" style="color: green"></span></a>
-                                        <span class="vote-counter text-center" id="upvote_{{ $post->id }}"  style="color: green">Upvote</span>
-                                        <span class="vote-counter text-center" id="vote_count_{{ $post->id }}" style="color: green">{{ $votes }}</span>
-                                    @else
-                                        <a class="" onclick="upVote( {{ $post->id }} )">
-                                        <span id="btn_upVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span>
-                                        </a>
-                                        <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">Upvote</span>
-                                        <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                                    @endif
-                                </div>
-                                @if($savedStory == 1)
-                                <div class="col-md-2 col-sm-2 col-xs-2 p-0 saved-btn">
-                                    <a class="" onclick="saveStory({{ $post->id }})">
-                                        <span class="saved glyphicon glyphicon-bookmark" id="btn_saveStory_{{ $post->id }}" style="color: green"></span>
-                                    </a>
-                                </div>
-                                @else
-                                    <div class="col-md-2 col-sm-2 col-xs-2 p-0 saved-btn">
-                                        <a class="" onclick="saveStory({{ $post->id }})">
-                                            <span class="saved glyphicon glyphicon-bookmark" id="btn_saveStory_{{ $post->id }}"></span>
-                                        </a>
-                                    </div>
-                                @endif
-                                <div class="col-md-2 col-sm-2 col-xs-2 p-0 down-btn">
-                                    <a>
-                                        <span class="thumb glyphicon glyphicon-share-alt"></span>
-                                    </a>
-                                </div>
+                            <div class="star-rating">
+                                    <span class="star-icon">
+                                        <i class="fa fa-star-o"></i>
+                                    </span>
+                                <span class="star-icon">
+                                        <i class="fa fa-star-o"></i>
+                                    </span>
+                                <span class="star-icon">
+                                        <i class="fa fa-star-o"></i>
+                                    </span>
+                                <span class="star-icon">
+                                        <i class="fa fa-star-o"></i>
+                                    </span>
+                                <span class="star-icon">
+                                        <i class="fa fa-star-o"></i>
+                                    </span>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-1 dis-show vote plr-0">
-                        <div class="p-0 up-btn">
+                        <div class="vote-submit-right text-center pull-right">
                             @if($upVoteMatched == 1)
-                                <a onclick="upVote({{
-                                $post->id
-                                }})"><span  id="btn_upVote_{{ $post->id }}" class="thumb-up glyphicon glyphicon-triangle-top" alt="Upvote"></span></a>
-                                <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                            @else
-                                <a alt="UpVote" onclick="upVote( {{ $post->id }} )">
-                                <span id="btn_upVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span>
+                                <a href="#" class="text-shufflered" onclick="upVote({{$post->id}})">
+                                    <div class="vote-icon"><i class="fa fa-chevron-up"></i></div>
+                                    <div class="vote-counter">{{ $votes }}</div>
                                 </a>
-                                <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
+                            @else
+                                <a href="#" onclick="upVote({{$post->id}})">
+                                    <div class="vote-icon"><i class="fa fa-chevron-up"></i></div>
+                                    <div class="vote-counter">{{ $votes }}</div>
+                                </a>
                             @endif
                         </div>
                     </div>
