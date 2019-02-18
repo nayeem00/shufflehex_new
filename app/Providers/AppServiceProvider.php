@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
         return $text;
     }
     public function notificationHandler(){
-        $notifications = auth()->user()->unreadNotifications;
+        $notifications = auth()->user()->unreadNotifications()->paginate(5);
         foreach ($notifications as $notification) {
             if (array_key_exists('product_id', $notification->data['data'])) {
 

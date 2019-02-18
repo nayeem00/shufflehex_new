@@ -93,125 +93,127 @@ $title = $title . '-' . $post->id;
                 @endif
             </div>
         </div>
-        <div class="row vote">
-            <div class="col-md-4 col-sm-6 col-xs-6 up-btn">
-                @if($upVoteMatched == 1)
-                    <a class="btn btn-xs" onclick="upVote({{
+        {{--<div class="row vote">--}}
+            {{--<div class="col-md-4 col-sm-6 col-xs-6 up-btn">--}}
+                {{--@if($upVoteMatched == 1)--}}
+                    {{--<a class="btn btn-xs" onclick="upVote({{--}}
+                        {{--$post->id--}}
+                        {{--}})"><span  id="btn_upVote_{{ $post->id }}" class="thumb-up glyphicon glyphicon-triangle-top" style="color: green"></span></a>--}}
+                    {{--<span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center" style="color: green;">Upvote</span>--}}
+                    {{--<span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>--}}
+                {{--@else--}}
+                    {{--<a class="" onclick="upVote({{--}}
+                        {{--$post->id--}}
+                        {{--}})"><span id="btn_upVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span></a>--}}
+                    {{--<span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center">Upvote</span>--}}
+                    {{--<span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>--}}
+                {{--@endif--}}
+
+            {{--</div>--}}
+            {{--<div class="col-md-4 col-sm-6 col-xs-6 col-md-offset-4 col-sm-offset-4">--}}
+                {{--<div class="col-md-2 col-sm-2 col-xs-2 p-0 down-btn">--}}
+                    {{--@if($downVoteMatched == 1)--}}
+                        {{--<a class="pull-right" onclick="downVote({{--}}
+                            {{--$post->id--}}
+                            {{--}})"><span id="btn_downVote_{{ $post->id }}" class="thumb-down glyphicon glyphicon-triangle-bottom" style="color: red"></span> </a>--}}
+                    {{--@else--}}
+                        {{--<a class="pull-right" onclick="downVote({{--}}
+                            {{--$post->id--}}
+                            {{--}})"><span id="btn_downVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-bottom"></span></a>--}}
+                    {{--@endif--}}
+                {{--</div>--}}
+                {{--<div class="col-md-6 col-sm-6 col-xs-6 p-0 comment-btn text-center">--}}
+                    {{--<a class=""><span ><span class="vote-counter text-center" id="vote_count_{{ $post->id }}"></span></span><i class="fa fa-comment"></i>{{ $totalComments }}</a>--}}
+                {{--</div>--}}
+                {{--<div class="col-md-2 col-sm-2 col-xs-2 p-0 saved-btn">--}}
+                    {{--@if($savedStory == 1)--}}
+                        {{--<a class="pull-right" onclick="saveStory({{--}}
+                        {{--$post->id--}}
+                        {{--}})"><span><span class="vote-counter text-center"></span></span><i class="fa fa-bookmark saved" id="btn_saveStory_{{ $post->id }}" style="color: green"></i></a>--}}
+                    {{--@else--}}
+                        {{--<a class="pull-right" onclick="saveStory({{--}}
+                        {{--$post->id--}}
+                        {{--}})"><span></span><span class="vote-counter text-center" ></span><i class="fa fa-bookmark" id="btn_saveStory_{{ $post->id }}"></i></a>--}}
+                    {{--@endif--}}
+                {{--</div>--}}
+                {{--<div class="col-md-2 col-sm-2 col-xs-2 p-0 operation-btn dropdown">--}}
+
+                    {{--<button style="background-color: #fff; border: none;" class="pull-right dropdown-toggle" type="button" data-toggle="dropdown">--}}
+                        {{--<span class="glyphicon glyphicon-option-horizontal" ></span></button>--}}
+                    {{--<ul class="dropdown-menu">--}}
+                        {{--<li><a href="#">Edit</a></li>--}}
+                        {{--<li><a href="#">Delete</a></li>--}}
+                    {{--</ul>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+
+        <div class="box">
+            <div class="row vote">
+                <div class="col-md-6 share">
+                    <a href="#" class="btn btn-default btn-twitter text-twitter"><i class="fa fa-twitter"></i>&nbsp;Tweet</a>
+                    <a href="#" class="btn btn-default btn-facebook text-facebook"><i class="fa fa-facebook"></i>&nbsp;Share</a>
+                </div>
+                <div class="col-md-6 col-sm-6 " style="line-height: 30px;">
+
+                    <div class="col-md-5 col-sm-5 col-xs-5 up-btn">
+                        @if($upVoteMatched == 1)
+                            <a class="btn btn-xs" onclick="upVote({{
                         $post->id
                         }})"><span  id="btn_upVote_{{ $post->id }}" class="thumb-up glyphicon glyphicon-triangle-top" style="color: green"></span></a>
-                    <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center" style="color: green;">Upvote</span>
-                    <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                @else
-                    <a class="" onclick="upVote({{
+                            <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center" style="color: green;">Upvote</span>
+                            <span class="vote-counter text-center" id="vote_count_{{ $post->id }}"> {{ $votes }}</span>
+                        @else
+                            <a class="" onclick="upVote({{
                         $post->id
                         }})"><span id="btn_upVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span></a>
-                    <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center">Upvote</span>
-                    <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                @endif
+                            <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center">Upvote</span>
+                            <span  id="vote_count_{{ $post->id }}" class="vote-counter text-center"> {{ $votes }}</span>
+                        @endif
 
-            </div>
-            <div class="col-md-4 col-sm-6 col-xs-6 col-md-offset-4 col-sm-offset-4">
-                <div class="col-md-2 col-sm-2 col-xs-2 p-0 down-btn">
-                    @if($downVoteMatched == 1)
-                        <a class="pull-right" onclick="downVote({{
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-7">
+                        <div class="col-md-2 col-sm-2 col-xs-2 p-0 down-btn">
+                            @if($downVoteMatched == 1)
+                                <a class="pull-right" onclick="downVote({{
                             $post->id
                             }})"><span id="btn_downVote_{{ $post->id }}" class="thumb-down glyphicon glyphicon-triangle-bottom" style="color: red"></span> </a>
-                    @else
-                        <a class="pull-right" onclick="downVote({{
+                            @else
+                                <a class="pull-right" onclick="downVote({{
                             $post->id
                             }})"><span id="btn_downVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-bottom"></span></a>
-                    @endif
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-6 p-0 comment-btn text-center">
-                    <a class=""><span ><span class="vote-counter text-center" id="vote_count_{{ $post->id }}"></span></span><i class="fa fa-comment"></i>{{ $totalComments }}</a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-2 p-0 saved-btn">
-                    @if($savedStory == 1)
-                        <a class="pull-right" onclick="saveStory({{
-                        $post->id
+                            @endif
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6 p-0 comment-btn text-center">
+                            <a class=""><span ><span class="vote-counter text-center" id="vote_count_1"></span></span><i class="fa fa-comment"></i>&nbsp;{{ $totalComments }}</a>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-2 p-0 saved-btn">
+                            @if($savedStory == 1)
+                                <a class="
                         }})"><span><span class="vote-counter text-center"></span></span><i class="fa fa-bookmark saved" id="btn_saveStory_{{ $post->id }}" style="color: green"></i></a>
-                    @else
-                        <a class="pull-right" onclick="saveStory({{
+                            @else
+                                <a class="" onclick="saveStory({{
                         $post->id
                         }})"><span></span><span class="vote-counter text-center" ></span><i class="fa fa-bookmark" id="btn_saveStory_{{ $post->id }}"></i></a>
-                    @endif
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-2 p-0 operation-btn dropdown">
+                            @endif
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-2 p-0 operation-btn dropdown">
 
-                    <button style="background-color: #fff; border: none;" class="pull-right dropdown-toggle" type="button" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-option-horizontal" ></span></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Edit</a></li>
-                        <li><a href="#">Delete</a></li>
-                    </ul>
+                            <button style="background-color: #fff; border: none;" class="pull-right dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-option-horizontal" ></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Edit</a></li>
+                                <li><a href="#">Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <div class="box">
-        <div class="row vote">
-            <div class="col-md-6 share">
-                <a href="#" class="btn btn-default btn-twitter text-twitter"><i class="fa fa-twitter"></i>&nbsp;Tweet</a>
-                <a href="#" class="btn btn-default btn-facebook text-facebook"><i class="fa fa-facebook"></i>&nbsp;Share</a>
-            </div>
-            <div class="col-md-6 col-sm-6 " style="line-height: 30px;">
 
-                <div class="col-md-5 col-sm-5 col-xs-5 up-btn">
-                    @if($upVoteMatched == 1)
-                        <a class="btn btn-xs" onclick="upVote({{
-                        $post->id
-                        }})"><span  id="btn_upVote_{{ $post->id }}" class="thumb-up glyphicon glyphicon-triangle-top" style="color: green"></span></a>
-                        <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center" style="color: green;">Upvote</span>
-                        <span class="vote-counter text-center" id="vote_count_{{ $post->id }}"> {{ $votes }}</span>
-                    @else
-                        <a class="" onclick="upVote({{
-                        $post->id
-                        }})"><span id="btn_upVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span></a>
-                        <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center">Upvote</span>
-                        <span  id="vote_count_{{ $post->id }}" class="vote-counter text-center"> {{ $votes }}</span>
-                    @endif
-
-                </div>
-                <div class="col-md-7 col-sm-7 col-xs-7">
-                    <div class="col-md-2 col-sm-2 col-xs-2 p-0 down-btn">
-                        @if($downVoteMatched == 1)
-                            <a class="pull-right" onclick="downVote({{
-                            $post->id
-                            }})"><span id="btn_downVote_{{ $post->id }}" class="thumb-down glyphicon glyphicon-triangle-bottom" style="color: red"></span> </a>
-                        @else
-                            <a class="pull-right" onclick="downVote({{
-                            $post->id
-                            }})"><span id="btn_downVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-bottom"></span></a>
-                        @endif
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 p-0 comment-btn text-center">
-                        <a class=""><span ><span class="vote-counter text-center" id="vote_count_1"></span></span><i class="fa fa-comment"></i>&nbsp;{{ $totalComments }}</a>
-                    </div>
-                    <div class="col-md-2 col-sm-2 col-xs-2 p-0 saved-btn">
-                        @if($savedStory == 1)
-                            <a class="
-                        }})"><span><span class="vote-counter text-center"></span></span><i class="fa fa-bookmark saved" id="btn_saveStory_{{ $post->id }}" style="color: green"></i></a>
-                        @else
-                            <a class="" onclick="saveStory({{
-                        $post->id
-                        }})"><span></span><span class="vote-counter text-center" ></span><i class="fa fa-bookmark" id="btn_saveStory_{{ $post->id }}"></i></a>
-                        @endif
-                    </div>
-                    <div class="col-md-2 col-sm-2 col-xs-2 p-0 operation-btn dropdown">
-
-                        <button style="background-color: #fff; border: none;" class="pull-right dropdown-toggle" type="button" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-option-horizontal" ></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Edit</a></li>
-                            <li><a href="#">Delete</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="box recent-stories vote">
         <div class="box-header">Related Stories</div>
         @foreach($relatedPost as $relPost)
@@ -298,28 +300,38 @@ $title = $title . '-' . $post->id;
                 <img class="img-responsive author-img" src="@if (!empty($user->mini_profile_picture_link)) {{ asset( $user->mini_profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
                 <p class="author-name"><strong>{{ $user->name }}</strong></p>
             </div>
+            @if(!empty($user->work_at))
             <div class="info">
                 <span class="info-icon"><i class="fa fa-briefcase"></i></span>
                 <p class="info-txt">Works at <strong>{{ $user->work_at }}</strong></p>
             </div>
+            @endif
+            @if(!empty($user->education))
             <div class="info">
                 <span class="info-icon"><i class="fa fa-graduation-cap "></i></span>
                 <p class="info-txt">Studied at <strong>{{ $user->education }}</strong></p>
             </div>
+            @endif
+            @if(!empty($user->location))
             <div class="info">
                 <span class="info-icon"><i class="fa fa-map-marker"></i></span>
                 <p class="info-txt">Lives in <strong>{{ $user->location }}</strong></p>
             </div>
+            @endif
+            @if(!empty($user->languages))
             <div class="info">
                 <span class="info-icon"><i class="fa fa-globe"></i></span>
                 <p class="info-txt">Knows <strong>{{ $user->languages }}</strong></p>
             </div>
+            @endif
+            @if(!empty($totalViews))
             <div class="info">
                 <span class="info-icon"><i class="fa fa-eye"></i></span>
                 <p class="info-txt">{{ $totalViews }} Total Stories Views <br>
                     <span class="light-title-sub">{{ $post->views }} views in this post</span>
                 </p>
             </div>
+            @endif
         </div>
     </div>
 

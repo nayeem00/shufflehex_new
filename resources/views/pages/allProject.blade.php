@@ -119,7 +119,7 @@ $date = time_elapsed_string($post->created_at, false);
 
                         <h4 class="story-title"><a href="{{ url('project/'.$title) }}" target="_blank"> {{ $post->title }}</a></h4>
                         <div class="tagline">
-                            <p>{{ $post->title }}</p>
+                            <p>{{ $post->tag_line }}</p>
                         </div>
 
                         <div class="row">

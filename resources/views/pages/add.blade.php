@@ -68,11 +68,11 @@
                             {{ csrf_field() }}
 
 
-                            <select id="ajax-select" class="selectpicker with-ajax" data-live-search="true"></select>
-                            <label for="storyLink">Link</label>
+                            {{--<select id="ajax-select" class="selectpicker with-ajax" data-live-search="true"></select>--}}
+                            {{--<label for="storyLink">Link</label>--}}
 
                             <div class="form-group">
-
+                                <label for="storyLink">Link</label>
                                 <input name="link" id="storyLink" class="form-control" placeholder="Link" type="text">
 
                             </div>
@@ -135,7 +135,7 @@
 
                                 <label for="storyDesc">Description</label>
 
-                                <textarea type="text" name="description" id="storyDesc" rows="5" class="form-control "></textarea>
+                                <textarea type="text" name="description" id="storyDesc" rows="5" class="form-control summernote-full"></textarea>
 
                             </div>
 
@@ -307,7 +307,7 @@
 
                             <label for="storyDesc">Description</label>
 
-                            <textarea type="text" name="description" id="storyDesc" rows="5" class="form-control"></textarea>
+                            <textarea type="text" name="description" id="storyDesc" rows="5" class="form-control summernote-full"></textarea>
 
                         </div>
 
@@ -379,7 +379,7 @@
 
                                 <label for="storyDesc">Description</label>
 
-                                <textarea type="text" name="description" id="storyDesc" rows="5" class="form-control"></textarea>
+                                <textarea type="text" name="description" id="storyDesc" rows="5" class="form-control summernote-full"></textarea>
 
                             </div>
 

@@ -53,8 +53,8 @@
 
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <p class="noti-title">Notification</p>
-
+                                            <p class="noti-title">Notifications</p>
+                                            @if(count($notifications)>0)
                                             @foreach($notifications as $notification)
                                                 <li><a style="padding: 8px;" href="{{ url($notification->story_link) }}">
                                                         <img class="img-responsive nav-img" src="{{ url($notification->user_profile_picture) }}">
@@ -66,6 +66,11 @@
                                                     </a>
                                                 </li>
                                             @endforeach
+                                            @else
+                                                <li >
+                                                    <p class="text-center">No unread notification available!</p>
+                                                </li>
+                                            @endif
                                             <li >
                                                 <a href="{{ url('/user/notifications') }}" class="all-noti">
                                                     <p>All notification</p>

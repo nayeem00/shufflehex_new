@@ -83,15 +83,6 @@ class ProjectController extends Controller
         });
         $save = $resizedSmallLogo->save($pathOfSmallLogo);
 
-//        $extension = pathinfo($request->logo, PATHINFO_EXTENSION);
-//        $ext = explode('?',$extension);
-//        $logo = 'images/projects/logos/'.str_random(4).'-'.str_slug($request->title).'-'.time().'.'.$ext[0];
-//        $file = file_get_contents($info->image);
-//        $img = Intervention::make($request->logo->getRealPath());
-//        $resizedImage = $img->resize(500, 500, function ($constraint) {
-//            $constraint->aspectRatio();
-//        });
-//        $save = $resizedImage->save($logo,60);
         $imgPaths = array();
         foreach ($request->images as $image){
             $extension =$image->getClientOriginalExtension();//get image extension only

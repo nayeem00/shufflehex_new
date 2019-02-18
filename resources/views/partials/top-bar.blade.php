@@ -50,7 +50,6 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <p class="noti-title">Notification</p>
-
                                     @foreach($notifications as $notification)
                                     <li><a style="padding: 8px;" href="{{ url($notification->story_link) }}">
                                             <img class="img-responsive nav-img" src="{{ url($notification->user_profile_picture) }}">

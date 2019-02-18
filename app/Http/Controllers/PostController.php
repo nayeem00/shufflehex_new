@@ -329,6 +329,7 @@ class PostController extends Controller
         $category = Category::where('category',$views->category)->first();
         $user = User::find($views->user_id);
         $totalViews = PostView::where('user_id', $views->user_id)->sum('view');
+        $thisStoryViews = PostView::where('post_id', $views->id)->sum('view');
         if ($totalViews >= 1000) {
             $totalViews = (int)($totalViews / 1000);
             $totalViews = $totalViews . 'K';
@@ -347,6 +348,7 @@ class PostController extends Controller
         }
 
         $post = Post::with('comments')->with('replies')->with('votes')->with('saved_stories')->with('comment_votes')->with('comment_reply_votes')->find($id);
+        $post->views = $thisStoryViews;
         $tags = $post->tags;
         $category = $post->category;
         $relatedPost = Post::with('votes')->where('id', '!=', $post->id)->where('category', '=', $category)->where('tags', '=', $tags)->take(3)->get();
