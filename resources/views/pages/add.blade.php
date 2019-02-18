@@ -660,12 +660,6 @@
             event.preventDefault();
             let category = $('#searchCategory').val();
             // console.log(category);
-            if (category === "") {
-                $('#get-category').hide();
-            } else {
-                $('#get-category').show();
-            }
-
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 type: 'post',
@@ -676,9 +670,9 @@
                     // console.log(data);
                     var categories = data.categories;
                     console.log(categories);
-                    var categoryList = '';
+                    var categoryList = "";
                     $.each(categories, function (index,value) {
-                        categoryList + "<li class=\"li-cat\" onclick=\"setCategory("+value.category+")\">"+value.category+"</li>\n";
+                        categoryList+"<li class=\"li-cat\" onclick=\"setCategory("+value.category+")\">"+value.category+"</li>\n";
                     });
                     // categories.each( categories, function (index,value) {
                     //     categoryList + '<li class="li-cat" onclick="setCategory('+value.category+')">'+value.category+'</li>\n';
@@ -697,7 +691,6 @@
 
         function setCategory(category) {
             $('#searchCategory').val(category);
-            $('#get-category').hide();
         }
     </script>
 
@@ -706,8 +699,6 @@
 
 
 <!-- Include JS file. -->
-
-<li class="li-cat" id="category_{{ $category->id }}" onclick="setCategory('{{ $category->category }}')">{{ $category->category }}</li>
 
 @endsection
 
