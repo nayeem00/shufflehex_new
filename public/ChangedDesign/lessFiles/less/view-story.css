@@ -37,6 +37,32 @@
 .single-story-body .vote {
   padding: 15px 0 0;
 }
+.single-story-body .vote .dropdown-toggle::after,
+.single-story-body .vote .dropdown-toggle::before {
+  display: none !important;
+}
+.single-story-body .vote .vote-submit-list a {
+  padding: 5px;
+}
+.single-story-body .vote .vote-submit-list li .fa {
+  line-height: 1;
+  float: left;
+  display: inline-block;
+}
+.single-story-body .vote .vote-submit-list li .fa-bookmark,
+.single-story-body .vote .vote-submit-list li .fa-ellipsis-v {
+  margin-top: 3px;
+}
+.single-story-body .vote .vote-submit-list .edit-menu.dropdown-menu {
+  float: right;
+  right: 0 !important;
+  left: auto !important;
+  min-width: 70px;
+}
+.single-story-body .vote .vote-submit-list .edit-menu.dropdown-menu li {
+  text-align: right;
+  padding-right: 10px;
+}
 .single-story-body .vote .thumb {
   font-size: 12px;
   color: #777777;
@@ -187,7 +213,7 @@
   width: 30px;
 }
 .comment .panel-success .panel-body {
-  padding: 0 15px 0  42px ;
+  padding: 0 15px 0 42px;
 }
 .comment .comment-user {
   line-height: 30px;
@@ -223,7 +249,7 @@
   width: 30px;
 }
 .reply .panel-success .panel-body {
-  padding: 0 15px 0 36px ;
+  padding: 0 15px 0 36px;
 }
 .reply .reply-box {
   display: grid;
@@ -247,14 +273,15 @@
   padding: 5px 30px;
 }
 .recent-stories .stories-item .img-responsive {
+  margin-top: 2px;
   max-height: 32px;
   max-width: 57px;
-  margin: auto;
   border-radius: 0;
 }
 .recent-stories .stories-item .story-title {
-  margin-left: 15px;
-  font-size: 14px;
+  margin-top: -2px;
+  margin-left: 10px;
+  font-size: 16px;
   float: left;
 }
 .recent-stories .stories-item .glyphicon {
@@ -291,6 +318,7 @@
   width: 40px;
 }
 .about-author .author .author-name {
+  font-size: 18px;
   line-height: 40px;
   padding-left: 16px;
 }
@@ -309,7 +337,7 @@
 }
 .about-author .info .info-txt {
   color: #555;
-  font-size: 12px;
+  font-size: 16px;
   margin-bottom: 0;
   display: inline-block;
   text-align: left;
