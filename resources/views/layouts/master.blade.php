@@ -88,7 +88,7 @@
 <!-- jQuery CDN -->
 <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('bootstrap3/js/bootstrap.min.js')}}"></script>
-<script src="{{ asset('jquery.nicescroll.min.js')}}"></script>
+<script src="{{ asset('js/jquery.nicescroll.min.js')}}"></script>
 <script src="{{ asset('bootstrap-select-1.13.2/js/bootstrap-select.min.js')}}"></script>
 <script src="{{ asset('jquery-confirm/jquery-confirm.min.js') }}"></script>
 <script src="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.js') }}"></script>
