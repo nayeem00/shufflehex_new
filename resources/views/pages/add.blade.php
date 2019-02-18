@@ -87,7 +87,7 @@
 
                             <div class="form-group">
                                 <label for="searchCategory">Category</label>
-                                <input type="text" id="searchCategory" value="a" class="form-control"
+                                <input type="text" id="searchCategory" class="form-control"
                                        onkeyup="getCategory(event)">
                                 <div id="get-category" class="w-100">
                                     <div class="col-xs-12">
@@ -677,8 +677,8 @@
                     var categories = data.categories;
                     console.log(categories);
                     var categoryList = '';
-                    categories.forEach(function(value) {
-                        categoryList + '<li class="li-cat" onclick="setCategory('+value.category+')">'+value.category+'</li>\n';
+                    $.each(categories, function (index,value) {
+                        categoryList + "<li class=\"li-cat\" onclick=\"setCategory("+value.category+")\">"+value.category+"</li>\n";
                     });
                     // categories.each( categories, function (index,value) {
                     //     categoryList + '<li class="li-cat" onclick="setCategory('+value.category+')">'+value.category+'</li>\n';
