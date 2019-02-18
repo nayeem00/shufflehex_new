@@ -172,6 +172,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/poll_item', 'PollItemController');
     Route::post('/poll_vote', 'PollVoteController@store');
     Route::post('/poll_downvote', 'PollVoteController@downvote');
+    Route::post('searchTopic', 'CategoryController@searchTopic');
     Route::get('/markAsRead', function () {
         auth()->user()->unreadNotifications->markAsRead();
     });

@@ -93,11 +93,11 @@
                                     <div class="col-xs-12">
                                         <div class="panel panel-default">
                                             <div class="panel-body p-0">
-                                                <ul class="story-cat-list list-unstyled">
+                                                <ul class="story-cat-list list-unstyled" id="category_list_link">
                                                     @foreach($categories as $category)
-                                                        <li class="li-cat">{{ $category->category }}</li>
+                                                        <li class="li-cat" id="category_{{ $category->id }}" onclick="setCategory('{{ $category->category }}')">{{ $category->category }}</li>
                                                     @endforeach
-                                                    <li class="li-cat li-create">
+                                                    <li class="li-cat li-create" id="create_topic_link">
                                                         <a class="text-danger"> <i class="fa fa-plus"></i>&nbsp;Create
                                                             Topic</a>
                                                     </li>
@@ -109,25 +109,25 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            {{--<div class="form-group">--}}
 
-                                <label for="storyCategory">Category</label>
+                                {{--<label for="storyCategory">Category</label>--}}
 
-                                <select name="category" id="storyCategory" class="pull-left selectpicker" data-live-search="true"
+                                {{--<select name="category" id="storyCategory" class="pull-left selectpicker" data-live-search="true"--}}
 
-                                        style="margin-bottom: 15px;">
+                                        {{--style="margin-bottom: 15px;">--}}
 
                                     {{--<option>-------</option>--}}
 
-                                    @foreach($categories as $category)
+                                    {{--@foreach($categories as $category)--}}
 
-                                        <option value="{{ $category->category }}" data-tokens="{{ $category->category }}">{{ $category->category }}</option>
+                                        {{--<option value="{{ $category->category }}" data-tokens="{{ $category->category }}">{{ $category->category }}</option>--}}
 
-                                    @endforeach
+                                    {{--@endforeach--}}
 
-                                </select>
+                                {{--</select>--}}
 
-                            </div>
+                            {{--</div>--}}
 
 
 
@@ -658,13 +658,46 @@
     <script>
         function getCategory(event) {
             event.preventDefault();
-            let val = $('#searchCategory').val();
-            console.log(val);
-            if (val === "") {
+            let category = $('#searchCategory').val();
+            // console.log(category);
+            if (category === "") {
                 $('#get-category').hide();
             } else {
                 $('#get-category').show();
             }
+
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                type: 'post',
+                url: '{{url("searchTopic")}}',
+                data: {_token: CSRF_TOKEN, category: category},
+                dataType: 'JSON',
+                success: function (data) {
+                    // console.log(data);
+                    var categories = data.categories;
+                    console.log(categories);
+                    var categoryList = '';
+                    categories.forEach(function(value) {
+                        categoryList + '<li class="li-cat" onclick="setCategory('+value.category+')">'+value.category+'</li>\n';
+                    });
+                    // categories.each( categories, function (index,value) {
+                    //     categoryList + '<li class="li-cat" onclick="setCategory('+value.category+')">'+value.category+'</li>\n';
+                    // });
+                    console.log(categoryList);
+                    $('#category_list_link').html(categoryList);
+                    $('#get-category').show();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == 401) {
+                        window.location.href = '{{url("login")}}';
+                    }
+                }
+            });
+        }
+
+        function setCategory(category) {
+            $('#searchCategory').val(category);
+            $('#get-category').hide();
         }
     </script>
 
@@ -674,7 +707,7 @@
 
 <!-- Include JS file. -->
 
-
+<li class="li-cat" id="category_{{ $category->id }}" onclick="setCategory('{{ $category->category }}')">{{ $category->category }}</li>
 
 @endsection
 
