@@ -14,16 +14,16 @@
 
     <title>Shufflehex</title>
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css') }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('bootstrap3/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bootstrap-select-1.13.2/css/bootstrap-select.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('font-awesome-4.7.0/css/font-awesome.min.css') }}">
     {{--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">--}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <link rel="stylesheet" href="{{asset('jquery-confirm/jquery-confirm.min.css')}}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/main.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/style.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/list-style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="{{ asset('toastr/toastr.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.css') }}">
     @yield('css')
@@ -88,15 +88,15 @@
 
 @yield('js')
 <!-- jQuery CDN -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+<script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+<script src="{{ asset('bootstrap3/js/bootstrap.min.js')}}"></script>
+<script src="{{ asset('jquery.nicescroll.min.js')}}"></script>
+<script src="{{ asset('bootstrap-select-1.13.2/js/bootstrap-select.min.js')}}"></script>
+<script src="{{ asset('jquery-confirm/jquery-confirm.min.js') }}"></script>
 <script src="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.js') }}"></script>
 <script src="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote-image-attributes.js') }}"></script>
 <script type="text/javascript" src="{{ asset('ChangedDesign/js/text-editor.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="{{ asset('toastr/toastr.min.js')}}"></script>
 
 @if ($errors->any())
     @foreach ($errors->all() as $error)
