@@ -124,4 +124,15 @@ class CategoryController extends Controller
         $category = ProjectCategory::create($request->all());
         return view('pages.projectCategoryCreate');
     }
+
+    public function searchTopic(Request $request)
+    {
+        $category = Category::where('category',$request->category)->first();
+        if (isset($category->category) && !empty($category->category)){
+            return response()->json(['status'=>'fully matched','category' => $category]);
+        }
+        $categories = Category::where('category', 'like',  $request->category.'%' )->limit(5)->get();
+        return response()->json(['status'=>'partially matched','categories' => $categories]);
+
+    }
 }
