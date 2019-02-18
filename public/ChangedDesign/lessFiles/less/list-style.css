@@ -303,4 +303,22 @@
 .search-box .search-item {
   margin-bottom: 15px;
 }
+.vote-submit-right {
+  width: 40px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  vertical-align: middle;
+  display: inline-flex;
+}
+.vote-submit-right a {
+  float: left;
+  width: 100%;
+  display: inline-block;
+  margin-top: 20%;
+}
+.vote-submit-right .vote-counter {
+  margin-top: 10px;
+}
 /*# sourceMappingURL=list-style.css.map */

@@ -24,6 +24,62 @@ body {
   background-color: #fafafa !important;
   color: #555;
 }
+@media (max-width: 767px) {
+  .text-xs-left {
+    text-align: left;
+  }
+  .text-xs-right {
+    text-align: right;
+  }
+  .text-xs-center {
+    text-align: center;
+  }
+  .text-xs-justify {
+    text-align: justify;
+  }
+}
+@media (min-width: 768px) {
+  .text-sm-left {
+    text-align: left;
+  }
+  .text-sm-right {
+    text-align: right;
+  }
+  .text-sm-center {
+    text-align: center;
+  }
+  .text-sm-justify {
+    text-align: justify;
+  }
+}
+@media (min-width: 992px) {
+  .text-md-left {
+    text-align: left;
+  }
+  .text-md-right {
+    text-align: right;
+  }
+  .text-md-center {
+    text-align: center;
+  }
+  .text-md-justify {
+    text-align: justify;
+  }
+}
+@media (min-width: 1200px) {
+  .text-lg-left {
+    text-align: left;
+  }
+  .text-lg-right {
+    text-align: right;
+  }
+  .text-lg-center {
+    text-align: center;
+  }
+  .text-lg-justify {
+    text-align: justify;
+  }
+}
 p,
 a {
   font-size: 16px;
@@ -78,6 +134,12 @@ a:focus {
 .mt-0 {
   margin-top: 0;
 }
+.mr-100 {
+  margin-right: 100px;
+}
+.mr-40 {
+  margin-right: 40px;
+}
 .mlr-0 {
   margin-left: 0;
   margin-right: 0;
@@ -123,6 +185,24 @@ a:focus {
 }
 .border-radius-none {
   border-radius: 0;
+}
+.page-overlay {
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 998;
+  opacity: 0;
+}
+/* display .overlay when it has the .active class */
+.page-overlay.active {
+  display: block !important;
+  opacity: 1;
+}
+.active {
+  display: block !important;
+  opacity: 1;
 }
 #wrapper {
   min-height: 100%;
@@ -312,24 +392,6 @@ a:focus {
   vertical-align: middle;
   float: right;
 }
-.page-overlay {
-  display: none;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 998;
-  opacity: 0;
-}
-/* display .overlay when it has the .active class */
-.page-overlay.active {
-  display: block !important;
-  opacity: 1;
-}
-.active {
-  display: block !important;
-  opacity: 1;
-}
 .show-sidebar-menu {
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
@@ -406,6 +468,24 @@ a:focus {
 }
 .img_box32_right {
   margin-left: 36px;
+}
+.img_box84_84 {
+  width: 84px;
+  height: 84px;
+  float: left;
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+.img_box84_84 img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  margin: auto;
+  height: auto;
+}
+.img_box84_right {
+  margin-left: 94px;
 }
 .img_box57_32 {
   width: 57px;
