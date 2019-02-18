@@ -72,6 +72,12 @@ a:focus {
 .mr-0 {
   margin-right: 0;
 }
+.mb-0 {
+  margin-bottom: 0;
+}
+.mt-0 {
+  margin-top: 0;
+}
 .mlr-0 {
   margin-left: 0;
   margin-right: 0;
@@ -93,6 +99,9 @@ a:focus {
 }
 .text-twitter {
   color: #1DA1F2;
+}
+.text-shufflered {
+  color: #e74c3c;
 }
 .font16 {
   font-size: 16px;
@@ -863,8 +872,8 @@ a[aria-expanded="true"]::before {
 .shuffle-box .box-image {
   display: inline-block;
   padding: 15px;
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 .shuffle-box .box-image img {
   position: relative;
