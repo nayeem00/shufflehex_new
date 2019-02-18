@@ -136,6 +136,48 @@
   max-height: 140px;
   padding: 15px;
   border-bottom: 1px solid #eaeaea;
+  .story-title {
+    font-weight: 500;
+    margin: 0 0 5px 0;
+    a {
+      font-size: 18px;
+      color: @color555;
+      @media only screen and (max-width: 460px) {
+        font-size: 16px;
+      }
+    }
+    a:hover {
+      color: #000000;
+      text-decoration: none;
+    }
+
+    .lh-17 {
+      line-height: 17px !important;
+    }
+  }
+
+  .submitted-line {
+    font-size: 12px;
+    margin-bottom: 0;
+    a {
+      font-weight: 600;
+      font-size: 12px;
+    }
+  }
+  .story-domain {
+    margin-bottom: 0;
+    a {
+      font-size: 12px;
+    }
+  }
+  .btn-vote-submit {
+    margin-top: 50%;
+    display: inline-block;
+    float: right;
+    span.fa {
+      margin-bottom: 3px;
+    }
+  }
   .social-counter{
     line-height: 1.8;
   }
@@ -169,26 +211,6 @@
     background-color: #fafafa;
 }
 
-.story-domain{
-  font-size: 14px;
-  margin-bottom: 0;
-}
-.story-title{
-  font-weight: 500;
-  margin: 0 0 5px 0;
-  a{
-    font-size: 18px;
-    color: @color555;
-  }
-  a:hover{
-    color: #000000;
-    text-decoration: none;
-  }
-
-  .lh-17{
-    line-height: 17px !important;
-  }
-}
 .story-img{
   max-height: 84px;
   max-width: 150px;

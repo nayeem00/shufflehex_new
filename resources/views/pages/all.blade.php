@@ -157,112 +157,39 @@
                         {{--<div class="col-md-3 col-sm-3 col-xs-3 pr-0">--}}
                         {{----}}
                         {{--</div>--}}
-                        <div class="col-md-12 col-sm-11 col-xs-10 pr-0">
+                        <div class="col-md-11 col-sm-11 col-xs-11 pr-0">
                             <div class="story-img img-box150_84">
-                                <a href="{{ url('story/'.$title) }}" target="_blank"><img class=""
+                                <a href="{{ url('story/'.$title) }}" target="_blank"><img class="img-responsive"
                                                                                           src="{{ url($post->story_list_image) }}"></a>
                             </div>
                             <div class="img_box150_right">
                                 <h4 class="story-title"><a href="{{ url('story/'.$title) }}"
                                                            target="_blank"> {{ $post->title }}</a></h4>
-                                <div class="dis-cls">
-                                    <p style="margin-bottom: 5px !important;">
-                                        <small>Submitted {{ $date }} by <strong><span><a
-                                                            href="{{ url('profile/'.$post->username) }}"
-                                                            rel="nofollow">{{ $post->username }}</a></span></strong> in
-                                            <strong><span><a
-                                                            href="{{ url('category/'.$post->category) }}">{{ $post->category }}</a></span></strong>
-                                        </small>
-                                    </p>
-                                </div>
-                                <div class="row dis-n">
-                                    <div class="col-md-12 dis-n"><p class="story-domain" style="font-size: 12px"><a
-                                                    href="{{ url('source/'.$post->domain) }}">{{ $post->domain }}</a></p>
-                                    </div>
-
-
-                                </div>
-                                <div class="row dis-n">
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        @if($post->is_link == 1)
-                                            <div class="social-counter">
-                                            <span><i class="fa fa-facebook-square" aria-hidden="true"
-                                                     data-toggle="tooltip"
-                                                     title="Facebook Shares"></i> {{$post->fb_count}}</span>
-                                                <span style="margin-left: 4px"><i class="fa fa-pinterest" aria-hidden="true"
-                                                                                  data-toggle="tooltip"
-                                                                                  title="Pinterest Shares"></i> {{$post->pin_count}}</span>
-
-
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12 vote">
-                                        <ul class="list-unstyled list-inline pull-right">
-                                            <li class="li-vote">
-                                                @if($upVoteMatched == 1)
-                                                    <a class="" onclick="upVote({{
-                                        $post->id
-                                        }})"><span id="btn_upVote_{{ $post->id }}"
-                                                   class="thumb-up glyphicon glyphicon-triangle-top"
-                                                   style="color: green"></span></a>
-                                                    <span class="vote-counter text-center">Upvote</span>
-                                                    <span class="vote-counter text-center"
-                                                          id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                                                @else
-                                                    <a class="" onclick="upVote( {{ $post->id }} )">
-                                                    <span id="btn_upVote_{{ $post->id }}"
-                                                          class="thumb glyphicon glyphicon-triangle-top"></span>
-                                                    </a>
-                                                    <span class="vote-counter text-center">Upvote</span>
-                                                    <span class="vote-counter text-center"
-                                                          id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                                                @endif
-                                            </li>
-                                            <li>
-                                                @if($savedStory == 1)
-                                                    <div class="p-0 saved-btn">
-                                                        <a class="" onclick="saveStory({{ $post->id }})">
-                                                        <span class="saved glyphicon glyphicon-bookmark"
-                                                              id="btn_saveStory_{{ $post->id }}"
-                                                              style="color: green"></span>
-                                                        </a>
-                                                    </div>
-                                                @else
-                                                    <div class="p-0 saved-btn">
-                                                        <a class="" onclick="saveStory({{ $post->id }})">
-                                                        <span class="saved glyphicon glyphicon-bookmark"
-                                                              id="btn_saveStory_{{ $post->id }}"></span>
-                                                        </a>
-                                                    </div>
-                                                @endif
-                                            </li>
-                                            <li><a href="#" data-toggle="modal" data-target="#story-share"><span
-                                                            class="thumb glyphicon glyphicon-share-alt"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
+                                <p class="submitted-line">
+                                    Submitted {{ $date }} by <a
+                                            href="{{ url('profile/'.$post->username) }}"
+                                            rel="nofollow">{{ $post->username }}</a> in <a
+                                            href="{{ url('category/'.$post->category) }}">{{ $post->category }}</a>
+                                </p>
+                                <p class="story-domain"><a
+                                            href="{{ url('source/'.$post->domain) }}">{{ $post->domain }}</a></p>
                             </div>
 
 
                         </div>
-                        <div class="col-sm-1 col-xs-1 dis-show vote plr-0">
-                            <div class="p-0 up-btn pull-right">
+                        <div class=" col-md-1 col-sm-1 col-xs-1 pl-0">
+                            <div class="p-0 up-btn text-center">
                                 @if($upVoteMatched == 1)
-                                    <a onclick="upVote({{
-                                $post->id
-                                }})"><span id="btn_upVote_{{ $post->id }}"
-                                           class="thumb-up glyphicon glyphicon-triangle-top" alt="Upvote"></span></a>
-                                    <span class="vote-counter text-center"
-                                          id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                                @else
-                                    <a alt="UpVote" onclick="upVote( {{ $post->id }} )">
-                                    <span id="btn_upVote_{{ $post->id }}"
-                                          class="thumb glyphicon glyphicon-triangle-top"></span>
+                                    <a class="btn-vote-submit text-center" onclick="upVote({{$post->id}})">
+                                        <span class="fa fa-chevron-up" alt="Upvote"></span><br>
+                                        <span class="vote-counter text-center">{{ $votes }}</span>
                                     </a>
-                                    <span class="vote-counter text-center"
-                                          id="vote_count_{{ $post->id }}">{{ $votes }}</span>
+
+                                @else
+                                    <a class="btn-vote-submit text-center" onclick="upVote( {{ $post->id }} )">
+                                        <span class="fa fa-chevron-up"></span><br>
+                                        <span class="vote-counter text-center">{{ $votes }}</span>
+                                    </a>
                                 @endif
                             </div>
                         </div>
@@ -317,27 +244,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="shufflebox-modal modal fade" id="story-share" role="dialog">
-        <div class="modal-dialog" role="dialog" style="vertical-align: middle">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h5 class="modal-title">Share on</h5>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="shufflebox-share" role="group">
-                        <a href="#" class="btn btn-default btn-facebook"><i class="fa fa-facebook-square"></i>&nbsp;Facebook</a>
-                        <a href="#" class="btn btn-default btn-twitter"><i class="fa fa-twitter-square"></i>&nbsp;Twitter</a>
-                        <a href="#" class="btn btn-default btn-tumblr"><i
-                                    class="fa fa-tumblr-square"></i>&nbsp;Tumblr</a>
-                        <a href="#" class="btn btn-default btn-google"><i class="fa fa-google-plus-square"></i>&nbsp;Google
-                            Plus</a>
-                    </div>
                 </div>
             </div>
         </div>

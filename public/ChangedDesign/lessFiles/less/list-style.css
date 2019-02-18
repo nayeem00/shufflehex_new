@@ -98,6 +98,48 @@
   padding: 15px;
   border-bottom: 1px solid #eaeaea;
 }
+.story-item .story-title {
+  font-weight: 500;
+  margin: 0 0 5px 0;
+}
+.story-item .story-title a {
+  font-size: 18px;
+  color: #555;
+}
+@media only screen and (max-width: 460px) {
+  .story-item .story-title a {
+    font-size: 16px;
+  }
+}
+.story-item .story-title a:hover {
+  color: #000000;
+  text-decoration: none;
+}
+.story-item .story-title .lh-17 {
+  line-height: 17px !important;
+}
+.story-item .submitted-line {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+.story-item .submitted-line a {
+  font-weight: 600;
+  font-size: 12px;
+}
+.story-item .story-domain {
+  margin-bottom: 0;
+}
+.story-item .story-domain a {
+  font-size: 12px;
+}
+.story-item .btn-vote-submit {
+  margin-top: 50%;
+  display: inline-block;
+  float: right;
+}
+.story-item .btn-vote-submit span.fa {
+  margin-bottom: 3px;
+}
 .story-item .social-counter {
   line-height: 1.8;
 }
@@ -125,25 +167,6 @@
 }
 .story-item:hover {
   background-color: #fafafa;
-}
-.story-domain {
-  font-size: 14px;
-  margin-bottom: 0;
-}
-.story-title {
-  font-weight: 500;
-  margin: 0 0 5px 0;
-}
-.story-title a {
-  font-size: 18px;
-  color: #555;
-}
-.story-title a:hover {
-  color: #000000;
-  text-decoration: none;
-}
-.story-title .lh-17 {
-  line-height: 17px !important;
 }
 .story-img {
   max-height: 84px;

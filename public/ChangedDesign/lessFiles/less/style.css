@@ -33,7 +33,7 @@ p {
   font-weight: 300;
   line-height: 1.5;
   color: #555;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 a,
 a:hover,
@@ -894,6 +894,16 @@ a[aria-expanded="true"]::before {
 }
 .shuffle-box .box-content .title:hover {
   color: #999999;
+}
+.shuffle-box .shuffle-section .shuffle_vote .fa {
+  font-size: 18px;
+  margin-right: 10px;
+}
+.shuffle-box .shuffle-section .shuffle_vote .vote-counter {
+  font-size: 16px;
+}
+.shuffle-box .shuffle-section .saved .fa {
+  font-size: 18px;
 }
 .shuffle-box .share-section {
   padding: 10px 15px;
