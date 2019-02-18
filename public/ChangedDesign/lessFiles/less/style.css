@@ -863,8 +863,8 @@ a[aria-expanded="true"]::before {
 .shuffle-box .box-image {
   display: inline-block;
   padding: 15px;
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 .shuffle-box .box-image img {
   position: relative;
