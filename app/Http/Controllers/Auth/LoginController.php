@@ -51,7 +51,7 @@ class LoginController extends Controller
             $page = session('last_page');
             return redirect()->to($page);
         } else{
-            return redirect()->route('story');
+            return redirect()->route('/');
         }
 //        return redirect()->intended($this->redirectPath());
     }
@@ -75,7 +75,7 @@ class LoginController extends Controller
             $page = session('last_page');
             return redirect()->to($page);
         } else{
-            return redirect()->route('story');
+            return redirect()->route('/');
         }
     }
 }
