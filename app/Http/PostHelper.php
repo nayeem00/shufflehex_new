@@ -12,6 +12,8 @@ namespace App\Http;
 use App\Settings;
 use DateTime;
 use Auth;
+use Illuminate\Support\Facades\DB;
+
 class PostHelper
 {
     public static  function time_elapsed_string($datetime, $full = false)
@@ -153,6 +155,36 @@ class PostHelper
 
         return $posts;
 
+    }
+
+    public static function filterPostQuery($posts, $filterParams){
+        if($filterParams->timefilter != "none"){
+            $filterDate = null;
+            switch ($filterParams->timefilter){
+                case "day" : $filterDate = date("Y-m-d");break;
+                case "week" :  $filterDate = date("Y-m-d",strtotime('last Sunday'));break;
+                case "month" :  $filterDate = date("Y-m-01");break;
+                case "year" :  $filterDate = date("Y-01-01");break;
+            }
+            $posts = $posts->where('posts.created_at',">=",$filterDate);
+        }
+
+        if($filterParams->topicsfilter != "none"){
+            $fieldName = "is_".$filterParams->topicsfilter;
+            $posts = $posts->where($fieldName,"=",1);
+        }
+
+        if($filterParams->otherfilter != "none"){
+            $posts = $posts->groupBy("posts.id");
+            switch ($filterParams->otherfilter){
+                case "upvote" :$posts = $posts->leftJoin("votes", "votes.post_id", "=", "posts.id")->orderByDesc(DB::raw                                    ('SUM(votes.vote)'));break;
+                case "downvote" :  $posts = $posts->leftJoin("votes", "votes.post_id", "=", "posts.id")->orderBy(DB::raw                                        ('SUM(votes.vote)'));break;
+                case "page-view" :  $posts = $posts->leftJoin("post_views", "post_views.post_id", "=", "posts.id")                                              ->orderByDesc(DB::raw('COUNT(post_views.id)'));break;
+                case "most-comment" :  $posts = $posts->leftJoin("comments", "comments.post_id", "=", "posts.id")                                                   ->orderByDesc(DB::raw('COUNT(comments.id)'));break;
+            }
+        }
+
+        return $posts;
     }
 
 

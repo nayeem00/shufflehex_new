@@ -40,6 +40,10 @@ class Post extends Model {
 		return $this->hasMany('App\PollItem');
 	}
 
+    public function post_views() {
+        return $this->hasMany('App\PostView');
+    }
+
 	public function folders() {
 		return $this->belongsTo('App\Folder');
 	}
