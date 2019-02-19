@@ -952,5 +952,10 @@ class PostController extends Controller
         }
     }
 
+    public function generateContentFromUrl(Request $request){
+        $info = Embed::create($request->link);
+        return response()->json(['title'=>$info->title,'description' => $info->description]);
+    }
+
 
 }

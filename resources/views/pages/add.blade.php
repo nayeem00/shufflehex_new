@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.addMaster')
 @section('css')
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/list-style.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/add.css') }}">
@@ -6,7 +6,7 @@
 
 @section('content')
 
-        <div class="box saved-stories">
+        <div class="box saved-stories m-auto" style="max-width: 920px">
 
             <nav class="navbar navbar-default">
 
@@ -73,8 +73,12 @@
 
                             <div class="form-group">
                                 <label for="storyLink">Link</label>
-                                <input name="link" id="storyLink" class="form-control" placeholder="Link" type="text">
-
+                                <div class="input-group">
+                                    <input name="link" id="storyLink" type="text" class="form-control" placeholder="Link">
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="generate"><i class="fa fa-refresh"></i></button>
+                                  </span>
+                                </div><!-- /input-group -->
                             </div>
 
                             <div class="form-group">
@@ -88,7 +92,7 @@
                             <div class="form-group">
                                 <label for="searchCategory">Category</label>
                                 <input type="text" id="searchCategory" class="form-control"
-                                       onkeyup="getCategory(event)">
+                                       onclick="getCategory(event)" placeholder="Category">
                                 <div id="get-category" class="w-100">
                                     <div class="col-xs-12">
                                         <div class="panel panel-default">
@@ -108,28 +112,6 @@
 
                                 </div>
                             </div>
-
-                            {{--<div class="form-group">--}}
-
-                                {{--<label for="storyCategory">Category</label>--}}
-
-                                {{--<select name="category" id="storyCategory" class="pull-left selectpicker" data-live-search="true"--}}
-
-                                        {{--style="margin-bottom: 15px;">--}}
-
-                                    {{--<option>-------</option>--}}
-
-                                    {{--@foreach($categories as $category)--}}
-
-                                        {{--<option value="{{ $category->category }}" data-tokens="{{ $category->category }}">{{ $category->category }}</option>--}}
-
-                                    {{--@endforeach--}}
-
-                                {{--</select>--}}
-
-                            {{--</div>--}}
-
-
 
                             <div class="form-group">
 
@@ -658,9 +640,14 @@
     <script>
         function getCategory(event) {
             event.preventDefault();
+            $('#get-category').show();
+        }
+        $('#searchCategory').on('keyup',function (e) {
+            e.preventDefault();
             let category = $('#searchCategory').val();
             // console.log(category);
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
             $.ajax({
                 type: 'post',
                 url: '{{url("searchTopic")}}',
@@ -669,17 +656,17 @@
                 success: function (data) {
                     // console.log(data);
                     var categories = data.categories;
-                    console.log(categories);
+                    // console.log(categories);
                     var categoryList = "";
                     $.each(categories, function (index,value) {
-                        categoryList+"<li class=\"li-cat\" onclick=\"setCategory("+value.category+")\">"+value.category+"</li>\n";
+                        console.log('<li>'+value.category+'</li>');
+                        categoryList += '<li class="li-cat" onclick="setCategory(\''+value.category+'\')\">'+value.category+'</li>';
                     });
                     // categories.each( categories, function (index,value) {
                     //     categoryList + '<li class="li-cat" onclick="setCategory('+value.category+')">'+value.category+'</li>\n';
                     // });
-                    console.log(categoryList);
+                    // console.log(categoryList);
                     $('#category_list_link').html(categoryList);
-                    $('#get-category').show();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     if (xhr.status == 401) {
@@ -687,18 +674,42 @@
                     }
                 }
             });
-        }
+
+        });
 
         function setCategory(category) {
             $('#searchCategory').val(category);
+            $('#get-category').hide();
         }
+
+        $('#generate').on('click',function (e) {
+            e.preventDefault();
+            let link = $('#storyLink').val();
+            // console.log(category);
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                type: 'post',
+                url: '{{url("generate")}}',
+                data: {_token: CSRF_TOKEN, link: link},
+                dataType: 'JSON',
+                success: function (data) {
+                    console.log(data);
+                    $('#storyTitle').val(data.title);
+                    // $('#storyDesc').summernote({
+                    //     $('#storyDesc').val(data.description);
+                    // });
+                    $('#storyDesc').summernote('editor.insertText', data.description);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == 401) {
+                        window.location.href = '{{url("login")}}';
+                    }
+                }
+            });
+
+        });
     </script>
-
-<!-- Include Editor style. -->
-
-
-
-<!-- Include JS file. -->
 
 @endsection
 

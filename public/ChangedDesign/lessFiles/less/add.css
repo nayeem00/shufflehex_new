@@ -6,7 +6,7 @@
   width: 100% !important;
 }
 #addLink #get-category {
-  display: block;
+  display: none;
 }
 #addLink #get-category .panel {
   z-index: 9999;

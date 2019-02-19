@@ -69,3 +69,8 @@ $('body,html').click(function (e) {
 
     $('.page-overlay').removeClass('active');
 });
+
+$(".go-top-btn").click(function() {
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    return false;
+});

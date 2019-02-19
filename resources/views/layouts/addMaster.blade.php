@@ -41,47 +41,29 @@
     @endif
 @endif
 <div id="wrapper">
-	@if( !(Request::is('page404')) )
+    @if( !(Request::is('page404')) )
 
         @include('partials.mobile_nav')
         @include('partials.main_nav')
 
-	@endif
+    @endif
 
-<div class="container">
+    <div class="container">
 
-	<div class="row">
+        <div class="row">
 
 
 
-		<div class="col-md-2 plr-0">
 
-			@if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404'))  )
 
-			    @include('partials.list-left-sidebar')
+            <div class="col-md-12">
+                @yield('content')
 
-			@endif
+            </div>
 
-		</div>
-
-		<div class="col-md-8 col-sm-12 plr-2">
-			@yield('content')
-
-		</div>
-
-		<div class="col-md-2 plr-0">
-
-			@if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404')) )
-
-			    @include('partials.list-right-sidebar')
-
-			@endif
-
+            <div class="overlay"></div>
+        </div>
     </div>
-
-    <div class="overlay"></div>
-    </div>
-</div>
 
 </div>
 <div class="go-top">

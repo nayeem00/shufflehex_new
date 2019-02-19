@@ -176,5 +176,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/markAsRead', function () {
         auth()->user()->unreadNotifications->markAsRead();
     });
+    Route::post('generate', 'PostController@generateContentFromUrl');
 
 });
