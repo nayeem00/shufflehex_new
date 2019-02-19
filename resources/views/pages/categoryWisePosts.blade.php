@@ -12,8 +12,8 @@
     {{-------------------------------------------------------------------------------------}}
 
     <div class="box">
-        <div class="row box-header">
-                <div class="col-md-12"><h1>{{ $category }}</h1></div>
+        <div class="row box-header m-0">
+            <div class="col-md-12"><h1 class="font18">{{ $category }}</h1></div>
         </div>
         <?php
         function time_elapsed_string($datetime, $full = false) {
@@ -83,7 +83,7 @@
             @endif
 
             <div class="story-item">
-                <div class="row">
+                <div class="row m-0">
 
                     <?php
                     $title = preg_replace('/\s+/', '-', $post->title);

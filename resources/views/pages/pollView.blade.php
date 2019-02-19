@@ -100,8 +100,8 @@
                             <a href="{{ $item->link }}">{{ $item->title }}</a>
                         </h4>
                     </div>
-                    <div class="img-responsive">
-                        <img src="{{ url($item->featured_image) }}" >
+                    <div class="poll-img">
+                        <img class="img-responsive" src="{{ url($item->featured_image) }}">
                     </div>
                     <div class="poll-desc">
                         <p>{{ $item->description }}</p>

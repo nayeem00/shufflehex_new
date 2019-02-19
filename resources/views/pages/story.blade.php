@@ -274,7 +274,6 @@ $title = $title . '-' . $post->id;
         </div>
     </div>
 
-
     <div class="comment-section">
         <div class="row comment-box">
             <form id="addNewStory" action="{{ route('comment.store') }}" method="POST" role="form">

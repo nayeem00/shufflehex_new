@@ -341,9 +341,17 @@ class PostController extends Controller
                 $onePost->downvotes = $downvotes;
             }
             if ($post->is_publish == 1) {
-                return view('pages.pollBeforePublish', compact('post'));
+                if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
+                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+                } else {
+                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+                }
             } else {
-                return view('pages.pollView', compact('post'));
+                if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
+                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+                } else {
+                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+                }
             }
         }
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
