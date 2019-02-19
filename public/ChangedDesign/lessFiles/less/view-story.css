@@ -34,81 +34,6 @@
   letter-spacing: 0.5px;
   font-size: 16px;
 }
-.single-story-body .vote {
-  padding: 15px 0 0;
-}
-.single-story-body .vote .dropdown-toggle::after,
-.single-story-body .vote .dropdown-toggle::before {
-  display: none !important;
-}
-.single-story-body .vote .vote-submit-list a {
-  padding: 5px;
-}
-.single-story-body .vote .vote-submit-list li .fa {
-  line-height: 1;
-  float: left;
-  display: inline-block;
-}
-.single-story-body .vote .vote-submit-list li .fa-bookmark,
-.single-story-body .vote .vote-submit-list li .fa-ellipsis-v {
-  margin-top: 3px;
-}
-.single-story-body .vote .vote-submit-list .edit-menu.dropdown-menu {
-  float: right;
-  right: 0 !important;
-  left: auto !important;
-  min-width: 70px;
-}
-.single-story-body .vote .vote-submit-list .edit-menu.dropdown-menu li {
-  text-align: right;
-  padding-right: 10px;
-}
-.single-story-body .vote .thumb {
-  font-size: 12px;
-  color: #777777;
-  padding-right: 5px;
-}
-.single-story-body .vote .thumb-up {
-  font-size: 12px;
-  color: #7BBD6E;
-  margin-right: 5px;
-}
-.single-story-body .vote .up-btn .glyphicon {
-  top: 1px;
-}
-.single-story-body .vote .down-btn .glyphicon {
-  top: 1px;
-}
-.single-story-body .vote .saved-btn .fa {
-  color: #9d9d9d;
-}
-.single-story-body .vote .saved-btn .saved {
-  color: #000000;
-}
-.single-story-body .vote .operation-btn .dropdown-menu {
-  min-width: 100px;
-}
-.single-story-body .vote .comment-btn .fa {
-  color: #9d9d9d;
-  margin-right: 5px;
-}
-.single-story-body .vote .thumb-up:hover {
-  color: #777777;
-}
-.single-story-body .vote .thumb-down {
-  font-size: 12px;
-  color: #CD6155;
-  margin-right: 5px;
-}
-.single-story-body .vote .thumb-down:hover {
-  color: #777777;
-}
-.single-story-body .vote .vote-counter {
-  font-size: 12px;
-  color: #777777;
-  padding: 0 5px;
-  line-height: 14px;
-}
 .single-story-body .poll-section ul li {
   display: inline-flex;
   list-style-type: none;
@@ -151,11 +76,6 @@
   border: 1px solid #eaeaea;
   border-radius: 3px;
   margin-bottom: 20px;
-}
-.comment-section .comment-box {
-  display: grid;
-  padding-left: 14px;
-  padding-right: 14px;
 }
 .comment-section .comment-box .form-group {
   margin-bottom: 0;
@@ -271,6 +191,7 @@
 }
 .recent-stories .stories-item {
   padding: 5px 30px;
+    min-height: 52px;
 }
 .recent-stories .stories-item .img-responsive {
   margin-top: 2px;

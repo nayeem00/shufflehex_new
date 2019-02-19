@@ -56,20 +56,36 @@ $votes += $vote->vote;
 
     <div class="box product">
         <div class="product-box">
-            <div class="product-name">
-                <h1>{{ $post->product_name }}</h1>
-            </div>
-
             <div class="row">
-                <div class="col-md-7 product-media">
-                    <img class="xzoom original" src="{{ url($post->product_images[0]) }}" style="width:400px;" xoriginal="{{ url($post->product_images[0]) }}"
-                />
-                </div>
-                <div class="col-md-5 product-review">
-                    <div class="category">
-                        <h2>{{ $post->category }}</h2>
+                <div class="col-xs-12">
+                    <div class="product-name">
+                        <h1>{{ $post->product_name }}</h1>
+                        <div class="username display-sm-only">
+                            <p>Submitted by {{ $post->username }}</p>
+                        </div>
                     </div>
-                    <div class="username">
+                </div>
+            </div>
+            <div class="row m-0">
+                <div class="col-md-7 col-sm-12 product-media">
+                    <img class="img-responsive xzoom original" src="{{ url($post->product_images[0]) }}"
+                         style="max-width:100%;" xoriginal="{{ url($post->product_images[0]) }}"
+                />
+                    <div class="product-review">
+                        <div class="xzoom-thumbs">
+                            @foreach($post->product_images as $image)
+                                <a href="{{ url($image) }}">
+                                    <img class="xzoom-gallery" src="{{ url($image) }}" xpreview="{{ url($image) }}">
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-12">
+                    <div class="category">
+                        <h2 class="font16 mb-0"><i class="fa fa-tag"></i>&nbsp;{{ $post->category }}</h2>
+                    </div>
+                    <div class="username display-md-only">
                         <p>Submitted by {{ $post->username }}</p>
                     </div>
                     <div class="product-price"><h3><span>{{ $post->price }}</span></h3></div>
@@ -102,13 +118,8 @@ $votes += $vote->vote;
                                 {{ "(".$post->total_reviews." reviews)" }}
                             @else {{ "(0 reviews)" }} @endif</span>
                     </div>
-                    <div class="xzoom-thumbs">
-                        @foreach($post->product_images as $image)
-                        <a href="{{ url($image) }}">
-                            <img class="xzoom-gallery" src="{{ url($image) }}" xpreview="{{ url($image) }}">
-                        </a>
-                            @endforeach
-                    </div>
+
+
                     <div class="product-action">
                         <a href="{{ url($post->product_url) }}" class="btn btn-danger" target="_blank" rel="nofollow">GO SHOPPING</a>
                     </div>
@@ -319,7 +330,14 @@ $votes += $vote->vote;
 @section('js')
     <script src="{{ asset('xzoom/dist/xzoom.min.js') }}"></script>
     <script>
-        $('.xzoom, .xzoom-gallery').xzoom({position: 'right', lensShape: 'square', bg:true, sourceClass: 'xzoom-hidden'});
+        var windowWidth = window.innerWidth;
+        $('.xzoom, .xzoom-gallery').xzoom({
+            position: 'right',
+            lensShape: 'circle',
+            lens: false,
+            bg: true,
+            sourceClass: 'xzoom-hidden'
+        });
     </script>
 
     <script>

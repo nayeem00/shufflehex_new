@@ -22,16 +22,19 @@
     <div class="box">
         <div class="row box-header m-0">
             <div class="col-md-4 col-sm-5 text-sm-left text-xs-center">
-                <h3 class="text-sm-left text-xs-center">All Product</h3>
+                <h3 class="text-sm-left text-xs-center">All Products</h3>
             </div>
             <div class="col-md-8  col-sm-7 filter text-sm-right text-xs-center">
                 <ul class="list-inline mb-0 text-xs-center m-auto">
                     <li><a href="#">TRENDING</a></li>
                     <li><a href="#">NEWEST</a></li>
                     <li><a href="#">PUPOLER</a></li>
+                    <li><a class="filter-toggle btn text-555" data-toggle="collapse" data-target="#filter"><i
+                                    class="fa fa-filter"></i></a></li>
                 </ul>
             </div>
         </div>
+        @include('partials.filter_row')
         <?php
 function time_elapsed_string($datetime, $full = false) {
 	$now = new DateTime;
@@ -202,19 +205,6 @@ $date = time_elapsed_string($post->created_at, false);
 
 
 @section('js')
-    <!-- Go to www.addthis.com/dashboard to customize your tools -->
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a64cb7833dd1d0d"></script>
-    <!-- jQuery CDN -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js"></script>
-<!-- jQuery Nicescroll CDN -->
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-    <!-- jQuery Nicescroll CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
     <script>
         $( document ).ready(function() {
             $("#latest_stories").attr("href", "{{ url('/story/latest/all') }}");

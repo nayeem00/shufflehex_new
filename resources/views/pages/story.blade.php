@@ -96,76 +96,75 @@ $title = $title . '-' . $post->id;
                 @endif
             </div>
         </div>
-        <div class="row vote">
-            <div class="col-xs-6">
-                <a href="#" class="btn btn-default btn-twitter text-twitter"><i
-                            class="fa fa-twitter"></i></a>
-                <a href="#" class="btn btn-default btn-facebook text-facebook"><i class="fa fa-facebook"></i></a>
-            </div>
-            <div class="col-xs-6 text-right">
-                <ul class="list-inline vote-submit-list mb-0">
-                    @if($upVoteMatched == 1)
-                        <li>
-                            <a class="btn" onclick="upVote({{$post->id}})">
+    </div>
+    <div class="row box vote-and-share mr-0 ml-0" style="margin-bottom: 15px !important;">
+        <div class="col-xs-6">
+            <a href="#" class="btn btn-default btn-twitter text-twitter"><i
+                        class="fa fa-twitter"></i></a>
+            <a href="#" class="btn btn-default btn-facebook text-facebook"><i class="fa fa-facebook"></i></a>
+        </div>
+        <div class="col-xs-6 text-right">
+            <ul class="list-inline vote-submit-list mb-0">
+                @if($upVoteMatched == 1)
+                    <li>
+                        <a class="btn" onclick="upVote({{$post->id}})">
                                 <span class="shuffle_vote text-shufflered">
                                     <i class="fa fa-chevron-up"></i>
                                 </span>
-                            </a>
-                            <span class="vote-counter">{{ $votes }}</span>
-                            <a class="btn" onclick="downVote({{$post->id}})">
+                        </a>
+                        <span class="vote-counter">{{ $votes }}</span>
+                        <a class="btn" onclick="downVote({{$post->id}})">
                                 <span class="shuffle_vote">
                                     <i class="fa fa-chevron-down"></i>
                                 </span>
-                            </a>
-                        </li>
-                    @else
-                        <li>
-                            <a class="btn" onclick="upVote({{$post->id}})">
+                        </a>
+                    </li>
+                @else
+                    <li>
+                        <a class="btn" onclick="upVote({{$post->id}})">
                                 <span class="shuffle_vote">
                                     <i class="fa fa-chevron-up"></i>
                                 </span>
-                            </a>
-                            <span class="vote-counter">{{ $votes }}</span>
-                            <a class="btn" onclick="downVote({{$post->id}})">
+                        </a>
+                        <span class="vote-counter">{{ $votes }}</span>
+                        <a class="btn" onclick="downVote({{$post->id}})">
                                 <span class="shuffle_vote">
                                     <i class="fa fa-chevron-down"></i>
                                 </span>
-                            </a>
-                        </li>
-                    @endif
-                    @if($savedStory == 1)
-                        <li>
-                            <a class="btn" onclick="saveStory({{$post->id}})">
+                        </a>
+                    </li>
+                @endif
+                @if($savedStory == 1)
+                    <li>
+                        <a class="btn" onclick="saveStory({{$post->id}})">
                                 <span class="saved" id="btn_saveStory_{{ $post->id }}"><i
                                             class="fa fa-bookmark"></i></span>
-                            </a>
-                        </li>
+                        </a>
+                    </li>
 
-                    @else
-                        <li><a class="btn" onclick="saveStory({{$post->id}})">
+                @else
+                    <li><a class="btn" onclick="saveStory({{$post->id}})">
                             <span class="saved" id="btn_saveStory_{{ $post->id }}">
                                 <i class="fa fa-bookmark"></i>
                             </span>
-                            </a>
-                        </li>
-                    @endif
-                    <li class="dropdown">
-                        <a href="#" style="background-color: #fff; border: none;" class="btn dropdown-toggle"
-                           type="button"
-                           data-toggle="dropdown">
-                            <i class="fa fa-ellipsis-v"></i></a>
-                        <ul class="edit-menu dropdown-menu">
-                            <li><a href="#">Edit</a></li>
-                            <li><a href="#">Delete</a></li>
-                        </ul>
+                        </a>
                     </li>
-                </ul>
+                @endif
+                <li class="dropdown">
+                    <a href="#" style="background-color: #fff; border: none;" class="btn dropdown-toggle"
+                       type="button"
+                       data-toggle="dropdown">
+                        <i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="edit-menu dropdown-menu">
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Delete</a></li>
+                    </ul>
+                </li>
+            </ul>
 
 
-            </div>
         </div>
     </div>
-
 
     <div class="box recent-stories vote">
         <div class="box-header">Related Stories</div>
@@ -193,35 +192,33 @@ $title = $title . '-' . $post->id;
             $title = $title . '-' . $relPost->id;
             ?>
             <div class="row stories-item">
-                <div class="col-sm-9 col-xs-11 pr-0 pl-0">
+                <div class="col-sm-12 pr-0 pl-0">
                     <div class="img_box57_32">
                         <a href="{{ url('story/'.$title) }}">
                             <img class="img-responsive" src="{{ url($relPost->related_story_image) }}"
                                  alt="Image not found!">
                         </a>
                     </div>
-                    <div class="img_box57_right">
+                    <div class="img_box57_right mr-40">
                         <a href="{{ url('story/'.$title) }}"><span class="story-title">{{ $relPost->title }}</span></a>
                     </div>
-                </div>
-                <div class="col-sm-3 col-xs-1 pl-0 pr-0">
-
-                    @if($upVoteMatched == 1)
-                        <a class="pull-right li-1 text-center text-shufflered" onclick="upVote({{ $relPost->id }})">
-                            <span id="btn_upVote_{{ $relPost->id }}" class="fa fa-chevron-up"></span>
-                            <span id="vote_count_{{ $relPost->id }}" class="vote-counter text-center"
-                                  style="color: green">{{ $votes }}</span>
-                        </a>
-                    @else
-                        <a class="pull-right li-1 text-center" onclick="upVote({{ $relPost->id }})">
-                            <span id="btn_upVote_{{ $relPost->id }}"
-                                  class="fa fa-chevron-up"></span>
-                            <span id="vote_count_{{ $relPost->id }}"
-                                  class="vote-counter text-center">{{ $votes }}</span>
-                        </a>
-                    @endif
-
-
+                    <div class="vote-submit-right text-center pull-right">
+                        @if($upVoteMatched == 1)
+                            <a class="text-center text-shufflered" onclick="upVote({{ $relPost->id }})">
+                                <span class="vote-icon">
+                                    <i class="fa fa-chevron-up"></i>
+                                </span>
+                                <span class="vote-counter">{{ $votes }}</span>
+                            </a>
+                        @else
+                            <a class="text-center" onclick="upVote({{ $relPost->id }})">
+                                <span class="vote-icon">
+                                    <i class="fa fa-chevron-up"></i>
+                                </span>
+                                <span class="vote-counter">{{ $votes }}</span>
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
         @endforeach
