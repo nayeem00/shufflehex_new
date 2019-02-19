@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\SettingsHelper;
 use App\Product;
 use App\Project;
+use App\Settings;
 use DateTime;
 use Illuminate\Http\Request;
 use Embed\Embed;
@@ -79,7 +81,8 @@ class PostController extends Controller
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-        $posts = Post::where('is_publish', 1)->with('votes')->with('comments')->with('saved_stories')->orderBy('views', 'DESC')->offset(0)->limit(10)->get();
+        $postLimit = SettingsHelper::getSetting('story_limit');
+        $posts = Post::where('is_publish', 1)->with('votes')->with('comments')->with('saved_stories')->orderBy('views', 'DESC')->offset(0)->limit($postLimit->value)->get();
         $page1 = 'all';
 
 //        dd($posts);

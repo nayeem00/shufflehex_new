@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\SettingsHelper;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class AjaxController extends Controller
     }
     public function get_more_post(Request $request){
         $offset = $request->offset;
-        $limit = 10;
+        $limit = SettingsHelper::getSetting('story_limit')->value;
         $newOffset = $offset + $limit;
 //        echo $newOffset;
 //        die($newOffset);

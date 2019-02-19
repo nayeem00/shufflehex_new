@@ -7,7 +7,7 @@
 @section('content')
 
     {{----------------------------- store current url to session -----------------------}}
-    <?php session(['last_page' => url()->current()]);?>
+    <?php use App\Http\SettingsHelper;session(['last_page' => url()->current()]);?>
     {{-------------------------------------------------------------------------------------}}
 
     @include('partials.shufflebox')
@@ -248,7 +248,8 @@
             </div>
         </div>
     </div>
-    <input type="hidden" value="10" id="post-count-offset" data-offset="10">
+    <?php $offset = SettingsHelper::getSetting('story_limit') ?>
+    <input type="hidden" value="10" id="post-count-offset" data-offset="<?= $offset->value?>">
 
 @endsection
 
