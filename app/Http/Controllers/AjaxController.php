@@ -64,9 +64,10 @@ class AjaxController extends Controller
 //                $posts = $posts->orderByDesc(DB::raw('SUM(votes.vote)'));
 //            }
 //        }
+        $limit = SettingsHelper::getSetting('story_limit')->value;
         $posts = $posts
             ->offset(0)
-            ->limit(10)
+            ->limit($limit)
             ->get();
 
         if(sizeof($posts) != 0){

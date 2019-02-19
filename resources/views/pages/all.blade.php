@@ -73,130 +73,8 @@
             </div>
 
         </div>
-
-        <?php
-        function time_elapsed_string($datetime, $full = false)
-        {
-            $now = new DateTime;
-            $ago = new DateTime($datetime);
-            $diff = $now->diff($ago);
-
-            $diff->w = floor($diff->d / 7);
-            $diff->d -= $diff->w * 7;
-
-            $string = array(
-                'y' => 'year',
-                'm' => 'month',
-                'w' => 'week',
-                'd' => 'day',
-                'h' => 'hour',
-                'i' => 'minute',
-                's' => 'second',
-            );
-            foreach ($string as $k => &$v) {
-                if ($diff->$k) {
-                    $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-                } else {
-                    unset($string[$k]);
-                }
-            }
-
-            if (!$full) {
-                $string = array_slice($string, 0, 1);
-            }
-
-            return $string ? implode(', ', $string) . ' ago' : 'just now';
-        }
-        ?>
         <div class="posts">
-            @foreach($posts as $key=>$post)
-
-                <?php
-                $upVoteMatched = 0;
-                $downVoteMatched = 0;
-                $savedStory = 0;
-                $votes = 0;
-                ?>
-                @foreach($post->votes as $key=>$vote)
-                    <?php
-                    $votes += $vote->vote;
-                    ?>
-                @endforeach
-                @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
-                    @foreach($post->votes as $key=>$vote)
-                        @if($vote->user_id == Auth::user()->id && $vote->vote == 1)
-                            <?php $upVoteMatched = 1;?>
-                            @break
-                        @endif
-                    @endforeach
-                    @foreach($post->votes as $key=>$vote)
-                        @if($vote->user_id == Auth::user()->id && $vote->vote == -1)
-                            <?php $downVoteMatched = 1;?>
-                            @break
-                        @endif
-                    @endforeach
-                    @foreach($post->saved_stories as $key=>$saved)
-                        @if($saved->user_id == Auth::user()->id && $saved->post_id == $post->id)
-                            <?php $savedStory = 1;?>
-                            @break
-                        @endif
-                    @endforeach
-                @endif
-
-                <div class="story-item">
-                    <div class="row">
-
-                        <?php
-                        $title = preg_replace('/\s+/', '-', $post->title);
-                        $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
-                        $title = $title . '-' . $post->id;
-
-                        //                    ---------------------------- Time conversion --------------------------------
-                        $date = time_elapsed_string($post->created_at, false);
-                        ?>
-                        {{--<div class="col-md-3 col-sm-3 col-xs-3 pr-0">--}}
-                        {{----}}
-                        {{--</div>--}}
-                        <div class="col-md-11 col-sm-11 col-xs-11 pr-0">
-                            <div class="story-img img-box150_84">
-                                <a href="{{ url('story/'.$title) }}" target="_blank"><img class="img-responsive"
-                                                                                          src="{{ url($post->story_list_image) }}"></a>
-                            </div>
-                            <div class="img_box150_right">
-                                <h4 class="story-title"><a href="{{ url('story/'.$title) }}"
-                                                           target="_blank"> {{ $post->title }}</a></h4>
-                                <p class="submitted-line">
-                                    Submitted {{ $date }} by <a
-                                            href="{{ url('profile/'.$post->username) }}"
-                                            rel="nofollow">{{ $post->username }}</a> in <a
-                                            href="{{ url('category/'.$post->category) }}">{{ $post->category }}</a>
-                                </p>
-                                <p class="story-domain"><a
-                                            href="{{ url('source/'.$post->domain) }}">{{ $post->domain }}</a></p>
-                            </div>
-
-
-                        </div>
-                        <div class=" col-md-1 col-sm-1 col-xs-1 pl-0">
-                            <div class="p-0 up-btn text-center">
-                                @if($upVoteMatched == 1)
-                                    <a class="btn-vote-submit text-center" onclick="upVote({{$post->id}})">
-                                        <span class="fa fa-chevron-up" alt="Upvote"></span><br>
-                                        <span class="vote-counter text-center">{{ $votes }}</span>
-                                    </a>
-
-                                @else
-                                    <a class="btn-vote-submit text-center" onclick="upVote( {{ $post->id }} )">
-                                        <span class="fa fa-chevron-up"></span><br>
-                                        <span class="vote-counter text-center">{{ $votes }}</span>
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            @endforeach
+            @include('partials.post_item',['posts' => $posts]);
         </div>
 
     </div>
@@ -274,17 +152,13 @@
                 success: function (data) {
                     console.log(data);
                     if (data.status == 'upvoted') {
-                        var property = document.getElementById('btn_upVote_' + post_id);
-                        property.style.color = "green";
+                         var element = document.getElementById("upvote_icon_"+post_id);
+                        element.classList.add("text-shufflered");
                         $('#vote_count_' + post_id).text(data.voteNumber);
-                        var property = document.getElementById('btn_upVote_text_' + post_id);
-                        property.style.color = "green";
                     } else {
-                        var property = document.getElementById('btn_upVote_' + post_id);
-                        property.style.removeProperty('color');
+                        var element = document.getElementById("upvote_icon_"+post_id);
+                        element.classList.remove("text-shufflered");
                         $('#vote_count_' + post_id).text(data.voteNumber);
-                        var property = document.getElementById('btn_upVote_text_' + post_id);
-                        property.style.removeProperty('color');
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

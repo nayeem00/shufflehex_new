@@ -1,45 +1,11 @@
 <?php
-$upVoteMatched = 0;
-$downVoteMatched = 0;
-$savedStory = 0;
-$votes = 0;
-
-?>
-@foreach($post->votes as $key=>$vote)
-    <?php
-    $votes += $vote->vote;
-    ?>
-@endforeach
-@if(isset(Auth::user()->id) && !empty(Auth::user()->id))
-    @foreach($post->votes as $key=>$vote)
-        @if($vote->user_id == Auth::user()->id && $vote->vote == 1)
-            <?php $upVoteMatched = 1;?>
-            @break
-        @endif
-    @endforeach
-    @foreach($post->votes as $key=>$vote)
-        @if($vote->user_id == Auth::user()->id && $vote->vote == -1)
-            <?php $downVoteMatched = 1;?>
-            @break
-        @endif
-    @endforeach
-    @foreach($post->saved_stories as $key=>$saved)
-        @if($saved->user_id == Auth::user()->id && $saved->post_id == $post->id)
-            <?php $savedStory = 1;?>
-            @break
-        @endif
-    @endforeach
-@endif
-
-<?php
-$title = preg_replace('/\s+/', '-', $post->title);
-$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
-$title = $title . '-' . $post->id;
+$post = \App\Http\PostHelper::addAditionalData([$post]);
+$post = $post[0];
 ?>
 
 <div class="shuffle-box" id="shuffle_box">
     <div class="box-image">
-        <a class="d-inline-block" href="{{ url('story/'.$title) }}" target="_blank" rel="nofollow"> <img
+        <a class="d-inline-block" href="{{ url($post->storyLink) }}" target="_blank" rel="nofollow"> <img
                     class="img-responsive" src="{{ url($post->shuffle_box_image) }}"></a>
     </div>
     <div class="text-center" id="wait" style="display: none">
@@ -50,7 +16,7 @@ $title = $title . '-' . $post->id;
         <a href="{{ $post->link }}" target="_blank" rel="nofollow">
             <h5>{{ $post->domain }}</h5>
         </a>
-        <a href="{{ url('story/'.$title) }}" target="_blank" rel="nofollow">
+        <a href="{{ url($post->storyLink) }}" target="_blank" rel="nofollow">
             <p class="title">{{ $post->title }}</p>
         </a>
     </div>
@@ -58,24 +24,24 @@ $title = $title . '-' . $post->id;
     <div class="row share-section shuffle-section">
         <div class="col-md-6 col-sm-6 col-xs-6 vote">
             <ul class="list-inline">
-                @if($upVoteMatched == 1)
+                @if($post->upVoteMatched == 1)
                     <li>
                         <a class="btn btn-xs" onclick="upVote({{$post->id}})">
                             <span id="btn_upVote_{{ $post->id }}" class="shuffle_vote"><i
-                                        class="fa fa-chevron-up"></i><span
-                                        class="vote-counter">{{ $votes }}</span></span>
+                                        class="fa fa-chevron-up" id="upvote_icon_{{$post->id}}"></i><span
+                                        class="vote-counter" id="vote_count_{{$post->id}}">{{ $votes }}</span></span>
                         </a>
                     </li>
                 @else
                     <li>
                         <a class="" onclick="upVote({{$post->id}})">
                             <span id="btn_upVote_{{ $post->id }}" class="shuffle_vote"><i
-                                        class="fa fa-chevron-up"></i><span
-                                        class="vote-counter">{{ $votes }}</span></span>
+                                        class="fa fa-chevron-up" id="upvote_icon_{{$post->id}}"></i><span
+                                        class="vote-counter" id="vote_count_{{$post->id}}">{{ $post->vote_number }}</span></span>
                         </a>
                     </li>
                 @endif
-                @if($savedStory == 1)
+                @if($post->savedStory == 1)
                     <li>
                         <a class="btn btn-xs" onclick="saveStory({{$post->id}})">
                             <span class="saved" id="btn_saveStory_{{ $post->id }}"><i class="fa fa-bookmark"></i></span>
