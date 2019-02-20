@@ -461,7 +461,7 @@ class PostController extends Controller
         $posts = Post::with('votes')->with('comments')->with('saved_stories')->orderByDesc('created_at')->get();
 
         $page = 'Latest';
-
+        $posts = PostHelper::addAditionalData($posts);
 
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/all', compact('posts', 'folders', 'page'));
@@ -483,7 +483,7 @@ class PostController extends Controller
             ->orderByDesc(DB::raw("SUM(votes.vote)"))
             ->get();
         $page = 'Top';
-//        dd($posts);
+        $posts = PostHelper::addAditionalData($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/all' , compact('posts', 'folders', 'page'));
         } else {
@@ -504,7 +504,7 @@ class PostController extends Controller
             ->orderByDesc(DB::raw("COUNT(post_views.id)"))
             ->get();
         $page = 'Popular';
-//        dd($posts);
+        $posts = PostHelper::addAditionalData($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/all' , compact('posts', 'folders', 'page'));
         } else {
@@ -530,6 +530,7 @@ class PostController extends Controller
             ->orderByDesc(DB::raw("SUM(votes.vote) + COUNT(comments.id)+ COUNT(replies.id)"))
             ->get();
             $page = 'Trending';
+            $posts = PostHelper::addAditionalData($posts);
 //        dd($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/all' , compact('posts', 'folders', 'page'));
