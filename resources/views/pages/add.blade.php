@@ -90,18 +90,18 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="searchCategory">Category</label>
-                                <input type="text" id="searchCategory" class="form-control"
-                                       onclick="getCategory(event)" placeholder="Category">
-                                <div id="get-category" class="w-100">
+                                <label for="search_category_link">Category</label>
+                                <input type="text" id="search_category_link" class="form-control fontAwesome"
+                                       onclick="getCategory('link')" onkeyup="searchTopic('link')" placeholder="&#xf002;  Search Category">
+                                <div id="get_category_link" class="w-100 get-category">
                                     <div class="col-xs-12">
                                         <div class="panel panel-default">
                                             <div class="panel-body p-0">
                                                 <ul class="story-cat-list list-unstyled" id="category_list_link">
                                                     @foreach($categories as $category)
-                                                        <li class="li-cat" id="category_{{ $category->id }}" onclick="setCategory('{{ $category->category }}')">{{ $category->category }}</li>
+                                                        <li class="li-cat" id="category__link_{{ $category->id }}" onclick="setCategory('{{ $category->category,'category__link_'. $category->id }}')">{{ $category->category }}</li>
                                                     @endforeach
-                                                    <li class="li-cat li-create" id="create_topic_link">
+                                                    <li class="li-cat li-create" id="create_topic_link" onclick="createTopic('create_topic_link')">
                                                         <a class="text-danger"> <i class="fa fa-plus"></i>&nbsp;Create
                                                             Topic</a>
                                                     </li>
@@ -638,13 +638,17 @@
 
 </script>
     <script>
-        function getCategory(event) {
-            event.preventDefault();
-            $('#get-category').show();
+        function getCategory(field_id) {
+            // var story_type = field_id.split("_");
+            $('#get_category_'+field_id).show();
+            let category = $('#search_category_'+field_id).val();
+            if (category === ''){
+                $('#create_topic_'+field_id).hide();
+            }
         }
-        $('#searchCategory').on('keyup',function (e) {
-            e.preventDefault();
-            let category = $('#searchCategory').val();
+        function searchTopic(field_id) {
+            console.log(field_id);
+            let category = $('#search_category_'+field_id).val();
             // console.log(category);
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -655,18 +659,24 @@
                 dataType: 'JSON',
                 success: function (data) {
                     // console.log(data);
-                    var categories = data.categories;
-                    // console.log(categories);
                     var categoryList = "";
-                    $.each(categories, function (index,value) {
-                        console.log('<li>'+value.category+'</li>');
-                        categoryList += '<li class="li-cat" onclick="setCategory(\''+value.category+'\')\">'+value.category+'</li>';
-                    });
+                    if (data.status === "partially matched"){
+                        var categories = data.categories;
+                        // console.log(categories);
+                        $.each(categories, function (index,value) {
+                            categoryList += '<li class="li-cat" onclick="setCategory(\''+value.category+'\',\''+field_id+'\')">'+value.category+'</li>';
+                        });
+                        categoryList+='<li class="li-cat li-create" id="create_topic_'+field_id+'" onclick="createTopic(\''+field_id+'\')"><a class="text-danger"> <i class="fa fa-plus"></i>&nbsp;Create Topic</a></li>';
+                    }else if(data.status === "fully matched"){
+                        var category = data.category;
+                        categoryList += '<li class="li-cat" onclick="setCategory(\''+category.category+','+field_id+'\')\">'+category.category+'</li>';
+                        $('#create_topic_'+field_id).hide();
+                    }
                     // categories.each( categories, function (index,value) {
                     //     categoryList + '<li class="li-cat" onclick="setCategory('+value.category+')">'+value.category+'</li>\n';
                     // });
                     // console.log(categoryList);
-                    $('#category_list_link').html(categoryList);
+                    $('#category_list_'+field_id).html(categoryList);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     if (xhr.status == 401) {
@@ -675,12 +685,38 @@
                 }
             });
 
-        });
+        };
 
-        function setCategory(category) {
-            $('#searchCategory').val(category);
+        function setCategory(category,field_id) {
+            $('#get_category_'+field_id).val(category);
             $('#get-category').hide();
         }
+
+        function createTopic(field_id) {
+            // e.preventDefault();
+            let category = $('#search_category_'+field_id).val();
+            // console.log(category);
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                type: 'post',
+                url: '{{url("createTopic")}}',
+                data: {_token: CSRF_TOKEN, category: category},
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data.status === 'Topic created'){
+                        $('#get_category_'+field_id).hide();
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == 401) {
+                        window.location.href = '{{url("login")}}';
+                    }
+                }
+            });
+
+        };
 
         $('#generate').on('click',function (e) {
             e.preventDefault();

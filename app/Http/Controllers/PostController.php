@@ -38,7 +38,16 @@ class PostController extends Controller
         $this->middleware('auth', ['only' => ['create', 'notifications']]);
     }
 
-
+    public function popularTopics(){
+        $categories = Category::select('categories.*')->leftJoin("post_views", "post_views.category_id", "=", "categories.id")
+            ->where("post_views.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
+            ->groupBy("categories.id")
+            ->orderByDesc(DB::raw('COUNT(post_views.view)'))
+            ->limit(5)
+            ->get();
+//        dd($categories);
+        return $categories;
+    }
 
     public function index()
     {
@@ -72,7 +81,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = $this->popularTopics();
         return view('pages.add', compact('categories'));
     }
 
@@ -341,9 +350,17 @@ class PostController extends Controller
                 $onePost->downvotes = $downvotes;
             }
             if ($post->is_publish == 1) {
-                return view('pages.pollBeforePublish', compact('post'));
+                if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
+                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+                } else {
+                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+                }
             } else {
-                return view('pages.pollView', compact('post'));
+                if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
+                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+                } else {
+                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+                }
             }
         }
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {

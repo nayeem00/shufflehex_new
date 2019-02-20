@@ -20,6 +20,21 @@
   padding: 6px 15px;
   cursor: pointer;
 }
+#addLink .get-category {
+  display: none;
+}
+#addLink .get-category .panel {
+  z-index: 9999;
+  position: absolute;
+  width: 100%;
+  float: left;
+  left: 0;
+  background-color: #fff;
+}
+#addLink .get-category .story-cat-list .li-cat {
+  padding: 6px 15px;
+  cursor: pointer;
+}
 .saved-stories .tab-bar .nav li a {
   padding: 10px 15px;
 }

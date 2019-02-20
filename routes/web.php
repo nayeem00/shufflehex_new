@@ -11,9 +11,12 @@
 |
  */
 
-Route::get('/', function () {
+//Route::post('/', function () {
+//    return redirect('/story');
+//});
+Route::get('/', [ 'as' => '/', 'uses' => function () {
     return redirect('/story');
-});
+}]);
 
 //Route::get('/pages/add', function () {
 //    return view('pages.add');
@@ -173,6 +176,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/poll_vote', 'PollVoteController@store');
     Route::post('/poll_downvote', 'PollVoteController@downvote');
     Route::post('searchTopic', 'CategoryController@searchTopic');
+    Route::post('createTopic', 'CategoryController@createTopic');
     Route::get('/markAsRead', function () {
         auth()->user()->unreadNotifications->markAsRead();
     });
