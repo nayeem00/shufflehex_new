@@ -1,11 +1,13 @@
-
-<div class="project-info">
-    <a class="btn btn-default btn-lg web" href="{{ url($post->link) }}" target="_blank" rel="nofollow">
-    	<span><i class="fa fa-globe globe"></i></span>
-    	<span class="site">WEBSITE</span>
-    	<span><i class="fa fa-angle-right arrow"></i></span>
-    </a>
-    <a class="btn btn-default btn-sm social" href="#">
-    	<p>{{ $post->category }}</p>
-    </a>
+<div class="project-right-sidebar">
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-default btn-block text-shufflered" href="{{ url($post->link) }}" target="_blank"
+               rel="nofollow">
+                <i class="fa fa-globe"></i>&nbsp;<span>WEBSITE</span>
+            </a>
+            <a class="btn btn-default btn-block text-999" href="#">
+                <i class="fa fa-tag"></i>&nbsp;<span>{{ $post->category }}</span>
+            </a>
+        </div>
+    </div>
 </div>

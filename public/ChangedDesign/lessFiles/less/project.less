@@ -1,248 +1,47 @@
-.project{
-  .project-box{
+@import "variable";
 
-    .project-title{
-      display: inline-block;
-      padding: 8px 0;
-      
-      h5{
-        margin: 0;
-        color: #999;
-        font-weight: 600;
-        font-size: 12px;
-      }
-      .project-name{
-        padding-left: 15px;
-        h1{
-          margin: 0;
-          font-size: 20px;
-        }
-        .tagline{
-          p{
-            margin: 0;
-            padding: 8px 0;
-          }
-        }
-        .category{
-          h4{
-            font-size: 12px;
-            color: #999999; 
-          }
-        }
-      }  
+#project_carousel {
+  padding: 5px 0;
+}
+
+.project {
+  .project-title {
+
+  }
+  .project-description {
+    p {
+      font-size: 16px !important;
     }
+  }
+}
 
-
-    
-    
-    .project-price{
-      h3{
-        font-size: 24px;
-        color: #ff342f;
-        
-      }
+.project-left-sidebar {
+  .project-left-md {
+    display: none;
+    @media only screen and (min-width: @screen-md-min) {
+      display: block;
     }
-    .star-rating{
-      padding: 8px 0;
-      font-size: 18px;
-      color: #ddd;
+  }
+  .project-left-sm {
+    display: none;
+    @media only screen and (max-width: 991px) {
+      display: block;
     }
-
-    .project-media{
-      padding-left: 30px;
-      padding-right: 30px;
+    .box {
+      margin-bottom: 10px;
+    }
+    .project-info {
       padding-top: 15px;
-      height: 430px;
-
-      .xzoom {
-        -webkit-box-shadow: 0px 0px 5px 0px #fafafa;
-        -moz-box-shadow: 0px 0px 5px 0px #fafafa;
-        box-shadow: 0px 0px 5px 0px #fafafa;
-      }
-
-      img.original{
-        width: 100% !important;
-        border: 1px solid #eaeaea;
-        height: 380px;
-      }
-    
-    }
-
-
-    .project-review{
-      padding: 5px 30px;
-      .category{
-        h2{
-          font-size: 20px;
-          margin: 0;
-          padding: 5px 0;
-        }
-      }
-
-      .xzoom-thumbs{
-        display: inline-block;
-        padding-top: 10px;
-
-        .xzoom-gallery{
-          margin-left: 0;
-          margin-right: 8px;
-          width: 75px;
-        }
-
-        .xactive {
-            -webkit-box-shadow: 0px 0px 5px 0px #333;
-            -moz-box-shadow: 0px 0px 5px 0px #333;
-            box-shadow: 0px 0px 5px 0px #333;
-            border: 1px solid #333;
-        }
-      }
-
-    }
-
-    .promo{
-      padding: 15px;
-      p{
-        margin: 0;
-      }
-      strong{
-        padding-right: 10%;
-      }
-    }
-
-    .vote{
-      padding: 15px;
-    }
-
-  }
-
-  .project-desc{
-
-    .project-title{
-      display: inline-block;
-      padding: 8px 0px;
-      
-      h5{
-        margin: 0;
-        color: #999;
-        font-weight: 600;
-        font-size: 12px;
-        padding-bottom: 10px;
-      }
-
-      .project-description{
-        padding: 15px;
-        text-align: justify;
-        background-color: #ffffff;
-        border: 1px solid #f5f5f5;
-        p{
-          margin: 0;
-        }
-      }
-    }
-  }
-
-  .project-vote{
-    background-color: #ffffff;
-    padding: 10px 0;
-    border: 1px solid #f5f5f5;
-    margin: 10px 0;
-
-    .share{
-      padding-left: 30px;
-
-      .btn-twitter{
-        color: #1DA1F2;
-        font-weight: 600;
-        font-size: 12px;
-        border: 1px solid #1DA1F2;
-
-        .fa-twitter{
-          font-size: 16px;
-          padding-right: 5px;
-        }
-      }
-
-      .btn-twitter:hover{
-        background-color: #fafafa;
-        border: 1px solid #1DA1F2;
-      }
-
-      .btn-facebook{
-        color: #3B5998;
-        font-size: 12px;
-        font-weight: 600;
-        border: 1px solid #3B5998;
-
-        .fa-facebook{
-          font-size: 14px;
-          padding-right: 5px;
-        }
-      }
-
-      .btn-facebook:hover{
-        background-color: #fafafa;
-        border: 1px solid #3B5998;
+      margin-bottom: -15px;
+      p {
+        margin-bottom: 0;
       }
     }
   }
 }
 
-.brand-logo{
-  height: 200px;
-  display: block;
-  width: 200px;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #eaeaea;
-
-  img{
-    height: 178px;
-    width: 178px;
+.project-right-sidebar {
+  @media only screen and (max-width: 991px) {
+    display: none;
   }
-
-  .brand-name{
-    h3{
-      font-weight: 600;
-      text-align: center;
-      color: #222f3d;
-    }
-  }
-}
-
-.project-info{
-  .web{
-    margin-bottom: 20px;
-    border-radius: 0;
-    border: 1px solid #eaeaea;
-    line-height: 20px;
-    padding: 10px 44px;
-
-    .globe{
-        color: #999999;
-        padding-right: 5px; 
-    }
-    .arrow{
-      color: #999999;
-    }
-
-    .site{
-      display: initial;
-      padding-right: 15px;
-      color: #222f3d;
-      font-size: 16px;
-    }
-  }
-
-  .social{
-    border-radius: 0;
-    border: 1px solid #eaeaea;
-    line-height: 20px;
-    color: #222f3d;
-    p{
-      margin: 0;
-      color: #222f3d;
-    }
-    
-  }
-
 }

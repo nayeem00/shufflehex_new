@@ -1,190 +1,38 @@
-.project .project-box .project-title {
-  display: inline-block;
-  padding: 8px 0;
-}
-.project .project-box .project-title h5 {
-  margin: 0;
-  color: #999;
-  font-weight: 600;
-  font-size: 12px;
-}
-.project .project-box .project-title .project-name {
-  padding-left: 15px;
-}
-.project .project-box .project-title .project-name h1 {
-  margin: 0;
-  font-size: 20px;
-}
-.project .project-box .project-title .project-name .tagline p {
-  margin: 0;
-  padding: 8px 0;
-}
-.project .project-box .project-title .project-name .category h4 {
-  font-size: 12px;
-  color: #999999;
-}
-.project .project-box .project-price h3 {
-  font-size: 24px;
-  color: #ff342f;
-}
-.project .project-box .star-rating {
-  padding: 8px 0;
-  font-size: 18px;
-  color: #ddd;
-}
-.project .project-box .project-media {
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 15px;
-  height: 430px;
-}
-.project .project-box .project-media .xzoom {
-  -webkit-box-shadow: 0px 0px 5px 0px #fafafa;
-  -moz-box-shadow: 0px 0px 5px 0px #fafafa;
-  box-shadow: 0px 0px 5px 0px #fafafa;
-}
-.project .project-box .project-media img.original {
-  width: 100% !important;
-  border: 1px solid #eaeaea;
-  height: 380px;
-}
-.project .project-box .project-review {
-  padding: 5px 30px;
-}
-.project .project-box .project-review .category h2 {
-  font-size: 20px;
-  margin: 0;
+#project_carousel {
   padding: 5px 0;
 }
-.project .project-box .project-review .xzoom-thumbs {
-  display: inline-block;
-  padding-top: 10px;
+.project .project-description p {
+  font-size: 16px !important;
 }
-.project .project-box .project-review .xzoom-thumbs .xzoom-gallery {
-  margin-left: 0;
-  margin-right: 8px;
-  width: 75px;
+.project-left-sidebar .project-left-md {
+  display: none;
 }
-.project .project-box .project-review .xzoom-thumbs .xactive {
-  -webkit-box-shadow: 0px 0px 5px 0px #333;
-  -moz-box-shadow: 0px 0px 5px 0px #333;
-  box-shadow: 0px 0px 5px 0px #333;
-  border: 1px solid #333;
+@media only screen and (min-width: 992px) {
+  .project-left-sidebar .project-left-md {
+    display: block;
+  }
 }
-.project .project-box .promo {
-  padding: 15px;
+.project-left-sidebar .project-left-sm {
+  display: none;
 }
-.project .project-box .promo p {
-  margin: 0;
+@media only screen and (max-width: 991px) {
+  .project-left-sidebar .project-left-sm {
+    display: block;
+  }
 }
-.project .project-box .promo strong {
-  padding-right: 10%;
+.project-left-sidebar .project-left-sm .box {
+  margin-bottom: 10px;
 }
-.project .project-box .vote {
-  padding: 15px;
+.project-left-sidebar .project-left-sm .project-info {
+  padding-top: 15px;
+  margin-bottom: -15px;
 }
-.project .project-desc .project-title {
-  display: inline-block;
-  padding: 8px 0px;
+.project-left-sidebar .project-left-sm .project-info p {
+  margin-bottom: 0;
 }
-.project .project-desc .project-title h5 {
-  margin: 0;
-  color: #999;
-  font-weight: 600;
-  font-size: 12px;
-  padding-bottom: 10px;
-}
-.project .project-desc .project-title .project-description {
-  padding: 15px;
-  text-align: justify;
-  background-color: #ffffff;
-  border: 1px solid #f5f5f5;
-}
-.project .project-desc .project-title .project-description p {
-  margin: 0;
-}
-.project .project-vote {
-  background-color: #ffffff;
-  padding: 10px 0;
-  border: 1px solid #f5f5f5;
-  margin: 10px 0;
-}
-.project .project-vote .share {
-  padding-left: 30px;
-}
-.project .project-vote .share .btn-twitter {
-  color: #1DA1F2;
-  font-weight: 600;
-  font-size: 12px;
-  border: 1px solid #1DA1F2;
-}
-.project .project-vote .share .btn-twitter .fa-twitter {
-  font-size: 16px;
-  padding-right: 5px;
-}
-.project .project-vote .share .btn-twitter:hover {
-  background-color: #fafafa;
-  border: 1px solid #1DA1F2;
-}
-.project .project-vote .share .btn-facebook {
-  color: #3B5998;
-  font-size: 12px;
-  font-weight: 600;
-  border: 1px solid #3B5998;
-}
-.project .project-vote .share .btn-facebook .fa-facebook {
-  font-size: 14px;
-  padding-right: 5px;
-}
-.project .project-vote .share .btn-facebook:hover {
-  background-color: #fafafa;
-  border: 1px solid #3B5998;
-}
-.brand-logo {
-  height: 200px;
-  display: block;
-  width: 200px;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #eaeaea;
-}
-.brand-logo img {
-  height: 178px;
-  width: 178px;
-}
-.brand-logo .brand-name h3 {
-  font-weight: 600;
-  text-align: center;
-  color: #222f3d;
-}
-.project-info .web {
-  margin-bottom: 20px;
-  border-radius: 0;
-  border: 1px solid #eaeaea;
-  line-height: 20px;
-  padding: 10px 44px;
-}
-.project-info .web .globe {
-  color: #999999;
-  padding-right: 5px;
-}
-.project-info .web .arrow {
-  color: #999999;
-}
-.project-info .web .site {
-  display: initial;
-  padding-right: 15px;
-  color: #222f3d;
-  font-size: 16px;
-}
-.project-info .social {
-  border-radius: 0;
-  border: 1px solid #eaeaea;
-  line-height: 20px;
-  color: #222f3d;
-}
-.project-info .social p {
-  margin: 0;
-  color: #222f3d;
+@media only screen and (max-width: 991px) {
+  .project-right-sidebar {
+    display: none;
+  }
 }
 /*# sourceMappingURL=project.css.map */

@@ -62,15 +62,26 @@ $('#mobile_user_sidebar').click(function (e) {
     e.stopPropagation();
 });
 $('body,html').click(function (e) {
-    // $('#menu-sidebar').removeClass('active');
+    $('.page-overlay').removeClass('active');
     document.getElementById("menu-sidebar").style.marginLeft = "-250px";
     document.getElementById("mobile_user_sidebar").style.marginRight = "-250px";
     $('body').removeClass('lock-scroll');
 
-    $('.page-overlay').removeClass('active');
+
 });
 
 $(".go-top-btn").click(function() {
     $("html, body").animate({ scrollTop: 0 }, "slow");
     return false;
+});
+
+$(document).ready(function () {
+    $('.slick-slider').slick({
+        dots: true,
+        infinite: true,
+        speed: 500,
+        fade: true,
+        autoplay: true,
+        cssEase: 'linear'
+    });
 });

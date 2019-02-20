@@ -1,5 +1,10 @@
-.poll {
-  padding: 10px 35px;
+.poll .vote .btn-vote-submit a {
+  display: inline-block;
+  float: left;
+}
+.poll .vote .btn-vote-submit a .fa {
+  display: inline-block;
+  margin-left: 10px;
 }
 .poll .media .poll-desc {
   text-align: justify;
@@ -16,7 +21,6 @@
 }
 .poll .media .poll-img {
   text-align: center;
-  padding: 20px 0;
 }
 .poll .media .poll-visit {
   float: right;
