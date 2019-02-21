@@ -229,6 +229,14 @@ class PostController extends Controller
         }
 
         $post = Post::with('comments')->with('replies')->with('votes')->with('saved_stories')->with('comment_votes')->with('comment_reply_votes')->find($id);
+        foreach ($post->comments as $comment){
+            $user = User::find($comment->user_id);
+            $comment->user = $user;
+        }
+        foreach ($post->replies as $reply){
+            $user = User::find($reply->user_id);
+            $reply->user = $user;
+        }
         $post->views = $thisStoryViews;
         $tags = $post->tags;
         $category = $post->category;
@@ -351,15 +359,15 @@ class PostController extends Controller
             }
             if ($post->is_publish == 1) {
                 if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
-                } else {
-                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
-                }
-            } else {
-                if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
                     return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
                 } else {
                     return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+                }
+            } else {
+                if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
+                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+                } else {
+                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
                 }
             }
         }

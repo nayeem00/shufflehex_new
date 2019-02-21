@@ -299,13 +299,13 @@ $title = $title . '-' . $post->id;
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="img-box32_32">
-                                    <a href="#">
-                                        <img class="img-circle" src="{{ asset('img/profile-header-orginal.jpg') }}"
+                                    <a href="{{ url('profile/'.$comment->user->username) }}">
+                                        <img class="img-circle" src="@if (!empty($comment->user->mini_profile_picture_link)) {{ asset( $comment->user->profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif"
                                              alt="user profile">
                                     </a>
                                 </div>
                                 <div class="img_box32_right">
-                                    <span class="comment-user text-primary"><strong>{{ $comment->username }}</strong>&nbsp;
+                                    <span class="comment-user text-primary"><strong><a href="{{ url('profile/'.$comment->user->username) }}" rel="nofollow">{{ $comment->username }}</a></strong>&nbsp;
                                         <span class="small text-muted commentTime postTime">
                                             {{ $comment->created_at }}
                                         </span>
@@ -362,14 +362,14 @@ $title = $title . '-' . $post->id;
                                             <div class="row">
                                                 <div class="col-xs-12">
                                                     <div class="img-box32_32">
-                                                        <a href="#">
+                                                        <a href="{{ url('profile/'.$reply->user->username) }}">
                                                             <img class="img-circle"
-                                                                 src="{{ asset('img/profile-header-orginal.jpg') }}"
+                                                                 src="@if (!empty($reply->user->mini_profile_picture_link)) {{ asset( $reply->user->profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif"
                                                                  alt="user profile">
                                                         </a>
                                                     </div>
                                                     <div class="img_box32_right">
-                                                        <span class="reply-user text-primary"><strong>{{ $reply->username }}</strong>&nbsp;
+                                                        <span class="reply-user text-primary"><strong><a href="{{ url('profile/'.$reply->user->username) }}" rel="nofollow"> {{ $reply->username }}</a></strong>&nbsp;
                                                         <span class="small text-muted commentTime postTime">
                                                             {{ $reply->created_at }}
                                                         </span>

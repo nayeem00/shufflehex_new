@@ -19,4 +19,9 @@ class Reply extends Model
     {
         return $this->belongsTo('App\Post');
     }
+
+    public function users()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
