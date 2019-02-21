@@ -5,10 +5,10 @@
 .article-box {
   width: 100% !important;
 }
-#addLink #get-category {
+#get-category {
   display: none;
 }
-#addLink #get-category .panel {
+#get-category .panel {
   z-index: 9999;
   position: absolute;
   width: 100%;
@@ -16,14 +16,14 @@
   left: 0;
   background-color: #fff;
 }
-#addLink #get-category .story-cat-list .li-cat {
+#get-category .story-cat-list .li-cat {
   padding: 6px 15px;
   cursor: pointer;
 }
-#addLink .get-category {
+.get-category {
   display: none;
 }
-#addLink .get-category .panel {
+.get-category .panel {
   z-index: 9999;
   position: absolute;
   width: 100%;
@@ -31,8 +31,8 @@
   left: 0;
   background-color: #fff;
 }
-#addLink .get-category .story-cat-list .li-cat {
-  padding: 6px 15px;
+.get-category .story-cat-list .li-cat {
+  padding: 6px 15px !important;
   cursor: pointer;
 }
 .saved-stories .tab-bar .nav li a {
