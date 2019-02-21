@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\SettingsHelper;
 use App\Post;
 use App\Product;
 use App\Project;
@@ -194,11 +195,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function trendingProduct()
     {
+        $trendingProductFrom = SettingsHelper::getSetting('trending_product_from')->value;
         $products = Product::select('products.*')
             ->leftJoin("product_votes", "product_votes.product_id", "=", "products.id")
             ->leftJoin("product_reviews", "product_reviews.product_id", "=", "products.id")
-            ->where("product_votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
-            ->orWhere("product_reviews.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->where("product_votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingProductFrom, time())))
+            ->orWhere("product_reviews.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingProductFrom, time())))
             ->groupBy("products.id")
             ->orderByDesc(DB::raw("SUM(product_votes.vote) + COUNT(product_reviews.id)"))
             ->limit(5)
@@ -218,13 +220,15 @@ class AppServiceProvider extends ServiceProvider
 
     public function trendingProject()
     {
+
+        $trendingProjectFrom = SettingsHelper::getSetting('trending_project_from')->value;
         $projects = Project::select('projects.*')
             ->leftJoin("project_votes", "project_votes.project_id", "=", "projects.id")
             ->leftJoin("project_comments", "project_comments.project_id", "=", "projects.id")
             ->leftJoin("project_replies", "project_replies.project_id", "=", "projects.id")
-            ->where("project_votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
-            ->orWhere("project_comments.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
-            ->orWhere("project_replies.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->where("project_votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingProjectFrom, time())))
+            ->orWhere("project_comments.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingProjectFrom, time())))
+            ->orWhere("project_replies.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingProjectFrom, time())))
             ->groupBy("projects.id")
 //            ->orderBy(DB::raw('SUM(votes.vote)'))
             ->orderByDesc(DB::raw("SUM(project_votes.vote) + COUNT(project_comments.id) + COUNT(project_replies.id)"))

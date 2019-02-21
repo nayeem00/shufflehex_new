@@ -526,13 +526,15 @@ class PostController extends Controller
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
 
+
+        $trendingStroyFrom = SettingsHelper::getSetting('trending_story_from')->value;
         $posts = Post::select('posts.*')->with('votes')->with('comments')->with('saved_stories')
             ->leftJoin("votes", "votes.post_id", "=", "posts.id")
             ->leftJoin("comments", "comments.post_id", "=", "posts.id")
             ->leftJoin("replies", "replies.post_id", "=", "posts.id")
-            ->where("votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
-            ->orWhere("comments.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
-            ->orWhere("replies.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->where("votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingStroyFrom, time())))
+            ->orWhere("comments.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingStroyFrom, time())))
+            ->orWhere("replies.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingStroyFrom, time())))
             ->groupBy("posts.id")
 //            ->orderBy(DB::raw('SUM(votes.vote)'))
             ->orderByDesc(DB::raw("SUM(votes.vote) + COUNT(comments.id)+ COUNT(replies.id)"))

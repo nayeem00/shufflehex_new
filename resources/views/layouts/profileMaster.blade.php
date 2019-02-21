@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/profile.css') }}">
 
 @yield('css')
+
+<?php echo \App\Http\SettingsHelper::getHeadScript()?>
 <body>
 @include('partials.list-small-window-sidebar')
 <div id="wrapper">
@@ -51,8 +53,7 @@
                 </script>
 
 
-</body>
-</html>
+    <?php echo \App\Http\SettingsHelper::getFootScript()?>
 
 
 </body>

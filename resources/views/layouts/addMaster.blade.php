@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.css') }}">
     @yield('css')
 
+    <?php echo \App\Http\SettingsHelper::getHeadScript()?>
+
 
 
 </head>
@@ -71,6 +73,7 @@
         <i class="fa fa-chevron-up"></i>
     </button>
 </div>
+<?php echo \App\Http\SettingsHelper::getFootScript()?>
 @yield('js')
 <!-- jQuery CDN -->
 <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
@@ -118,6 +121,8 @@
 @yield('js')
 
 {!! Toastr::message() !!}
+
+
 
 </body>
 

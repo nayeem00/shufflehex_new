@@ -73,18 +73,6 @@ class AjaxController extends Controller
 
         $posts = PostHelper::addAditionalData($posts);
 
-//        if($request->otherfilter != "none"){
-//            $c = collect($posts);
-//            switch ($request->otherfilter){
-//                case "upvote" :  $sorted = $c->sortBy('vote_number');;break;
-//                case "downvote" :  $filterDate = date("Y-m-d",strtotime('last Sunday'));break;
-//                case "page-view" :  $filterDate = date("Y-m-01");break;
-//                case "most-comment" :  $filterDate = date("Y-01-01");break;
-//            }
-//            $posts = $sorted->all();
-//        }
-
-
 
         $postsData =  (string) view()->make("partials.post_item",['posts' =>$posts]);
 
