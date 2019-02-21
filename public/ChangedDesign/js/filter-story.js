@@ -67,15 +67,22 @@ function updateFilterResults() {
         topicsfilter : getFilterParameter('.topics-filter'),
         otherfilter : getFilterParameter('.other-filter')
     };
-
+    var pageKey = $('#page-key').data("page");
     var requestParam = {
         _token: CSRF_TOKEN,
-        filterParam : filterParam
+        filterParam : filterParam,
+        pageKey : pageKey
     };
-    console.log(filterParam);
 
+    if(pageKey == 'story-category'){
+        var searchCategory = $('#search-category').data("value");
+        requestParam.searchCategory = searchCategory;
+    }
+    console.log(filterParam);
+    var getUrl = window.location;
+    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
     $.ajax({
-        url:"ajax/get_filterd_post",
+        url:baseUrl+"/public/ajax/get_filterd_post",
         type: "POST",
         data:requestParam,
         dataType: "JSON",

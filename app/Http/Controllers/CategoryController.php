@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\PostHelper;
+use App\Http\SettingsHelper;
 use Illuminate\Http\Request;
 use Embed\Embed;
 use App\Post;
@@ -63,7 +65,10 @@ class CategoryController extends Controller
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-        $posts = Post::with('votes')->with('comments')->with('saved_stories')->where('category', '=', $category)->orderBy('views', 'DESC')->get();
+        $postLimit = SettingsHelper::getSetting('story_limit');
+        $posts = Post::with('votes')->with('comments')->with('saved_stories')->where('category', '=', $category)->orderBy('views', 'DESC')->offset(0)->limit($postLimit->value)->get();
+
+        $posts = PostHelper::addAditionalData($posts);
 
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/categoryWisePosts', compact('posts', 'folders', 'category'));

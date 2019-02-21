@@ -4,7 +4,8 @@ $(document).ready(function () {
 
         $win.scroll(function () {
             if ($win.scrollTop() == 0){
-                console.log("top");
+
+                console.log(baseUrl);
             }
             else if ($win.height() + $win.scrollTop()
                 == $(document).height()) {
@@ -19,10 +20,25 @@ $(document).ready(function () {
 function loadMorePost() {
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     var offset = $('#post-count-offset').data("offset");
+    var pageKey = $('#page-key').data("page");;
+    var getUrl = window.location;
+    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+    var requestParam = {
+        _token: CSRF_TOKEN,
+        offset:offset,
+        filterParam : filterParam ,
+        pageKey: pageKey
+    };
+    if(pageKey == 'story-category'){
+        var searchCategory = $('#search-category').data("value");
+        requestParam.searchCategory = searchCategory;
+    }
+
+
     $.ajax({
-        url:"ajax/get_more_post",
+        url:baseUrl+"/public/ajax/get_more_post",
         type: "POST",
-        data:{_token: CSRF_TOKEN, offset:offset, filterParam : filterParam},
+        data:requestParam,
         dataType: "JSON",
         success: function (data) {
             if(data.sucess == "true"){

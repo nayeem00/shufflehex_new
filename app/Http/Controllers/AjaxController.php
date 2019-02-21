@@ -22,6 +22,11 @@ class AjaxController extends Controller
             ->with('comments')
             ->with('saved_stories');
 
+        if($request->pageKey == "story-category"){
+            $searchCategory = str_replace("+", $request->searchCategory," ");
+            $posts = $posts->where('category', '=', $request->searchCategory);
+        }
+
         //--------------filter here if exists ---------//
         if($request->filterParam){
             $filterParams = (object) $request->filterParam;
@@ -35,7 +40,7 @@ class AjaxController extends Controller
             ->get();
         $posts = PostHelper::addAditionalData($posts);
 
-        $postsData =  (string) view()->make("partials.post_item",['posts' =>$posts]);
+        $postsData =  (string) view()->make("partials.post_item",['posts' =>$posts,'pageKey' => $request->pageKey]);
 
         if(sizeof($posts) != 0){
             return json_encode(['sucess'=>'true' , 'newOffset' => $newOffset, 'postsData' =>  $postsData]);
@@ -56,6 +61,13 @@ class AjaxController extends Controller
 
 
 
+        if($request->pageKey == "story-category"){
+            $searchCategory = str_replace("+", $request->searchCategory," ");
+            $posts = $posts->where('category', '=', $request->searchCategory);
+        }
+
+
+
         //--------------filter here if exists ---------//
         if($request->filterParam){
             $filterParams = (object) $request->filterParam;
@@ -71,10 +83,12 @@ class AjaxController extends Controller
             ->limit($limit)
             ->get();
 
+
+
         $posts = PostHelper::addAditionalData($posts);
 
 
-        $postsData =  (string) view()->make("partials.post_item",['posts' =>$posts]);
+        $postsData =  (string) view()->make("partials.post_item",['posts' =>$posts,'pageKey' => $request->pageKey]);
 
         if(sizeof($posts) != 0){
             return response()->json(['sucess'=>'true' , 'newOffset' => $newOffset,'postsData' => $postsData]);
