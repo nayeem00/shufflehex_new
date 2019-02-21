@@ -79,7 +79,7 @@
 
     </div>
     <div class="text-center">
-        <label style="font-size: 18px" class="text-danger text-center no-post-available"></label>
+        <label style="font-size: 14px" class="text-danger text-center no-post-available"></label>
     </div>
 
 

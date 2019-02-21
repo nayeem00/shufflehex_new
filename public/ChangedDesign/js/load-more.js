@@ -3,8 +3,9 @@ $(document).ready(function () {
         var $win = $(window);
 
         $win.scroll(function () {
-            if ($win.scrollTop() == 0)
+            if ($win.scrollTop() == 0){
                 console.log("top");
+            }
             else if ($win.height() + $win.scrollTop()
                 == $(document).height()) {
                 loadMorePost();
@@ -21,7 +22,7 @@ function loadMorePost() {
     $.ajax({
         url:"ajax/get_more_post",
         type: "POST",
-        data:{_token: CSRF_TOKEN, offset:offset},
+        data:{_token: CSRF_TOKEN, offset:offset, filterParam : filterParam},
         dataType: "JSON",
         success: function (data) {
             if(data.sucess == "true"){

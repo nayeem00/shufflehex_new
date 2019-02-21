@@ -11,19 +11,26 @@ use Illuminate\Support\Facades\DB;
 
 class AjaxController extends Controller
 {
-    public function index(){
-        die("aa");
-    }
     public function get_more_post(Request $request){
+
         $offset = $request->offset;
         $limit = SettingsHelper::getSetting('story_limit')->value;
         $newOffset = $offset + $limit;
-        $posts = Post::where('is_publish', 1)
+        $posts = Post::select('posts.*')
+            ->where('is_publish', 1)
             ->with('votes')
             ->with('comments')
-            ->with('saved_stories')
-            ->orderBy('views', 'DESC')
-            ->offset($offset)
+            ->with('saved_stories');
+
+        //--------------filter here if exists ---------//
+        if($request->filterParam){
+            $filterParams = (object) $request->filterParam;
+            PostHelper::filterPostQuery($posts,$filterParams);
+        }
+
+
+
+        $posts= $posts->offset($offset)
             ->limit($limit)
             ->get();
         $posts = PostHelper::addAditionalData($posts);
@@ -39,6 +46,7 @@ class AjaxController extends Controller
 
     public function get_filterd_post(Request $request){
 
+
         $posts = Post::select('posts.*')
             ->where('is_publish', 1)
             ->with('votes')
@@ -46,9 +54,13 @@ class AjaxController extends Controller
             ->with('post_views')
             ->with('saved_stories');
 
-        $filterParams = $request;
 
-        PostHelper::filterPostQuery($posts,$filterParams);
+
+        //--------------filter here if exists ---------//
+        if($request->filterParam){
+            $filterParams = (object) $request->filterParam;
+            PostHelper::filterPostQuery($posts,$filterParams);
+        }
 
 
         $limit = SettingsHelper::getSetting('story_limit')->value;
@@ -83,13 +95,4 @@ class AjaxController extends Controller
         }
     }
 
-    public function popularTopics(){
-        $categories = Category::join("post_views", "post_views.category_id", "=", "categories.id")
-            ->where("post_views.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
-            ->groupBy("categories.id")
-            ->orderByDesc(DB::raw('COUNT(post_views.view)'))
-            ->limit(5)
-            ->get();
-        return $categories;
-    }
 }
