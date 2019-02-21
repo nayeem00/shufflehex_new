@@ -43,7 +43,3 @@
     </div>
 
 @endforeach
-
-<?php use App\Http\SettingsHelper;$offset = SettingsHelper::getSetting('story_limit') ?>
-<input type="hidden" value="<?= $offset->value?>" id="post-count-offset" data-offset="<?= $offset->value?>">
-<input type="hidden" value="{{ $pageKey }}" id="page-key" data-page="{{ $pageKey }}">

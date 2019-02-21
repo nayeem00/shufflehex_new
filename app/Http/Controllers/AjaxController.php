@@ -40,7 +40,7 @@ class AjaxController extends Controller
             ->get();
         $posts = PostHelper::addAditionalData($posts);
 
-        $postsData =  (string) view()->make("partials.post_item",['posts' =>$posts,'pageKey' => $request->pageKey]);
+        $postsData =  (string) view()->make("partials.post_item",['posts' =>$posts]);
 
         if(sizeof($posts) != 0){
             return json_encode(['sucess'=>'true' , 'newOffset' => $newOffset, 'postsData' =>  $postsData]);
@@ -88,7 +88,7 @@ class AjaxController extends Controller
         $posts = PostHelper::addAditionalData($posts);
 
 
-        $postsData =  (string) view()->make("partials.post_item",['posts' =>$posts,'pageKey' => $request->pageKey]);
+        $postsData =  (string) view()->make("partials.post_item",['posts' =>$posts]);
 
         if(sizeof($posts) != 0){
             return response()->json(['sucess'=>'true' , 'newOffset' => $newOffset,'postsData' => $postsData]);

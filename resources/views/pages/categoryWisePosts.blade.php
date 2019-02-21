@@ -8,7 +8,7 @@
 @section('content')
 
     {{----------------------------- store current url to session -----------------------}}
-    <?php session(['last_page' => url()->current()]); ?>
+    <?php use App\Http\SettingsHelper;session(['last_page' => url()->current()]); ?>
     {{-------------------------------------------------------------------------------------}}
 
     <div class="box">
@@ -27,12 +27,15 @@
         </div>
         @include('partials.filter_row',['posts' => $posts]);
         <div class="posts">
-            @include('partials.post_item',['posts' => $posts, 'pageKey' => "story-category"]);
+            @include('partials.post_item',['posts' => $posts]);
         </div>
     </div>
     <div class="text-center">
         <label style="font-size: 14px" class="text-danger text-center no-post-available"></label>
     </div>
+    <?php $offset = SettingsHelper::getSetting('story_limit') ?>
+    <input type="hidden" value="<?= $offset->value?>" id="post-count-offset" data-offset="<?= $offset->value?>">
+    <input type="hidden" value="" id="page-key" data-page="story-category">
     <input type="hidden" value="" id="search-category" data-value="{{ $category }}">
     <!-- save url modal -->
     <div class="save-page-modal modal fade" id="saveStoryModal" role="dialog">

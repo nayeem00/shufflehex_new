@@ -4,8 +4,9 @@ $(document).ready(function () {
 
         $win.scroll(function () {
             if ($win.scrollTop() == 0){
-
-                console.log(baseUrl);
+                var getUrl = window.location;
+                var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+                console.log(getUrl.host);
             }
             else if ($win.height() + $win.scrollTop()
                 == $(document).height()) {
@@ -22,7 +23,10 @@ function loadMorePost() {
     var offset = $('#post-count-offset').data("offset");
     var pageKey = $('#page-key').data("page");;
     var getUrl = window.location;
-    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+    if(getUrl.host == 'localhost'){
+        baseUrl = getUrl .protocol + "//" + 'localhost/shufflehex/public/'
+    }
     var requestParam = {
         _token: CSRF_TOKEN,
         offset:offset,
@@ -36,7 +40,7 @@ function loadMorePost() {
 
 
     $.ajax({
-        url:baseUrl+"/public/ajax/get_more_post",
+        url:baseUrl+"ajax/get_more_post",
         type: "POST",
         data:requestParam,
         dataType: "JSON",

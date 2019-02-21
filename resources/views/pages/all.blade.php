@@ -33,10 +33,13 @@
         </div>
         @include('partials.filter_row',['posts' => $posts]);
         <div class="posts">
-            @include('partials.post_item',['posts' => $posts,'pageKey' => "story-main"]);
+            @include('partials.post_item',['posts' => $posts]);
         </div>
 
     </div>
+    <?php $offset = SettingsHelper::getSetting('story_limit') ?>
+    <input type="hidden" value="<?= $offset->value?>" id="post-count-offset" data-offset="<?= $offset->value?>">
+    <input type="hidden" value="" id="page-key" data-page="story-main">
     <div class="text-center">
         <label style="font-size: 14px" class="text-danger text-center no-post-available"></label>
     </div>

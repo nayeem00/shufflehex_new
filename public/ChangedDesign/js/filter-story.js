@@ -80,9 +80,12 @@ function updateFilterResults() {
     }
     console.log(filterParam);
     var getUrl = window.location;
-    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+    if(getUrl.host == 'localhost'){
+        baseUrl = getUrl .protocol + "//" + 'localhost/shufflehex/public/'
+    }
     $.ajax({
-        url:baseUrl+"/public/ajax/get_filterd_post",
+        url:baseUrl+"ajax/get_filterd_post",
         type: "POST",
         data:requestParam,
         dataType: "JSON",
