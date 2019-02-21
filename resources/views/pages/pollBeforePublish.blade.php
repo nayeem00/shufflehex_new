@@ -606,12 +606,6 @@
 
 
     <script>
-        $( document ).ready(function() {
-            $("#latest_stories").attr("href", "{{ url('/post/latest/all') }}");
-            $("#top_stories").attr("href", "{{ url('/post/top/all') }}");
-            $("#popular_stories").attr("href", "{{ url('/post/popular/all') }}");
-            $("#trending_stories").attr("href", "{{ url('/post/trending/all') }}");
-        });
         // function upVote(post_id){
         //     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         //     var property = 'btn_upVote_'+post_id;

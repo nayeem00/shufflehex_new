@@ -91,7 +91,7 @@
 
                             <div class="form-group">
                                 <label for="search_category_link">Category</label>
-                                <input type="text" id="search_category_link" class="form-control fontAwesome"
+                                <input type="text" name="category" id="search_category_link" class="form-control fontAwesome search_category"
                                        onclick="getCategory('link')" onkeyup="searchTopic('link')" placeholder="&#xf002;  Search Category">
                                 <div id="get_category_link" class="w-100 get-category">
                                     <div class="col-xs-12">
@@ -717,6 +717,12 @@
             });
 
         };
+
+        $(document).click(function(e) {
+            if (!$(e.target).is(".search_category")) {
+                    $('.get-category').hide();
+            }
+        });
 
         $('#generate').on('click',function (e) {
             e.preventDefault();

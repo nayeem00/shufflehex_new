@@ -29,6 +29,10 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\SocialInfo');
     }
+    public function replies()
+    {
+        return $this->hasMany('App\Reply');
+    }
     /**
      * The attributes that should be hidden for arrays.
      *
