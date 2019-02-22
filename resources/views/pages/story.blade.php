@@ -158,7 +158,7 @@ $title = $title . '-' . $post->id;
                        data-toggle="dropdown">
                         <i class="fa fa-ellipsis-v"></i></a>
                     <ul class="edit-menu dropdown-menu">
-                        <li><a href="{{ url('story/edit/'.$title) }}">Edit</a></li>
+                        <li><a href="{{ url('story/'.$title.'/edit') }}">Edit</a></li>
                         <li><a href="#">Delete</a></li>
                     </ul>
                 </li>
