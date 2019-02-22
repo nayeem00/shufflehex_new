@@ -207,8 +207,9 @@ class PostController extends Controller
         $views = Post::find($id);
         $views->views += 1;
         $views->update();
+//        dd($views);
         $category = Category::where('category',$views->category)->first();
-        $user = User::find($views->user_id);
+        $postUser = User::find($views->user_id);
         $totalViews = PostView::where('user_id', $views->user_id)->sum('view');
         $thisStoryViews = PostView::where('post_id', $views->id)->sum('view');
         if ($totalViews >= 1000) {
@@ -220,7 +221,7 @@ class PostController extends Controller
         $postView->client_ip = $client_ip;
         $postView->post_id = $id;
         $postView->category_id = $category->id;
-        $postView->user_id = $user->id;
+        $postView->user_id = $postUser->id;
         $postView->save();
 //        dd($totalViews);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
@@ -230,12 +231,12 @@ class PostController extends Controller
 
         $post = Post::with('comments')->with('replies')->with('votes')->with('saved_stories')->with('comment_votes')->with('comment_reply_votes')->find($id);
         foreach ($post->comments as $comment){
-            $user = User::find($comment->user_id);
-            $comment->user = $user;
+            $commentUser = User::find($comment->user_id);
+            $comment->user = $commentUser;
         }
         foreach ($post->replies as $reply){
-            $user = User::find($reply->user_id);
-            $reply->user = $user;
+            $replyUser = User::find($reply->user_id);
+            $reply->user = $replyUser;
         }
         $post->views = $thisStoryViews;
         $tags = $post->tags;
@@ -359,22 +360,22 @@ class PostController extends Controller
             }
             if ($post->is_publish == 1) {
                 if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews', 'folders'));
                 } else {
-                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews'));
                 }
             } else {
                 if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews', 'folders'));
                 } else {
-                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews'));
                 }
             }
         }
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages.story', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+            return view('pages.story', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews', 'folders'));
         } else {
-            return view('pages.story', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+            return view('pages.story', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews'));
         }
 
     }

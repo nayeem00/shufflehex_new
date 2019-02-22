@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('css')
-
+    <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/view-story.css') }}">
 
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/add.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/poll.css') }}">
@@ -22,7 +22,10 @@
 
     <div class="box poll-details">
         <div class="box-header">
-            <h3>{{ $post->title }}</h3>
+            <h3 class="font18">{{ $post->title }}</h3>
+            <p class="mb-0" style="font-size: 12px"><span>Submitted by <strong><i
+                                class="fa fa-user"></i>&nbsp;{{ $post->username }}</strong> at {{ $post->created_at }}
+                    in <strong><i class="fa fa-tag"></i>&nbsp;{{ $post->category }}</strong></span></p>
         </div>
         <div class="plr-20">
             <img class="img-responsive" src="{{ url($post->featured_image) }}">
@@ -68,40 +71,40 @@
             @endif
             <?php $count++;
             ?>
-            <div class="row poll">
-                <div class="col-md-1 poll-votes">
-                    <div class="button">
+            <div class="row poll m-0">
+                <div class="col-xs-12">
+                    <h3 class="poll-title pull-left">
+                        <a class="font16 bold-600" href="{{ $item->link }}">{{ $item->title }}</a>
+                    </h3>
+                    <div class="pull-right">
                         @if($upVoteMatched == 1)
-                            <a class="btn btn-xs btn-default" onclick="upVote({{
-                                $item->id
-                                }})"><span  id="btn_upVote_{{ $item->id }}" class=".thumb-up glyphicon glyphicon-triangle-top" style="color: green"></span><span class="vote-counter text-center" id="upvote_count_{{ $item->id }}">{{ $item->upvotes }}</span> </a>
+                            <a class="btn btn-xs btn-vote-submit text-shufflered" onclick="upVote({{ $item->id }})">
+                                <i class="fa fa-chevron-up"></i>
+                                <span class="vote-counter text-center">{{ $item->upvotes }}</span>
+                            </a>
                         @else
-                            <a class="btn btn-xs btn-default" onclick="upVote({{
-                                $item->id
-                                }})"><span id="btn_upVote_{{ $item->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span><span class="vote-counter text-center" id="upvote_count_{{ $item->id }}">{{ $item->upvotes }}</span> </a>
+                            <a class="btn btn-xs btn-vote-submit" onclick="upVote({{ $item->id }})"><i
+                                        class="fa fa-chevron-up"></i>
+                                <span class="vote-counter text-center">{{ $item->upvotes }}</span>
+                            </a>
                         @endif
-                    </div>
-                    <div class="button">
-
                         @if($downVoteMatched == 1)
-                            <a class="btn btn-xs btn-default" onclick="downVote({{
-                                $item->id
-                                }})"><span id="btn_downVote_{{ $item->id }}" class="thumb-down glyphicon glyphicon-triangle-bottom" style="color: orangered"><span class="vote-counter text-center" id="downvote_count_{{ $item->id }}">{{ $item->downvotes }}</span></span> </a>
+                            <a class="btn btn-xs btn-vote-submit text-shufflered" onclick="downVote({{ $item->id }})">
+                                <i class="fa fa-chevron-down"></i>
+                                <span class="vote-counter text-center">{{ $item->downvotes }}</span>
+                            </a>
                         @else
-                            <a class="btn btn-xs btn-default " onclick="downVote({{
-                                $item->id
-                                }})"><span id="btn_downVote_{{ $item->id }}" class="thumb glyphicon glyphicon-triangle-bottom"></span><span class="vote-counter text-center" id="downvote_count_{{ $item->id }}">{{ $item->downvotes }}</span> </a>
+                            <a class="btn btn-xs btn-vote-submit" onclick="downVote({{ $item->id }})">
+                                <i class="fa fa-chevron-down"></i>
+                                <span class="vote-counter text-center">{{ $item->downvotes }}</span>
+                            </a>
                         @endif
                     </div>
                 </div>
-                <div class="col-md-11 media plr-0">
-                    <div class="poll-title">
-                        <h4>
-                            <a href="{{ $item->link }}">{{ $item->title }}</a>
-                        </h4>
-                    </div>
-                    <div class="poll-img">
-                        <img class="img-responsive" src="{{ url($item->featured_image) }}">
+
+                <div class="col-xs-12">
+                    <div class="poll-img w-100">
+                        <img class="img-responsive w-100" src="{{ url($item->featured_image) }}">
                     </div>
                     <div class="poll-desc">
                         <p>{{ $item->description }}</p>
@@ -111,7 +114,304 @@
 
         @endforeach
     </div>
+    <div class="box recent-stories vote">
+        <div class="box-header">Related Stories</div>
+        @foreach($relatedPost as $relPost)
+            <?php
+            $upVoteMatched = 0;
+            $votes = 0;
+            ?>
+            @foreach($relPost->votes as $key=>$vote)
+                <?php
+                $votes += $vote->vote;
+                ?>
+            @endforeach
+            @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+                @foreach($relPost->votes as $key=>$vote)
+                    @if($vote->user_id == Auth::user()->id && $vote->vote == 1)
+                        <?php $upVoteMatched = 1;?>
+                        @break
+                    @endif
+                @endforeach
+            @endif
+            <?php
+            $title = preg_replace('/\s+/', '-', $relPost->title);
+            $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+            $title = $title . '-' . $relPost->id;
+            ?>
+            <div class="row stories-item">
+                <div class="col-sm-12 pr-0 pl-0">
+                    <div class="img_box57_32">
+                        <a href="{{ url('story/'.$title) }}">
+                            <img class="img-responsive" src="{{ url($relPost->related_story_image) }}"
+                                 alt="Image not found!">
+                        </a>
+                    </div>
+                    <div class="img_box57_right mr-40">
+                        <a href="{{ url('story/'.$title) }}"><span class="story-title">{{ $relPost->title }}</span></a>
+                    </div>
+                    <div class="vote-submit-right text-center pull-right">
+                        @if($upVoteMatched == 1)
+                            <a class="text-center text-shufflered" onclick="upVote({{ $relPost->id }})">
+                                <span class="vote-icon">
+                                    <i class="fa fa-chevron-up"></i>
+                                </span>
+                                <span class="vote-counter">{{ $votes }}</span>
+                            </a>
+                        @else
+                            <a class="text-center" onclick="upVote({{ $relPost->id }})">
+                                <span class="vote-icon">
+                                    <i class="fa fa-chevron-up"></i>
+                                </span>
+                                <span class="vote-counter">{{ $votes }}</span>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
 
+    <div class="box about-author">
+        <div class="box-header">
+            <div class="pull-left">
+                <h4>About The Author</h4>
+            </div>
+            <div class="pull-right">
+                <a class="btn btn-danger" href="#">Donate Author</a>
+            </div>
+        </div>
+        <div class="pa-15">
+            <div class="author">
+                <img class="img-responsive author-img"
+                     src="@if (!empty($postUser->mini_profile_picture_link)) {{ asset( $postUser->mini_profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                <p class="author-name"><strong>{{ $postUser->name }}</strong></p>
+            </div>
+            @if(!empty($postUser->work_at))
+                <div class="info">
+                    <span class="info-icon"><i class="fa fa-briefcase"></i></span>
+                    <p class="info-txt">Works at <strong>{{ $postUser->work_at }}</strong></p>
+                </div>
+            @endif
+            @if(!empty($postUser->education))
+                <div class="info">
+                    <span class="info-icon"><i class="fa fa-graduation-cap "></i></span>
+                    <p class="info-txt">Studied at <strong>{{ $postUser->education }}</strong></p>
+                </div>
+            @endif
+            @if(!empty($postUser->location))
+                <div class="info">
+                    <span class="info-icon"><i class="fa fa-map-marker"></i></span>
+                    <p class="info-txt">Lives in <strong>{{ $postUser->location }}</strong></p>
+                </div>
+            @endif
+            @if(!empty($postUser->languages))
+                <div class="info">
+                    <span class="info-icon"><i class="fa fa-globe"></i></span>
+                    <p class="info-txt">Knows <strong>{{ $postUser->languages }}</strong></p>
+                </div>
+            @endif
+            @if(!empty($totalViews))
+                <div class="info">
+                    <span class="info-icon"><i class="fa fa-eye"></i></span>
+                    <p class="info-txt">{{ $totalViews }} Total Stories Views <br>
+                        <span class="light-title-sub">{{ $post->views }} views in this post</span>
+                    </p>
+                </div>
+            @endif
+        </div>
+    </div>
+
+    <div class="comment-section">
+        <div class="row comment-box">
+            <form id="addNewStory" action="{{ route('comment.store') }}" method="POST" role="form">
+                {{ csrf_field() }}
+                <div class="form-group">
+                    <textarea name="reply" placeholder="Comment..." id="storyDesc" class="form-control"></textarea>
+                </div>
+                {{--<input type="hidden" name="user_id" value="{{ Auth::user()->id }}">--}}
+                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                <div class="form-group" style="margin-top: 10px">
+                    <button type="submit" name="storySubmit" id="storySubmit" class="btn btn-danger pull-right">
+                        <i class="fa fa-send"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="comment">
+            @foreach($post->comments as $comment)
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="img-box32_32">
+                                    <a href="#">
+                                        <img class="img-circle" src="{{ asset('img/profile-header-orginal.jpg') }}"
+                                             alt="user profile">
+                                    </a>
+                                </div>
+                                <div class="img_box32_right">
+                                    <span class="comment-user text-primary"><strong>{{ $comment->username }}</strong>&nbsp;
+                                        <span class="small text-muted commentTime postTime">
+                                            {{ $comment->created_at }}
+                                        </span>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="comment-body">
+                            <p>{{ $comment->comment }}</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <?php $commentVotes = 0;?>
+                                @foreach($post->comment_votes as $key=>$vote)
+                                    @if($vote->comment_id == $comment->id)
+                                        <?php
+                                        $commentVotes += $vote->vote;
+                                        ?>
+                                    @endif
+                                @endforeach
+                                <?php $upVoteCommentMatched = 0;?>
+                                @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+                                    @foreach($post->comment_votes as $key=>$vote)
+                                        @if($vote->user_id == Auth::user()->id && $vote->vote == 1 && $vote->comment_id == $comment->id)
+                                            <?php $upVoteCommentMatched = 1;?>
+                                            @break
+                                        @endif
+                                    @endforeach
+                                @endif
+
+                                @if($upVoteCommentMatched == 1)
+                                    <a onclick="upVoteComment({{ $post->id.','.$comment->id }})"
+                                       id="btn_upVote_comment_{{ $comment->id }}" style="color: green"><span
+                                                class="thumb-up glyphicon glyphicon-triangle-top"></span>Upvote
+                                        <span class="vote-counter text-center"
+                                              id="vote_count_comment_{{ $comment->id }}">{{ $commentVotes }}</span></a>
+                                @else
+                                    <a onclick="upVoteComment({{ $post->id.','.$comment->id }})"
+                                       id="btn_upVote_comment_{{ $comment->id }}"><span
+                                                class="thumb glyphicon glyphicon-triangle-top"></span>Upvote
+                                        <span class="vote-counter text-center"
+                                              id="vote_count_comment_{{ $comment->id }}">{{ $commentVotes }}</span></a>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="reply">
+                            @foreach($post->replies as $reply)
+                                @if($comment->id == $reply->comment_id)
+                                    <div class="panel panel-success">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="img-box32_32">
+                                                        <a href="#">
+                                                            <img class="img-circle"
+                                                                 src="{{ asset('img/profile-header-orginal.jpg') }}"
+                                                                 alt="user profile">
+                                                        </a>
+                                                    </div>
+                                                    <div class="img_box32_right">
+                                                        <span class="reply-user text-primary"><strong>{{ $reply->username }}</strong>&nbsp;
+                                                        <span class="small text-muted commentTime postTime">
+                                                            {{ $reply->created_at }}
+                                                        </span>
+                                                    </span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="comment-body" style="max-width: 100%">
+                                                <p>{{ $reply->reply }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <?php $commentReplyVotes = 0;?>
+                                                    @foreach($post->comment_reply_votes as $key=>$vote)
+                                                        @if($vote->comment_id == $comment->id && $vote->reply_id == $reply->id)
+                                                            <?php
+                                                            $commentReplyVotes += $vote->vote;
+                                                            ?>
+                                                        @endif
+                                                    @endforeach
+                                                    <?php $upVoteCommentReplyMatched = 0;?>
+                                                    @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+                                                        @foreach($post->comment_reply_votes as $key=>$vote)
+                                                            @if($vote->user_id == Auth::user()->id && $vote->vote == 1 && $vote->comment_id == $comment->id && $vote->reply_id == $reply->id)
+                                                                <?php $upVoteCommentReplyMatched = 1;?>
+                                                                @break
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+
+                                                    @if($upVoteCommentReplyMatched == 1)
+                                                        <a onclick="upVoteCommentReply({{ $post->id.','.$comment->id.','.$reply->id }})"
+                                                           id="btn_upVote_comment_reply_{{ $reply->id }}"
+                                                           style="color: green"><span
+                                                                    class="thumb-up glyphicon glyphicon-triangle-top"></span>Upvote
+                                                            <span class="vote-counter text-center"
+                                                                  id="vote_count_comment_reply_{{ $reply->id }}">{{ $commentReplyVotes }}</span></a>
+                                                    @else
+                                                        <a onclick="upVoteCommentReply({{ $post->id.','.$comment->id.','.$reply->id }})"
+                                                           id="btn_upVote_comment_reply_{{ $reply->id }}"><span
+                                                                    class="thumb glyphicon glyphicon-triangle-top"></span>Upvote
+                                                            <span class="vote-counter text-center"
+                                                                  id="vote_count_comment_reply_{{ $reply->id }}">{{ $commentReplyVotes }}</span></a>
+                                                    @endif
+
+
+                                                    {{--@if(False)--}}
+
+                                                    {{--<a ><span   class="thumb-up glyphicon glyphicon-triangle-top" ></span>Upvote--}}
+                                                    {{--<span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span> </a>--}}
+                                                    {{--@else--}}
+                                                    {{--<a ><span  class="thumb glyphicon glyphicon-triangle-top" ></span>Upvote--}}
+                                                    {{--<span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>--}}
+                                                    {{--</a>--}}
+                                                    {{--@endif--}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+
+                            <div class="row reply-box">
+                                <form id="addNewStory" action="{{ route('reply.store') }}" method="POST" role="form">
+                                    {{ csrf_field() }}
+                                    <div class="col-md-10 col-sm-10 col-xs-10 form-group">
+                                        <textarea name="reply" placeholder="Reply..." id="storyDesc"
+                                                  class="form-control" rows="1"></textarea>
+                                    </div>
+                                    {{--<input type="hidden" name="user_id" value="{{ Auth::user()->id }}">--}}
+                                    <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                    <input type="hidden" name="comment_id" value="{{ $comment->id }}">
+                                    <div class="col-md-2 col-sm-2 col-xs-2 dis-n pr-0">
+                                        <button type="submit" name="storySubmit" id="storySubmit"
+                                                class="btn btn-danger pull-right">Reply
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-2 dis-show pr-0">
+                                        <button type="submit" name="storySubmit" id="storySubmit"
+                                                class="btn btn-danger pull-right">
+                                            <span class="thumb glyphicon glyphicon-send"></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
 
     <div class="save-page-modal modal fade" id="addPollItemModal" role="dialog">
         <div class="modal-dialog">
@@ -169,18 +469,7 @@
 {{--</div>--}}
 
 @section('js')
-    <!-- jQuery CDN -->
-    <!--         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- Bootstrap Js CDN -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-
-    <!-- jQuery Nicescroll CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a64cb7833dd1d0d"></script>
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
