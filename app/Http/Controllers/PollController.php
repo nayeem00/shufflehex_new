@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Embed\Embed;
@@ -41,6 +42,11 @@ class PollController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'title'=>'required',
+            'category'=>'required',
+            'description'=>'required'
+        ]);
 //        dd($request);
         $user = User::find(Auth::user()->id);
         if (Input::hasFile('image')) {
@@ -114,6 +120,7 @@ class PollController extends Controller
         $posts->is_publish = 0;
         $posts->save();
 
+        Toastr::success('Your poll created successfully', 'Success', ["positionClass" => "toast-top-right"]);
         $title = preg_replace('/\s+/', '-', $posts->title);
         $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
         $title = $title . '-' . $posts->id;

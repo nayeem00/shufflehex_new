@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Post;
@@ -121,7 +122,7 @@ class ArticleController extends Controller
         $title = preg_replace('/\s+/', '-', $posts->title);
         $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
         $title = $title . '-' . $posts->id;
-
+        Toastr::success('Your article submitted successfully', 'Success', ["positionClass" => "toast-top-right"]);
         return redirect('story/'.$title);
     }
 
