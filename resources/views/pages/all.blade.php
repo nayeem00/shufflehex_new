@@ -99,6 +99,8 @@
     <script src="{{ asset('ChangedDesign/js/filter-story.js') }}"></script>
     <script src="{{ asset('ChangedDesign/js/load-more.js') }}"></script>
 
+    
+
     <script>
         function upVote(post_id) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
