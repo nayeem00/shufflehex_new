@@ -25,7 +25,7 @@
 
             </div>
         </div>
-        @include('partials.filter_row',['posts' => $posts]);
+        @include('partials.filter_row',['posts' => $posts,'removeFilter' => []]);
         <div class="posts">
             @include('partials.post_item',['posts' => $posts]);
         </div>

@@ -222,12 +222,7 @@ $date = time_elapsed_string($post->created_at, false);
 @section('js')
 
     <script>
-        $( document ).ready(function() {
-            $("#latest_stories").attr("href", "{{ url('/story/latest/all') }}");
-            $("#top_stories").attr("href", "{{ url('/story/top/all') }}");
-            $("#popular_stories").attr("href", "{{ url('/story/popular/all') }}");
-            $("#trending_stories").attr("href", "{{ url('/story/trending/all') }}");
-        });
+
         function upVote(post_id){
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var property = 'btn_upVote_'+post_id;

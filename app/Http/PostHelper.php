@@ -157,8 +157,8 @@ class PostHelper
 
     }
 
-    public static function filterPostQuery($posts, $filterParams){
-        if($filterParams->timefilter != "none"){
+    public static function filterPostQuery($posts, $filterParams,$is_end = 0){
+        if($filterParams->timefilter != "none" && !$is_end){
             $filterDate = null;
             switch ($filterParams->timefilter){
                 case "day" : $filterDate = date("Y-m-d");break;
@@ -169,12 +169,12 @@ class PostHelper
             $posts = $posts->where('posts.created_at',">=",$filterDate);
         }
 
-        if($filterParams->topicsfilter != "none"){
+        if($filterParams->topicsfilter != "none"&& !$is_end){
             $fieldName = "is_".$filterParams->topicsfilter;
             $posts = $posts->where($fieldName,"=",1);
         }
 
-        if($filterParams->otherfilter != "none"){
+        if($filterParams->otherfilter != "none" && $is_end){
             $posts = $posts->groupBy("posts.id");
             switch ($filterParams->otherfilter){
                 case "upvote" :$posts = $posts->leftJoin("votes", "votes.post_id", "=", "posts.id")->orderByDesc(DB::raw                                    ('SUM(votes.vote)'));break;
@@ -182,6 +182,42 @@ class PostHelper
                 case "page-view" :  $posts = $posts->leftJoin("post_views", "post_views.post_id", "=", "posts.id")                                              ->orderByDesc(DB::raw('COUNT(post_views.id)'));break;
                 case "most-comment" :  $posts = $posts->leftJoin("comments", "comments.post_id", "=", "posts.id")                                                   ->orderByDesc(DB::raw('COUNT(comments.id)'));break;
             }
+        }
+
+        return $posts;
+    }
+
+    public static function initialQueryByPage($posts, $request){
+        if($request->pageKey == "story-category"){
+            $searchCategory = str_replace("+", $request->searchCategory," ");
+            $posts = $posts->where('category', '=', $request->searchCategory);
+        }else if($request->pageKey == "story-domain"){
+            $posts = $posts->where('domain', $request->searchCategory);
+        }else if($request->pageKey == "story-latest"){
+            $posts = $posts->orderByDesc('created_at');
+        }else if($request->pageKey == "story-top"){
+            $posts = $posts->leftJoin("votes", "votes.post_id", "=", "posts.id")
+                ->where("votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+                ->groupBy("posts.id")
+                ->orderByDesc(DB::raw("SUM(votes.vote)"));
+        }else if($request->pageKey == "story-trending"){
+
+            $posts = $posts ->leftJoin("votes", "votes.post_id", "=", "posts.id")
+                ->leftJoin("comments", "comments.post_id", "=", "posts.id")
+                ->leftJoin("replies", "replies.post_id", "=", "posts.id")->where(function($query) {
+                    $trendingStroyFrom = SettingsHelper::getSetting('trending_story_from')->value;
+                    $query->orWhere("votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingStroyFrom, time())))
+                        ->orWhere("comments.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingStroyFrom, time())))
+                        ->orWhere("replies.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingStroyFrom, time())));
+                })
+
+                ->groupBy("posts.id")
+                ->orderByDesc(DB::raw("SUM(votes.vote) + COUNT(comments.id)+ COUNT(replies.id)"));
+        }else if($request->pageKey == "story-popular"){
+            $posts = $posts ->leftJoin("post_views", "post_views.post_id", "=", "posts.id")
+                ->where("post_views.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+                ->groupBy("posts.id")
+                ->orderByDesc(DB::raw("COUNT(post_views.id)"));
         }
 
         return $posts;
