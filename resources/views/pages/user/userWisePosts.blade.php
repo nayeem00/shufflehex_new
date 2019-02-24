@@ -34,37 +34,8 @@
                 <h3 class="profile-nav-link m-auto">POSTS</h3>
             </div>
         </div>
-        <div id="profile-content">
-            @foreach($posts as $post)
-
-
-                <?php
-                $title = preg_replace('/\s+/', '-', $post->title);
-                $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
-                $title = $title.'-'.$post->id;
-
-                ?>
-
-                <div class="story-item">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-11 col-xs-10 pr-0">
-                            <div class="story-img img-box150_84">
-                                <a href="{{ url('story/'.$title) }}"><img class=""
-                                                                          src="{{ url($post->story_list_image) }}"></a>
-                            </div>
-                            <div class="img_box150_right">
-                                <h4 class="story-title"><a href="{{ url('story/'.$title) }}"> {{ $post->title }}</a>
-                                </h4>
-                                <?php
-                                $description = substr($post->description, 0, 120)
-
-                                ?>
-                                <p>{{ $description }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+        <div id="profile-content posts">
+            @include('partials.user_post_item',['posts' => $posts]);
         </div>
     </div>
     <div class="overlay"></div>

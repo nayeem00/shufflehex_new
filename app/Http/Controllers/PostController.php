@@ -63,13 +63,14 @@ class PostController extends Controller
 //        dd($posts);
 
 //        dd($posts);
+        $pageKey = "story-main";
 
         $posts = PostHelper::addAditionalData($posts);
 //        dd($result);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/all', compact('posts', 'folders', 'page1'));
+            return view('pages/all', compact('posts', 'folders', 'pageKey'));
         } else {
-            return view('pages/all', compact('posts', 'page1'));
+            return view('pages/all', compact('posts', 'page1','pageKey'));
         }
     }
 
@@ -492,15 +493,17 @@ class PostController extends Controller
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-        $posts = Post::with('votes')->with('comments')->with('saved_stories')->orderByDesc('created_at')->get();
+        $postLimit = SettingsHelper::getSetting('story_limit');
+        $posts = Post::with('votes')->where('is_publish', 1)->with('comments')->with('saved_stories')->orderByDesc('created_at')->offset(0)->limit($postLimit->value)->get();
 
         $page = 'Latest';
         $posts = PostHelper::addAditionalData($posts);
+        $pageKey = "story-latest";
 
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/all', compact('posts', 'folders', 'page'));
+            return view('pages/all', compact('posts', 'folders', 'page','pageKey'));
         } else {
-            return view('pages/all', compact('posts', 'page'));
+            return view('pages/all', compact('posts', 'page','pageKey'));
         }
     }
 
@@ -509,19 +512,22 @@ class PostController extends Controller
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-
-        $posts = Post::select('posts.*')->with('votes')->with('comments')->with('saved_stories')
+        $postLimit = SettingsHelper::getSetting('story_limit');
+        $posts = Post::select('posts.*')->where('is_publish', 1)->with('votes')->with('comments')->with('saved_stories')
             ->leftJoin("votes", "votes.post_id", "=", "posts.id")
             ->where("votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
             ->groupBy("posts.id")
             ->orderByDesc(DB::raw("SUM(votes.vote)"))
+            ->offset(0)
+            ->limit($postLimit->value)
             ->get();
         $page = 'Top';
+        $pageKey = "story-top";
         $posts = PostHelper::addAditionalData($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/all' , compact('posts', 'folders', 'page'));
+            return view('pages/all' , compact('posts', 'folders', 'page','pageKey'));
         } else {
-            return view('pages/all', compact('posts', 'page'));
+            return view('pages/all', compact('posts', 'page','pageKey'));
         }
     }
 
@@ -530,19 +536,22 @@ class PostController extends Controller
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-
-        $posts = Post::select('posts.*')->with('votes')->with('comments')->with('saved_stories')
+        $postLimit = SettingsHelper::getSetting('story_limit');
+        $posts = Post::select('posts.*')->where('is_publish', 1)->with('votes')->with('comments')->with('saved_stories')
             ->leftJoin("post_views", "post_views.post_id", "=", "posts.id")
             ->where("post_views.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
             ->groupBy("posts.id")
             ->orderByDesc(DB::raw("COUNT(post_views.id)"))
+            ->offset(0)
+            ->limit($postLimit->value)
             ->get();
         $page = 'Popular';
+        $pageKey = "story-popular";
         $posts = PostHelper::addAditionalData($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/all' , compact('posts', 'folders', 'page'));
+            return view('pages/all' , compact('posts', 'folders', 'page','pageKey'));
         } else {
-            return view('pages/all', compact('posts', 'page'));
+            return view('pages/all', compact('posts', 'page','pageKey'));
         }
     }
 
@@ -552,9 +561,9 @@ class PostController extends Controller
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
 
-
+        $postLimit = SettingsHelper::getSetting('story_limit');
         $trendingStroyFrom = SettingsHelper::getSetting('trending_story_from')->value;
-        $posts = Post::select('posts.*')->with('votes')->with('comments')->with('saved_stories')
+        $posts = Post::select('posts.*')->where('is_publish', 1)->with('votes')->with('comments')->with('saved_stories')
             ->leftJoin("votes", "votes.post_id", "=", "posts.id")
             ->leftJoin("comments", "comments.post_id", "=", "posts.id")
             ->leftJoin("replies", "replies.post_id", "=", "posts.id")
@@ -564,14 +573,17 @@ class PostController extends Controller
             ->groupBy("posts.id")
 //            ->orderBy(DB::raw('SUM(votes.vote)'))
             ->orderByDesc(DB::raw("SUM(votes.vote) + COUNT(comments.id)+ COUNT(replies.id)"))
+            ->offset(0)
+            ->limit($postLimit->value)
             ->get();
             $page = 'Trending';
             $posts = PostHelper::addAditionalData($posts);
 //        dd($posts);
+        $pageKey = "story-trending";
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/all' , compact('posts', 'folders', 'page'));
+            return view('pages/all' , compact('posts', 'folders', 'page','pageKey'));
         } else {
-            return view('pages/all', compact('posts', 'page'));
+            return view('pages/all', compact('posts', 'page','pageKey'));
         }
     }
 
@@ -853,12 +865,17 @@ class PostController extends Controller
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-        $posts = Post::with('votes')->with('comments')->with('saved_stories')->where('username', '=', $username)->orderBy('views', 'DESC')->get();
+        $postLimit = SettingsHelper::getSetting('story_limit');
+        $posts = Post::with('votes')->with('comments')->with('saved_stories')->where('username', '=', $username)->orderBy('views', 'DESC')->offset(0)->limit($postLimit->value)->get();
         $user = User::where('username', $username)->first();
+        $pageKey = "story-user";
+
+        $posts = PostHelper::addAditionalData($posts);
+
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/user/userWisePosts', compact('posts', 'user', 'folders'));
+            return view('pages/user/userWisePosts', compact('posts', 'user', 'folders', 'pageKey'));
         } else {
-            return view('pages/user/userWisePosts', compact('posts', 'user'));
+            return view('pages/user/userWisePosts', compact('posts', 'user', 'pageKey'));
         }
     }
 
@@ -869,12 +886,20 @@ class PostController extends Controller
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-        $posts = Post::with('votes')->with('comments')->with('saved_stories')->where('domain', $domain)->orderBy('views', 'DESC')->get();
+        $postLimit = SettingsHelper::getSetting('story_limit');
+        $posts = Post::with('votes')->with('comments')->with('saved_stories') ->where('is_publish', 1)->where('domain', $domain)->orderBy('views', 'DESC')->offset(0)->limit($postLimit->value)->get();
+
+
+        $pageKey = "story-domain";
+
+        $posts = PostHelper::addAditionalData($posts);
 
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/domainWisePosts', compact('posts', 'folders', 'domain'));
+            return view('pages/domainWisePosts', compact('posts', 'folders', 'domain', 'pageKey'));
         } else {
-            return view('pages/domainWisePosts', compact('posts', 'domain'));
+            return view('pages/domainWisePosts', compact('posts', 'domain', 'pageKey'
+
+            ));
         }
     }
 

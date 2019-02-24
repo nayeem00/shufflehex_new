@@ -33,7 +33,7 @@ function loadMorePost() {
         filterParam : filterParam ,
         pageKey: pageKey
     };
-    if(pageKey == 'story-category'){
+    if(pageKey == 'story-category' || pageKey == 'story-domain'){
         var searchCategory = $('#search-category').data("value");
         requestParam.searchCategory = searchCategory;
     }
