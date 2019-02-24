@@ -22,15 +22,19 @@ class AjaxController extends Controller
             ->with('comments')
             ->with('saved_stories');
 
-        if($request->pageKey == "story-category"){
-            $searchCategory = str_replace("+", $request->searchCategory," ");
-            $posts = $posts->where('category', '=', $request->searchCategory);
-        }
+
 
         //--------------filter here if exists ---------//
         if($request->filterParam){
             $filterParams = (object) $request->filterParam;
             PostHelper::filterPostQuery($posts,$filterParams);
+        }
+
+        PostHelper::initialQueryByPage($posts,$request);
+
+        if($request->filterParam){
+            $filterParams = (object) $request->filterParam;
+            PostHelper::filterPostQuery($posts,$filterParams,1);
         }
 
 
@@ -60,18 +64,17 @@ class AjaxController extends Controller
             ->with('saved_stories');
 
 
-
-        if($request->pageKey == "story-category"){
-            $searchCategory = str_replace("+", $request->searchCategory," ");
-            $posts = $posts->where('category', '=', $request->searchCategory);
-        }
-
-
-
         //--------------filter here if exists ---------//
         if($request->filterParam){
             $filterParams = (object) $request->filterParam;
             PostHelper::filterPostQuery($posts,$filterParams);
+        }
+
+        PostHelper::initialQueryByPage($posts,$request);
+
+        if($request->filterParam){
+            $filterParams = (object) $request->filterParam;
+            PostHelper::filterPostQuery($posts,$filterParams,1);
         }
 
 

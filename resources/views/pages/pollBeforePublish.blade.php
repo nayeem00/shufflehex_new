@@ -14,6 +14,44 @@
         }
     </style>
 @endsection
+<?php
+$upVoteMatched = 0;
+$downVoteMatched = 0;
+$savedStory = 0;
+$votes = 0;
+$date = date('j F Y', strtotime($post->created_at));
+
+?>
+@foreach($post->votes as $key=>$vote)
+    <?php
+    $votes += $vote->vote;
+    ?>
+@endforeach
+@if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+    @foreach($post->votes as $key=>$vote)
+        @if($vote->user_id == Auth::user()->id && $vote->vote == 1)
+            <?php $upVoteMatched = 1;?>
+            @break
+        @endif
+    @endforeach
+    @foreach($post->votes as $key=>$vote)
+        @if($vote->user_id == Auth::user()->id && $vote->vote == -1)
+            <?php $downVoteMatched = 1;?>
+            @break
+        @endif
+    @endforeach
+    @foreach($post->saved_stories as $key=>$saved)
+        @if($saved->user_id == Auth::user()->id && $saved->post_id == $post->id)
+            <?php $savedStory = 1;?>
+            @break
+        @endif
+    @endforeach
+@endif
+<?php
+$title = preg_replace('/\s+/', '-', $post->title);
+$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+$title = $title . '-' . $post->id;
+?>
 @section('content')
 
     {{----------------------------- store current url to session -----------------------}}
@@ -35,7 +73,8 @@
             <p> {!! $post->description !!}  </p>
         </div>
 
-
+        @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+            @if($post->user_id == Auth::user()->id)
         <div id="addItemBlock" style="padding: 10px 20px;">
             <form id="addItemForm" class="addLinksForm" action="{{ route('poll_item.store') }}" method="POST" enctype="multipart/form-data" role="form">
                 {{ csrf_field() }}
@@ -48,8 +87,9 @@
                 <input type="submit" class="btn btn-publish btn-danger btn-block hidden" value="Publish">
                 </div>
             </form>
-
         </div>
+            @endif
+        @endif
         <?php $count = 0;
         //        print_r($post->poll_items->poll_votes);
         //        die();
@@ -76,6 +116,24 @@
                     <h3 class="poll-title pull-left">
                         <a class="font16 bold-600" href="{{ $item->link }}">{{ $item->title }}</a>
                     </h3>
+                    @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+                        @if($postUser->id == Auth::user()->id)
+                            <div class="text-right">
+                            <ul class="list-inline vote-submit-list mb-0 pull-right">
+                                <li class="dropdown">
+                                    <a href="#" style="background-color: #fff; border: none;" class="btn dropdown-toggle"
+                                       type="button"
+                                       data-toggle="dropdown">
+                                        <i class="fa fa-ellipsis-v"></i></a>
+                                    <ul class="edit-menu dropdown-menu">
+                                        <li><a href="{{ url('poll_item/'.$item->id.'/edit') }}">Edit</a></li>
+                                        <li><a href="#">Delete</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            </div>
+                        @endif
+                    @endif
                     <div class="pull-right">
                         @if($upVoteMatched == 1)
                             <a class="btn btn-xs btn-vote-submit text-shufflered" onclick="upVote({{ $item->id }})">
@@ -113,6 +171,78 @@
             </div>
 
         @endforeach
+    </div>
+    <div class="row box vote-and-share mr-0 ml-0" style="margin-bottom: 15px !important;">
+        <div class="col-xs-6">
+            <a href="#" class="btn btn-default btn-twitter text-twitter"><i
+                        class="fa fa-twitter"></i></a>
+            <a href="#" class="btn btn-default btn-facebook text-facebook"><i class="fa fa-facebook"></i></a>
+        </div>
+        <div class="col-xs-6 text-right">
+            <ul class="list-inline vote-submit-list mb-0">
+                @if($upVoteMatched == 1)
+                    <li>
+                        <a class="btn" onclick="upVote({{$post->id}})">
+                                <span class="shuffle_vote text-shufflered">
+                                    <i class="fa fa-chevron-up"></i>
+                                </span>
+                        </a>
+                        <span class="vote-counter">{{ $votes }}</span>
+                        <a class="btn" onclick="downVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-down"></i>
+                                </span>
+                        </a>
+                    </li>
+                @else
+                    <li>
+                        <a class="btn" onclick="upVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-up"></i>
+                                </span>
+                        </a>
+                        <span class="vote-counter">{{ $votes }}</span>
+                        <a class="btn" onclick="downVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-down"></i>
+                                </span>
+                        </a>
+                    </li>
+                @endif
+                @if($savedStory == 1)
+                    <li>
+                        <a class="btn" onclick="saveStory({{$post->id}})">
+                                <span class="saved" id="btn_saveStory_{{ $post->id }}"><i
+                                            class="fa fa-bookmark"></i></span>
+                        </a>
+                    </li>
+
+                @else
+                    <li><a class="btn" onclick="saveStory({{$post->id}})">
+                            <span class="saved" id="btn_saveStory_{{ $post->id }}">
+                                <i class="fa fa-bookmark"></i>
+                            </span>
+                        </a>
+                    </li>
+                @endif
+                @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+                    @if($postUser->id == Auth::user()->id)
+                        <li class="dropdown">
+                            <a href="#" style="background-color: #fff; border: none;" class="btn dropdown-toggle"
+                               type="button"
+                               data-toggle="dropdown">
+                                <i class="fa fa-ellipsis-v"></i></a>
+                            <ul class="edit-menu dropdown-menu">
+                                <li><a href="{{ url('story/'.$title.'/edit') }}">Edit</a></li>
+                                <li><a href="#">Delete</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                @endif
+            </ul>
+
+
+        </div>
     </div>
     <div class="box recent-stories vote">
         <div class="box-header">Related Stories</div>
@@ -413,7 +543,7 @@
         </div>
     </div>
 
-    <div class="save-page-modal modal fade" id="addPollItemModal" role="dialog">
+    <div class="save-page-modal modal fade" id=" " role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">

@@ -31,15 +31,22 @@
 
             @endif
         </div>
-        @include('partials.filter_row',['posts' => $posts]);
+
+        <?php if($pageKey == "story-main") { ?>
+
+        @include('partials.filter_row',['posts' => $posts,'removeFilter' => []])
+        <?php } else { ?>
+        @include('partials.filter_row',['posts' => $posts,'removeFilter' => ["other" => 'other']])
+        <?php } ?>
+
         <div class="posts">
-            @include('partials.post_item',['posts' => $posts]);
+            @include('partials.post_item',['posts' => $posts])
         </div>
 
     </div>
     <?php $offset = SettingsHelper::getSetting('story_limit') ?>
     <input type="hidden" value="<?= $offset->value?>" id="post-count-offset" data-offset="<?= $offset->value?>">
-    <input type="hidden" value="" id="page-key" data-page="story-main">
+    <input type="hidden" value="" id="page-key" data-page="<?= $pageKey ?>">
     <div class="text-center">
         <label style="font-size: 14px" class="text-danger text-center no-post-available"></label>
     </div>
@@ -98,6 +105,8 @@
 
     <script src="{{ asset('ChangedDesign/js/filter-story.js') }}"></script>
     <script src="{{ asset('ChangedDesign/js/load-more.js') }}"></script>
+
+
 
     <script>
         function upVote(post_id) {

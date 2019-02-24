@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Embed\Embed;
@@ -110,7 +111,12 @@ class PollItemController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pollItem = PollItem::find($id);
+        if ($pollItem->user_id ==Auth::user()->id ){
+            return view('pages.editPollItem', compact('pollItem'));
+        } else{
+            return redirect()->back();
+        }
     }
 
     /**
@@ -122,7 +128,44 @@ class PollItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find(Auth::user()->id);
+        $pollItem = PollItem::find($id);
+        $post = Post::find($pollItem->post_id);
+        if (Input::hasFile('image')) {
+            $img = Input::file('image');
+//        $img=$_FILES['image'];
+            $imgName = $img->getClientOriginalName();
+            if ($imgName == "") {
+                echo "Select an image please!!!";
+            } else {
+                $image = $request->image;
+                $extension = $image->getClientOriginalExtension();//get image extension only
+                $imageOriginalName = $image->getClientOriginalName();
+                $basename = substr($imageOriginalName, 0, strrpos($imageOriginalName, "."));//get image name without extension
+                $imageName = $basename . date("YmdHis") . '.' . $extension;//make new name
+                $picture = 'images/lists/pollItems/' . $imageName;
+                $imageSave = Intervention::make($image);
+                $resizedImage = $imageSave->resize(600, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $save = $resizedImage->save($picture);
+                    $pollItem->title = $request->title;
+                    $pollItem->featured_image = $picture;
+                    $pollItem->description = $request->description;
+                    $pollItem->update();
+
+            }
+        } else{
+            $pollItem->title = $request->title;
+            $pollItem->description = $request->description;
+            $pollItem->update();
+        }
+
+        $title = preg_replace('/\s+/', '-', $post->title);
+        $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+        $title = $title . '-' . $post->id;
+        Toastr::success('Item updated successfully!', 'Success', ["positionClass" => "toast-top-right"]);
+        return redirect('story/' . $title);
     }
 
     /**

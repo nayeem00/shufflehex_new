@@ -54,6 +54,7 @@ $date = date('j F Y', strtotime($post->created_at));
 $title = preg_replace('/\s+/', '-', $post->title);
 $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
 $title = $title . '-' . $post->id;
+$storyFullUrl = $_SERVER['REQUEST_URI'];
 ?>
 @section('content')
     {{----------------------------- store current url to session -----------------------}}
@@ -99,70 +100,72 @@ $title = $title . '-' . $post->id;
     </div>
     <div class="row box vote-and-share mr-0 ml-0" style="margin-bottom: 15px !important;">
         <div class="col-xs-6">
-            <a href="#" class="btn btn-default btn-twitter text-twitter"><i
+            <a href="{{'https://twitter.com/intent/tweet?text='.$post->title. ' - '.  $storyFullUrl }}" class="btn btn-default btn-twitter text-twitter" target="_blank" rel="nofollow"><i
                         class="fa fa-twitter"></i></a>
             <a href="#" class="btn btn-default btn-facebook text-facebook"><i class="fa fa-facebook"></i></a>
         </div>
         <div class="col-xs-6 text-right">
             <ul class="list-inline vote-submit-list mb-0">
-                @if($upVoteMatched == 1)
-                    <li>
-                        <a class="btn" onclick="upVote({{$post->id}})">
-                                <span class="shuffle_vote text-shufflered">
-                                    <i class="fa fa-chevron-up"></i>
-                                </span>
-                        </a>
-                        <span class="vote-counter">{{ $votes }}</span>
-                        <a class="btn" onclick="downVote({{$post->id}})">
-                                <span class="shuffle_vote">
-                                    <i class="fa fa-chevron-down"></i>
-                                </span>
-                        </a>
-                    </li>
-                @else
-                    <li>
-                        <a class="btn" onclick="upVote({{$post->id}})">
+
+                <li>
+                    @if($upVoteMatched == 1)
+                        <a class="btn text-shufflered" id="upvote_icon_{{$post->id}}" onclick="upVote({{$post->id}})">
                                 <span class="shuffle_vote">
                                     <i class="fa fa-chevron-up"></i>
                                 </span>
                         </a>
-                        <span class="vote-counter">{{ $votes }}</span>
-                        <a class="btn" onclick="downVote({{$post->id}})">
+                    @else
+                        <a class="btn" id="upvote_icon_{{$post->id}}" onclick="upVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-up"></i>
+                                </span>
+                        </a>
+                    @endif
+                    <span class="vote-counter" id="vote_count_{{$post->id}}">{{ $votes }}</span>
+                    @if($downVoteMatched == 1)
+                        <a class="btn text-shufflered" id="downvote_icon_{{$post->id}}"
+                           onclick="downVote({{$post->id}})">
                                 <span class="shuffle_vote">
                                     <i class="fa fa-chevron-down"></i>
                                 </span>
                         </a>
-                    </li>
-                @endif
+                    @else
+                        <a class="btn" id="downvote_icon_{{$post->id}}" onclick="downVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-down"></i>
+                                </span>
+                        </a>
+                    @endif
+                </li>
+
                 @if($savedStory == 1)
                     <li>
                         <a class="btn" onclick="saveStory({{$post->id}})">
-                                <span class="saved" id="btn_saveStory_{{ $post->id }}"><i
-                                            class="fa fa-bookmark"></i></span>
+                                <span class="saved"><i class="fa fa-bookmark text-shufflered" id="btn_saveStory_{{ $post->id }}"></i></span>
                         </a>
                     </li>
 
                 @else
                     <li><a class="btn" onclick="saveStory({{$post->id}})">
-                            <span class="saved" id="btn_saveStory_{{ $post->id }}">
-                                <i class="fa fa-bookmark"></i>
+                            <span class="saved">
+                                <i class="fa fa-bookmark" id="btn_saveStory_{{ $post->id }}"></i>
                             </span>
                         </a>
                     </li>
                 @endif
                 @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
-                @if($postUser->id == Auth::user()->id)
-                <li class="dropdown">
-                    <a href="#" style="background-color: #fff; border: none;" class="btn dropdown-toggle"
-                       type="button"
-                       data-toggle="dropdown">
-                        <i class="fa fa-ellipsis-v"></i></a>
-                    <ul class="edit-menu dropdown-menu">
-                        <li><a href="{{ url('story/edit/'.$title) }}">Edit</a></li>
-                        <li><a href="#">Delete</a></li>
-                    </ul>
-                </li>
-                @endif
+                    @if($postUser->id == Auth::user()->id)
+                        <li class="dropdown">
+                            <a href="#" style="background-color: #fff; border: none;" class="btn dropdown-toggle"
+                               type="button"
+                               data-toggle="dropdown">
+                                <i class="fa fa-ellipsis-v"></i></a>
+                            <ul class="edit-menu dropdown-menu">
+                                <li><a href="{{ url('story/'.$title.'/edit') }}">Edit</a></li>
+                                <li><a href="#">Delete</a></li>
+                            </ul>
+                        </li>
+                    @endif
                 @endif
             </ul>
 
@@ -208,18 +211,18 @@ $title = $title . '-' . $post->id;
                     </div>
                     <div class="vote-submit-right text-center pull-right">
                         @if($upVoteMatched == 1)
-                            <a class="text-center text-shufflered" onclick="upVote({{ $relPost->id }})">
-                                <span class="vote-icon">
+                            <a class="text-center" onclick="upVote({{ $relPost->id }})">
+                                <span class="vote-icon text-shufflered" id="upvote_icon_{{$relPost->id}}">
                                     <i class="fa fa-chevron-up"></i>
                                 </span>
-                                <span class="vote-counter">{{ $votes }}</span>
+                                <span class="vote-counter" id="vote_count_{{$relPost->id}}">{{ $votes }}</span>
                             </a>
                         @else
                             <a class="text-center" onclick="upVote({{ $relPost->id }})">
-                                <span class="vote-icon">
+                                <span class="vote-icon" id="upvote_icon_{{$relPost->id}}">
                                     <i class="fa fa-chevron-up"></i>
                                 </span>
-                                <span class="vote-counter">{{ $votes }}</span>
+                                <span class="vote-counter" id="vote_count_{{$relPost->id}}">{{ $votes }}</span>
                             </a>
                         @endif
                     </div>
@@ -289,7 +292,7 @@ $title = $title . '-' . $post->id;
                 <input type="hidden" name="post_id" value="{{ $post->id }}">
                 <div class="form-group" style="margin-top: 10px">
                     <button type="submit" name="storySubmit" id="storySubmit" class="btn btn-danger pull-right">
-                        <i class="fa fa-send"></i>
+                        Comment
                     </button>
                 </div>
             </form>
@@ -301,15 +304,18 @@ $title = $title . '-' . $post->id;
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-md-10 col-xs-10 col-sm-10">
                                 <div class="img-box32_32">
                                     <a href="{{ url('profile/'.$comment->user->username) }}">
-                                        <img class="img-circle" src="@if (!empty($comment->user->mini_profile_picture_link)) {{ asset( $comment->user->profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif"
+                                        <img class="img-circle"
+                                             src="@if (!empty($comment->user->mini_profile_picture_link)) {{ asset( $comment->user->profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif"
                                              alt="user profile">
                                     </a>
                                 </div>
                                 <div class="img_box32_right">
-                                    <span class="comment-user text-primary"><strong><a href="{{ url('profile/'.$comment->user->username) }}" rel="nofollow">{{ $comment->username }}</a></strong>&nbsp;
+                                    <span class="comment-user text-primary"><strong><a
+                                                    href="{{ url('profile/'.$comment->user->username) }}"
+                                                    rel="nofollow">{{ $comment->username }}</a></strong>&nbsp;
                                         <span class="small text-muted commentTime postTime">
                                             {{ $comment->created_at }}
                                         </span>
@@ -317,14 +323,7 @@ $title = $title . '-' . $post->id;
                                 </div>
 
                             </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="comment-body">
-                            <p>{{ $comment->comment }}</p>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-2 col-xs-2 col-sm-2">
                                 <?php $commentVotes = 0;?>
                                 @foreach($post->comment_votes as $key=>$vote)
                                     @if($vote->comment_id == $comment->id)
@@ -344,19 +343,22 @@ $title = $title . '-' . $post->id;
                                 @endif
 
                                 @if($upVoteCommentMatched == 1)
-                                        <a onclick="upVoteComment({{ $post->id.','.$comment->id }})"
-                                           id="btn_upVote_comment_{{ $comment->id }}" style="color: green"><span
-                                                    class="thumb-up glyphicon glyphicon-triangle-top"></span>Upvote
-                                            <span class="vote-counter text-center"
-                                                  id="vote_count_comment_{{ $comment->id }}">{{ $commentVotes }}</span></a>
+                                    <a onclick="upVoteComment({{ $post->id.','.$comment->id }})">
+                                        <span class="thumb-up fa fa-chevron-up text-shufflered" id="btn_upVote_comment_{{ $comment->id }}"></span>
+                                        <span class="vote-counter text-center"
+                                              id="vote_count_comment_{{ $comment->id }}">{{ $commentVotes }}</span></a>
                                 @else
-                                        <a onclick="upVoteComment({{ $post->id.','.$comment->id }})"
-                                           id="btn_upVote_comment_{{ $comment->id }}"><span
-                                                    class="thumb glyphicon glyphicon-triangle-top"></span>Upvote
-                                            <span class="vote-counter text-center"
-                                                  id="vote_count_comment_{{ $comment->id }}">{{ $commentVotes }}</span></a>
+                                    <a onclick="upVoteComment({{ $post->id.','.$comment->id }})">
+                                        <span class="thumb fa fa-chevron-up" id="btn_upVote_comment_{{ $comment->id }}"></span>
+                                        <span class="vote-counter text-center"
+                                              id="vote_count_comment_{{ $comment->id }}">{{ $commentVotes }}</span></a>
                                 @endif
                             </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="comment-body">
+                            <p>{{ $comment->comment }}</p>
                         </div>
                         <div class="reply">
                             @foreach($post->replies as $reply)
@@ -364,7 +366,7 @@ $title = $title . '-' . $post->id;
                                     <div class="panel panel-success">
                                         <div class="panel-heading">
                                             <div class="row">
-                                                <div class="col-xs-12">
+                                                <div class="col-md-10 col-xs-10 col-sm-10">
                                                     <div class="img-box32_32">
                                                         <a href="{{ url('profile/'.$reply->user->username) }}">
                                                             <img class="img-circle"
@@ -373,22 +375,16 @@ $title = $title . '-' . $post->id;
                                                         </a>
                                                     </div>
                                                     <div class="img_box32_right">
-                                                        <span class="reply-user text-primary"><strong><a href="{{ url('profile/'.$reply->user->username) }}" rel="nofollow"> {{ $reply->username }}</a></strong>&nbsp;
+                                                        <span class="reply-user text-primary"><strong><a
+                                                                        href="{{ url('profile/'.$reply->user->username) }}"
+                                                                        rel="nofollow"> {{ $reply->username }}</a></strong>&nbsp;
                                                         <span class="small text-muted commentTime postTime">
                                                             {{ $reply->created_at }}
                                                         </span>
                                                     </span>
                                                     </div>
-
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="comment-body" style="max-width: 100%">
-                                                <p>{{ $reply->reply }}</p>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-2 col-xs-2 col-sm-2">
                                                     <?php $commentReplyVotes = 0;?>
                                                     @foreach($post->comment_reply_votes as $key=>$vote)
                                                         @if($vote->comment_id == $comment->id && $vote->reply_id == $reply->id)
@@ -408,31 +404,20 @@ $title = $title . '-' . $post->id;
                                                     @endif
 
                                                     @if($upVoteCommentReplyMatched == 1)
-                                                            <a onclick="upVoteCommentReply({{ $post->id.','.$comment->id.','.$reply->id }})"
-                                                               id="btn_upVote_comment_reply_{{ $reply->id }}"
-                                                               style="color: green"><span
-                                                                        class="thumb-up glyphicon glyphicon-triangle-top"></span>Upvote
-                                                                <span class="vote-counter text-center"
-                                                                      id="vote_count_comment_reply_{{ $reply->id }}">{{ $commentReplyVotes }}</span></a>
+                                                        <a onclick="upVoteCommentReply({{ $post->id.','.$comment->id.','.$reply->id }})"><span class="thumb-up fa fa-chevron-up text-shufflered" id="btn_upVote_comment_reply_{{ $reply->id }}"></span>
+                                                            <span class="vote-counter text-center"
+                                                                  id="vote_count_comment_reply_{{ $reply->id }}">{{ $commentReplyVotes }}</span></a>
                                                     @else
-                                                            <a onclick="upVoteCommentReply({{ $post->id.','.$comment->id.','.$reply->id }})"
-                                                               id="btn_upVote_comment_reply_{{ $reply->id }}"><span
-                                                                        class="thumb glyphicon glyphicon-triangle-top"></span>Upvote
-                                                                <span class="vote-counter text-center"
-                                                                      id="vote_count_comment_reply_{{ $reply->id }}">{{ $commentReplyVotes }}</span></a>
+                                                        <a onclick="upVoteCommentReply({{ $post->id.','.$comment->id.','.$reply->id }})"><span class="thumb fa fa-chevron-up" id="btn_upVote_comment_reply_{{ $reply->id }}"></span>
+                                                            <span class="vote-counter text-center"
+                                                                  id="vote_count_comment_reply_{{ $reply->id }}">{{ $commentReplyVotes }}</span></a>
                                                     @endif
-
-
-                                                    {{--@if(False)--}}
-
-                                                    {{--<a ><span   class="thumb-up glyphicon glyphicon-triangle-top" ></span>Upvote--}}
-                                                    {{--<span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span> </a>--}}
-                                                    {{--@else--}}
-                                                    {{--<a ><span  class="thumb glyphicon glyphicon-triangle-top" ></span>Upvote--}}
-                                                    {{--<span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>--}}
-                                                    {{--</a>--}}
-                                                    {{--@endif--}}
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="comment-body" style="max-width: 100%">
+                                                <p>{{ $reply->reply }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -531,18 +516,14 @@ $title = $title . '-' . $post->id;
                 success: function (data) {
                     console.log(data);
                     if (data.status == 'upvoted') {
-                        var property = document.getElementById('btn_upVote_' + post_id);
-                        property.style.color = "green";
-                        var property = document.getElementById('btn_upVote_text_' + post_id);
-                        property.style.color = "green"
+                        var element = document.getElementById("upvote_icon_" + post_id);
+                        element.classList.add("text-shufflered");
                         $('#vote_count_' + post_id).text(data.voteNumber);
-                        var property = document.getElementById('btn_downVote_' + post_id);
-                        property.style.removeProperty('color');
+                        var element = document.getElementById("downvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
                     } else {
-                        var property = document.getElementById('btn_upVote_' + post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('btn_upVote_text_' + post_id);
-                        property.style.removeProperty('color');
+                        var element = document.getElementById("upvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
                         $('#vote_count_' + post_id).text(data.voteNumber);
                     }
                 },
@@ -566,16 +547,14 @@ $title = $title . '-' . $post->id;
                 success: function (data) {
                     console.log(data);
                     if (data.status == 'downvoted') {
-                        var property = document.getElementById('btn_upVote_' + post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('btn_upVote_text_' + post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('btn_downVote_' + post_id);
-                        property.style.color = "orangered"
+                        var element = document.getElementById("upvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
+                        var element = document.getElementById("downvote_icon_" + post_id);
+                        element.classList.add("text-shufflered");
                         $('#vote_count_' + post_id).text(data.voteNumber);
                     } else {
-                        var property = document.getElementById('btn_downVote_' + post_id);
-                        property.style.removeProperty('color');
+                        var element = document.getElementById("downvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
                         $('#vote_count_' + post_id).text(data.voteNumber);
                     }
                 },
@@ -606,8 +585,8 @@ $title = $title . '-' . $post->id;
                         if (data.status == 'showModal') {
                             $('#saveStoryModal').modal('show');
                         } else {
-                            var property = document.getElementById('btn_saveStory_' + post_id);
-                            property.style.removeProperty('color');
+                            var element = document.getElementById('btn_saveStory_' + post_id);
+                            element.classList.remove("text-shufflered");
                         }
                     }
                 });
@@ -629,12 +608,12 @@ $title = $title . '-' . $post->id;
                 success: function (data) {
                     console.log(data);
                     if (data.status == 'saved') {
-                        var property = document.getElementById('btn_saveStory_' + post_id);
-                        property.style.color = "green";
+                        var element = document.getElementById('btn_saveStory_' + post_id);
+                        element.classList.add("text-shufflered");
                         $('#saveStoryModal').modal('hide');
                     } else {
-                        var property = document.getElementById('btn_saveStory_' + post_id);
-                        property.style.removeProperty('color');
+                        var element = document.getElementById('btn_saveStory_' + post_id);
+                        element.classList.remove("text-shufflered");
                     }
                 }
             });
@@ -653,14 +632,12 @@ $title = $title . '-' . $post->id;
                     console.log(data);
                     if (data.status == 'upvoted') {
                         console.log('btn_upVote_comment_' + comment_id);
-                        var property = document.getElementById('btn_upVote_comment_' + comment_id);
-                        property.style.color = "green";
-                        // var property = document.getElementById('btn_upVote_text_'+post_id);
-                        // property.style.color = "green"
+                        var element = document.getElementById('btn_upVote_comment_' + comment_id);
+                        element.classList.add("text-shufflered");
                         $('#vote_count_comment_' + comment_id).text(data.voteNumber);
                     } else {
-                        var property = document.getElementById('btn_upVote_comment_' + comment_id);
-                        property.style.removeProperty('color');
+                        var element = document.getElementById('btn_upVote_comment_' + comment_id);
+                        element.classList.remove("text-shufflered");
                         // var property = document.getElementById('btn_upVote_text_'+post_id);
                         // property.style.removeProperty('color');
                         $('#vote_count_comment_' + comment_id).text(data.voteNumber);
@@ -689,16 +666,12 @@ $title = $title . '-' . $post->id;
                     console.log(data);
                     if (data.status == 'upvoted') {
                         console.log('btn_upVote_comment_reply_' + reply_id);
-                        var property = document.getElementById('btn_upVote_comment_reply_' + reply_id);
-                        property.style.color = "green";
-                        // var property = document.getElementById('btn_upVote_text_'+post_id);
-                        // property.style.color = "green"
+                        var element = document.getElementById('btn_upVote_comment_reply_' + reply_id);
+                        element.classList.add("text-shufflered");
                         $('#vote_count_comment_reply_' + reply_id).text(data.voteNumber);
                     } else {
-                        var property = document.getElementById('btn_upVote_comment_reply_' + reply_id);
-                        property.style.removeProperty('color');
-                        // var property = document.getElementById('btn_upVote_text_'+post_id);
-                        // property.style.removeProperty('color');
+                        var element = document.getElementById('btn_upVote_comment_reply_' + reply_id);
+                        element.classList.remove("text-shufflered");
                         $('#vote_count_comment_reply_' + reply_id).text(data.voteNumber);
                     }
                 },

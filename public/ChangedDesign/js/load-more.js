@@ -33,7 +33,7 @@ function loadMorePost() {
         filterParam : filterParam ,
         pageKey: pageKey
     };
-    if(pageKey == 'story-category'){
+    if(pageKey == 'story-category' || pageKey == 'story-domain'){
         var searchCategory = $('#search-category').data("value");
         requestParam.searchCategory = searchCategory;
     }
@@ -47,7 +47,7 @@ function loadMorePost() {
         success: function (data) {
             if(data.sucess == "true"){
                 $('#post-count-offset').data("offset", data.newOffset);
-                $(data.postsData).hide().appendTo(".posts").fadeIn(2000);
+                $(data.postsData).hide().appendTo(".posts").fadeIn(1000);
 
 
             }
