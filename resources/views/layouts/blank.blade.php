@@ -20,7 +20,9 @@
 </head>
 
 <body class="master">
-
+{{----------------------------- store current url to session -----------------------}}
+<?php session(['last_page' => url()->current()]);?>
+{{-------------------------------------------------------------------------------------}}
 
     <div class="container">
 

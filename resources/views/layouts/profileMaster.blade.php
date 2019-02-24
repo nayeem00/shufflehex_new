@@ -23,6 +23,9 @@
 
 <?php echo \App\Http\SettingsHelper::getHeadScript()?>
 <body>
+{{----------------------------- store current url to session -----------------------}}
+<?php session(['last_page' => url()->current()]);?>
+{{-------------------------------------------------------------------------------------}}
 @include('partials.list-small-window-sidebar')
 <div id="wrapper">
 @include('partials.top-bar')

@@ -100,6 +100,8 @@ Route::get('/addproduct', 'ProductController@create');
 Route::get('/product/{title}', 'ProductController@show');
 Route::get('/products/newest', 'ProductController@newestProjects');
 Route::get('/products/popular', 'ProductController@popularProjects');
+Route::get('/product/{title}/edit', 'ProductController@edit');
+Route::patch('/product/{id}', 'ProductController@update')->name('product.update');
 
 Route::get('/story/{title}', 'PostController@showPost');
 Route::get('/view/{title}', 'PostController@viewPost');

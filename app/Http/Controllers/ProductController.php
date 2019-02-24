@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use App\Product;
 use App\ProductSetting;
@@ -14,6 +15,7 @@ use App\SavedStories;
 use carbon;
 use Auth;
 use DB;
+use Illuminate\Support\Facades\File;
 use Intervention;
 use Redirect;
 
@@ -149,7 +151,11 @@ class ProductController extends Controller
         $product->product_review = 0;
         $product->save();
 
-        return redirect('products');
+        $title = preg_replace('/\s+/', '-', $product->product_name);
+        $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+        $title = $title . '-' . $product->id;
+        Toastr::success('Your product uploaded successfully!', 'Success', ["positionClass" => "toast-top-right"]);
+        return redirect('product/' . $title);
     }
 
     /**
@@ -275,9 +281,23 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($title)
     {
-        //
+//        dd($title);
+        $exploded = explode('-', $title);
+        $id = array_values(array_slice($exploded, -1))[0];
+        $product = Product::find($id);
+        if(isset(Auth::user()->id) && !empty(Auth::user()->id)){
+        if ($product->user_id ==Auth::user()->id ){
+            $stores = ProductStore::all();
+            $categories = ProductCategory::all();
+            return view('pages.editProduct', compact('product','categories','stores'));
+        }else{
+            return redirect()->back();
+        }
+        }else{
+            return redirect()->back();
+        }
     }
 
     /**
@@ -289,7 +309,98 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $store = $request->store;
+        $productId = $request->productId;
+        $storeInfo = ProductStore::where('store_name',$store)->first();
+        $productUrl = $storeInfo->store_prefix.$productId;
+        $product = Product::find($id);
+        if (!empty($request->img)){
+        $image = $request->img[0];
+        $extension =$image->getClientOriginalExtension();//get image extension only
+        $imageOriginalName= $image->getClientOriginalName();
+        $basename = substr($imageOriginalName, 0 , strrpos($imageOriginalName, "."));//get image name without extension
+        $imageName=$basename.date("YmdHis").'.'.$extension;//make new name
+        $product_list_image = 'images/products/list/' . $imageName;
+        $resizedImage = Intervention::make($image->getRealPath())->resize(84, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $cropped = $resizedImage->crop(84,84);
+        $save = $cropped->save($product_list_image);
+
+        $image = $request->img[0];
+        $extension =$image->getClientOriginalExtension();//get image extension only
+        $imageOriginalName= $image->getClientOriginalName();
+        $basename = substr($imageOriginalName, 0 , strrpos($imageOriginalName, "."));//get image name without extension
+        $imageName=$basename.date("YmdHis").'.'.$extension;//make new name
+        $related_product_image = 'images/products/related/' . $imageName;
+        $resizedImage = Intervention::make($image->getRealPath())->resize(50, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $cropped = $resizedImage->crop(50,50);
+        $save = $cropped->save($related_product_image);
+
+        $extension =$image->getClientOriginalExtension();//get image extension only
+        $imageOriginalName= $image->getClientOriginalName();
+        $basename = substr($imageOriginalName, 0 , strrpos($imageOriginalName, "."));//get image name without extension
+        $imageName=$basename.date("YmdHis").'.'.$extension;//make new name
+        $product_meta_image = 'images/products/meta/' . $imageName;
+        $resizedImage = Intervention::make($image->getRealPath())->resize(650, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $save = $resizedImage->save($product_meta_image);
+        $imgPaths = array();
+        foreach ($request->img as $image){
+            $extension =$image->getClientOriginalExtension();//get image extension only
+            $imageOriginalName= $image->getClientOriginalName();
+            $basename = substr($imageOriginalName, 0 , strrpos($imageOriginalName, "."));//get image name without extension
+            $imageName=$basename.date("YmdHis").'.'.$extension;//make new name
+            $path = 'images/products/' . $imageName;
+            $resizedImage = Intervention::make($image->getRealPath())->resize(640, 640);
+            $save = $resizedImage->save($path);
+            if ($save){
+                $imgPaths[] = $path;
+            }
+        }
+        $implodedPaths = implode(',',$imgPaths);
+        $product_previous_images = explode(',',$product->product_images);
+            File::delete($product_previous_images,$product->product_list_image,$product->product_meta_image);
+
+            $product->product_name = $request->title;
+            $product->product_images = $implodedPaths;
+            $product->short_desc = $request->short_desc;
+            $product->description = $request->desc;
+            $product->product_list_image = $product_list_image;
+            $product->related_product_image = $product_list_image;
+            $product->product_meta_image = $product_meta_image;
+            $product->yt_video_url = $request->yt_video_url;
+            $product->store_name = $request->store;
+            $product->store_url = $productUrl;
+            $product->product_id = $productId;
+            $product->price = $request->price;
+            $product->coupon = $request->coupon;
+            $product->category = $request->category;
+            $product->tags = $request->tags;
+            $product->update();
+        } else{
+            $product->product_name = $request->title;
+            $product->short_desc = $request->short_desc;
+            $product->description = $request->desc;
+            $product->yt_video_url = $request->yt_video_url;
+            $product->store_name = $request->store;
+            $product->store_url = $productUrl;
+            $product->product_id = $productId;
+            $product->price = $request->price;
+            $product->coupon = $request->coupon;
+            $product->category = $request->category;
+            $product->tags = $request->tags;
+            $product->update();
+        }
+
+        $title = preg_replace('/\s+/', '-', $product->product_name);
+        $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+        $title = $title . '-' . $product->id;
+        Toastr::success('Your product updated successfully!', 'Success', ["positionClass" => "toast-top-right"]);
+        return redirect('product/' . $title);
     }
 
     /**

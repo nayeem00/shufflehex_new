@@ -15,6 +15,9 @@
 
 </head>
 <body>
+{{----------------------------- store current url to session -----------------------}}
+<?php session(['last_page' => url()->current()]);?>
+{{-------------------------------------------------------------------------------------}}
 <div id="wrapper">
 @include('partials.top-bar')
 <div id="body-content">
