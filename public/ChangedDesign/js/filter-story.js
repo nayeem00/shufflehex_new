@@ -102,7 +102,7 @@ function addPosts(data) {
     $('.story-filter').removeClass('in');
     if(data.sucess == "true"){
         $('#post-count-offset').data("offset", data.newOffset);
-        $(data.postsData).hide().appendTo(".posts").fadeIn(2000);
+        $(data.postsData).hide().appendTo(".posts").fadeIn(1000);
 
     }
     else {
