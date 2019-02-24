@@ -184,31 +184,31 @@
         <div class="pa-15">
             <div class="author">
                 <img class="img-responsive author-img"
-                     src="@if (!empty($user->mini_profile_picture_link)) {{ asset( $user->mini_profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
-                <p class="author-name"><strong>{{ $user->name }}</strong></p>
+                     src="@if (!empty($postUser->mini_profile_picture_link)) {{ asset( $postUser->mini_profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                <p class="author-name"><strong>{{ $postUser->name }}</strong></p>
             </div>
-            @if(!empty($user->work_at))
+            @if(!empty($postUser->work_at))
                 <div class="info">
                     <span class="info-icon"><i class="fa fa-briefcase"></i></span>
-                    <p class="info-txt">Works at <strong>{{ $user->work_at }}</strong></p>
+                    <p class="info-txt">Works at <strong>{{ $postUser->work_at }}</strong></p>
                 </div>
             @endif
-            @if(!empty($user->education))
+            @if(!empty($postUser->education))
                 <div class="info">
                     <span class="info-icon"><i class="fa fa-graduation-cap "></i></span>
-                    <p class="info-txt">Studied at <strong>{{ $user->education }}</strong></p>
+                    <p class="info-txt">Studied at <strong>{{ $postUser->education }}</strong></p>
                 </div>
             @endif
-            @if(!empty($user->location))
+            @if(!empty($postUser->location))
                 <div class="info">
                     <span class="info-icon"><i class="fa fa-map-marker"></i></span>
-                    <p class="info-txt">Lives in <strong>{{ $user->location }}</strong></p>
+                    <p class="info-txt">Lives in <strong>{{ $postUser->location }}</strong></p>
                 </div>
             @endif
-            @if(!empty($user->languages))
+            @if(!empty($postUser->languages))
                 <div class="info">
                     <span class="info-icon"><i class="fa fa-globe"></i></span>
-                    <p class="info-txt">Knows <strong>{{ $user->languages }}</strong></p>
+                    <p class="info-txt">Knows <strong>{{ $postUser->languages }}</strong></p>
                 </div>
             @endif
             @if(!empty($totalViews))
@@ -606,12 +606,6 @@
 
 
     <script>
-        $( document ).ready(function() {
-            $("#latest_stories").attr("href", "{{ url('/post/latest/all') }}");
-            $("#top_stories").attr("href", "{{ url('/post/top/all') }}");
-            $("#popular_stories").attr("href", "{{ url('/post/popular/all') }}");
-            $("#trending_stories").attr("href", "{{ url('/post/trending/all') }}");
-        });
         // function upVote(post_id){
         //     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         //     var property = 'btn_upVote_'+post_id;

@@ -10,10 +10,11 @@
                     <a href="#">Stories <span class="arrow"></span></a>
                 </li>
                 <ul class="sub-menu collapse" id="stories-menu">
-                    <li><a href="#">Trending</a></li>
-                    <li><a href="#">Latest</a></li>
-                    <li><a href="#">Top</a></li>
-                    <li><a href="#">Popular</a></li>
+                    <li><a href="{{ url('/story') }}">All</a></li>
+                    <li><a href="{{ url('/story/trending') }}">Trending</a></li>
+                    <li><a href="{{ url('/story/latest') }}">Latest</a></li>
+                    <li><a href="{{ url('/story/top') }}">Top</a></li>
+                    <li><a href="{{ url('/story/popular') }}">Popular</a></li>
                 </ul>
                 <li data-toggle="collapse" data-target="#products-menu" class="collapsed">
                     <a href="#">Products <span class="arrow"></span></a>
@@ -36,9 +37,9 @@
                     <a href="#">Add New <span class="arrow"></span></a>
                 </li>
                 <ul class="sub-menu collapse" id="add-menu">
-                    <li><a href="#">Add Story</a></li>
-                    <li><a href="#">Add Product</a></li>
-                    <li><a href="#">Add Project</a></li>
+                    <li><a href="{{ url('/story/create') }}">Add Story</a></li>
+                    <li><a href="{{ url('/addproject') }}">Add Product</a></li>
+                    <li><a href="{{ url('/addproduct') }}">Add Project</a></li>
                 </ul>
 
             </ul>

@@ -150,16 +150,20 @@ $title = $title . '-' . $post->id;
                         </a>
                     </li>
                 @endif
+                @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+                @if($postUser->id == Auth::user()->id)
                 <li class="dropdown">
                     <a href="#" style="background-color: #fff; border: none;" class="btn dropdown-toggle"
                        type="button"
                        data-toggle="dropdown">
                         <i class="fa fa-ellipsis-v"></i></a>
                     <ul class="edit-menu dropdown-menu">
-                        <li><a href="#">Edit</a></li>
+                        <li><a href="{{ url('story/'.$title.'/edit') }}">Edit</a></li>
                         <li><a href="#">Delete</a></li>
                     </ul>
                 </li>
+                @endif
+                @endif
             </ul>
 
 
@@ -236,31 +240,31 @@ $title = $title . '-' . $post->id;
         <div class="pa-15">
             <div class="author">
                 <img class="img-responsive author-img"
-                     src="@if (!empty($user->mini_profile_picture_link)) {{ asset( $user->mini_profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
-                <p class="author-name"><strong>{{ $user->name }}</strong></p>
+                     src="@if (!empty($postUser->mini_profile_picture_link)) {{ asset( $postUser->mini_profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                <p class="author-name"><strong>{{ $postUser->name }}</strong></p>
             </div>
-            @if(!empty($user->work_at))
+            @if(!empty($postUser->work_at))
                 <div class="info">
                     <span class="info-icon"><i class="fa fa-briefcase"></i></span>
-                    <p class="info-txt">Works at <strong>{{ $user->work_at }}</strong></p>
+                    <p class="info-txt">Works at <strong>{{ $postUser->work_at }}</strong></p>
                 </div>
             @endif
-            @if(!empty($user->education))
+            @if(!empty($postUser->education))
                 <div class="info">
                     <span class="info-icon"><i class="fa fa-graduation-cap "></i></span>
-                    <p class="info-txt">Studied at <strong>{{ $user->education }}</strong></p>
+                    <p class="info-txt">Studied at <strong>{{ $postUser->education }}</strong></p>
                 </div>
             @endif
-            @if(!empty($user->location))
+            @if(!empty($postUser->location))
                 <div class="info">
                     <span class="info-icon"><i class="fa fa-map-marker"></i></span>
-                    <p class="info-txt">Lives in <strong>{{ $user->location }}</strong></p>
+                    <p class="info-txt">Lives in <strong>{{ $postUser->location }}</strong></p>
                 </div>
             @endif
-            @if(!empty($user->languages))
+            @if(!empty($postUser->languages))
                 <div class="info">
                     <span class="info-icon"><i class="fa fa-globe"></i></span>
-                    <p class="info-txt">Knows <strong>{{ $user->languages }}</strong></p>
+                    <p class="info-txt">Knows <strong>{{ $postUser->languages }}</strong></p>
                 </div>
             @endif
             @if(!empty($totalViews))
@@ -299,13 +303,13 @@ $title = $title . '-' . $post->id;
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="img-box32_32">
-                                    <a href="#">
-                                        <img class="img-circle" src="{{ asset('img/profile-header-orginal.jpg') }}"
+                                    <a href="{{ url('profile/'.$comment->user->username) }}">
+                                        <img class="img-circle" src="@if (!empty($comment->user->mini_profile_picture_link)) {{ asset( $comment->user->profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif"
                                              alt="user profile">
                                     </a>
                                 </div>
                                 <div class="img_box32_right">
-                                    <span class="comment-user text-primary"><strong>{{ $comment->username }}</strong>&nbsp;
+                                    <span class="comment-user text-primary"><strong><a href="{{ url('profile/'.$comment->user->username) }}" rel="nofollow">{{ $comment->username }}</a></strong>&nbsp;
                                         <span class="small text-muted commentTime postTime">
                                             {{ $comment->created_at }}
                                         </span>
@@ -362,14 +366,14 @@ $title = $title . '-' . $post->id;
                                             <div class="row">
                                                 <div class="col-xs-12">
                                                     <div class="img-box32_32">
-                                                        <a href="#">
+                                                        <a href="{{ url('profile/'.$reply->user->username) }}">
                                                             <img class="img-circle"
-                                                                 src="{{ asset('img/profile-header-orginal.jpg') }}"
+                                                                 src="@if (!empty($reply->user->mini_profile_picture_link)) {{ asset( $reply->user->profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif"
                                                                  alt="user profile">
                                                         </a>
                                                     </div>
                                                     <div class="img_box32_right">
-                                                        <span class="reply-user text-primary"><strong>{{ $reply->username }}</strong>&nbsp;
+                                                        <span class="reply-user text-primary"><strong><a href="{{ url('profile/'.$reply->user->username) }}" rel="nofollow"> {{ $reply->username }}</a></strong>&nbsp;
                                                         <span class="small text-muted commentTime postTime">
                                                             {{ $reply->created_at }}
                                                         </span>

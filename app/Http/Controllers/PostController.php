@@ -7,6 +7,7 @@ use App\Http\SettingsHelper;
 use App\Product;
 use App\Project;
 use App\Settings;
+use Brian2694\Toastr\Facades\Toastr;
 use DateTime;
 use Illuminate\Http\Request;
 use Embed\Embed;
@@ -22,8 +23,8 @@ use App\SavedStories;
 use carbon;
 use Auth;
 use DB;
+use Illuminate\Support\Facades\File;
 use Intervention;
-
 class PostController extends Controller
 {
     /**
@@ -35,10 +36,19 @@ class PostController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth', ['only' => ['create', 'notifications']]);
+        $this->middleware('auth', ['only' => ['create', 'notifications', 'edit', 'update','destroy']]);
     }
 
-
+    public function popularTopics(){
+        $categories = Category::select('categories.*')->leftJoin("post_views", "post_views.category_id", "=", "categories.id")
+            ->where("post_views.created_at", ">=", date("Y-m-d H:i:s", strtotime('-24 hours', time())))
+            ->groupBy("categories.id")
+            ->orderByDesc(DB::raw('COUNT(post_views.view)'))
+            ->limit(5)
+            ->get();
+//        dd($categories);
+        return $categories;
+    }
 
     public function index()
     {
@@ -72,7 +82,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = $this->popularTopics();
         return view('pages.add', compact('categories'));
     }
 
@@ -198,8 +208,9 @@ class PostController extends Controller
         $views = Post::find($id);
         $views->views += 1;
         $views->update();
+//        dd($views);
         $category = Category::where('category',$views->category)->first();
-        $user = User::find($views->user_id);
+        $postUser = User::find($views->user_id);
         $totalViews = PostView::where('user_id', $views->user_id)->sum('view');
         $thisStoryViews = PostView::where('post_id', $views->id)->sum('view');
         if ($totalViews >= 1000) {
@@ -211,7 +222,7 @@ class PostController extends Controller
         $postView->client_ip = $client_ip;
         $postView->post_id = $id;
         $postView->category_id = $category->id;
-        $postView->user_id = $user->id;
+        $postView->user_id = $postUser->id;
         $postView->save();
 //        dd($totalViews);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
@@ -220,6 +231,14 @@ class PostController extends Controller
         }
 
         $post = Post::with('comments')->with('replies')->with('votes')->with('saved_stories')->with('comment_votes')->with('comment_reply_votes')->find($id);
+        foreach ($post->comments as $comment){
+            $commentUser = User::find($comment->user_id);
+            $comment->user = $commentUser;
+        }
+        foreach ($post->replies as $reply){
+            $replyUser = User::find($reply->user_id);
+            $reply->user = $replyUser;
+        }
         $post->views = $thisStoryViews;
         $tags = $post->tags;
         $category = $post->category;
@@ -342,22 +361,22 @@ class PostController extends Controller
             }
             if ($post->is_publish == 1) {
                 if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews', 'folders'));
                 } else {
-                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews'));
                 }
             } else {
                 if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews', 'folders'));
                 } else {
-                    return view('pages.pollView', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+                    return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews'));
                 }
             }
         }
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages.story', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews', 'folders'));
+            return view('pages.story', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews', 'folders'));
         } else {
-            return view('pages.story', compact('post', 'totalComments', 'relatedPost', 'user', 'totalViews'));
+            return view('pages.story', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews'));
         }
 
     }
@@ -368,9 +387,17 @@ class PostController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($title)
     {
-        //
+        $exploded = explode('-', $title);
+        $postId = array_values(array_slice($exploded, -1))[0];
+        $post = Post::find($postId);
+        if ($post->user_id ==Auth::user()->id ){
+            $categories = $this->popularTopics();
+            return view('pages.edit', compact('post','categories'));
+        } else{
+            return redirect()->back();
+        }
     }
 
     /**
@@ -382,7 +409,87 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'title'=>'required',
+            'link'=>'required',
+            'category'=>'required',
+            'description'=>'required'
+        ]);
+        $post = Post::find($id);
+        $userId = Auth::user()->id;
+
+        $user = User::find($userId);
+        if ($request->link != $post->link){
+        $info = Embed::create($request->link);
+//        dd($info);
+        $extension = pathinfo($info->image, PATHINFO_EXTENSION);
+        $ext = explode('?', $extension);
+        $featuredImage = 'images/imagesByLink/' . str_random(4) . '-' . str_slug($request->title) . '-' . time() . '.' . $ext[0];
+//        $file = file_get_contents($info->image);
+        $img = Intervention::make($info->image);
+        $resizedImage = $img->resize(650, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $save = $resizedImage->save($featuredImage);
+
+        $imageForStoryList = 'images/imagesByLink/imagesForStoryList/' . str_random(4) . '-' . str_slug($request->title) . '-' . time() . '.' . $ext[0];
+        $img = Intervention::make($info->image);
+        $resizedImage = $img->resize(150, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        $cropped = $resizedImage->crop(150, 84);
+        $save = $cropped->save($imageForStoryList);
+
+        $imageForRelatedStory = 'images/imagesByLink/imagesForRelatedStory/' . str_random(4) . '-' . str_slug($request->title) . '-' . time() . '.' . $ext[0];
+        $img = Intervention::make($info->image);
+        $resizedImage = $img->resize(57, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        $cropped = $resizedImage->crop(57, 32);
+        $save = $cropped->save($imageForRelatedStory);
+
+        $imageForShuffleBox = 'images/imagesByLink/imagesForShuffleBox/' . str_random(4) . '-' . str_slug($request->title) . '-' . time() . '.' . $ext[0];
+        $img = Intervention::make($info->image);
+        $resizedImage = $img->resize(650, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $cropped = $resizedImage->crop(650, 365);
+        $save = $cropped->save($imageForShuffleBox);
+
+        $explodedLink = explode('//', $request->link);
+        if (isset($explodedLink[1]) && !empty($explodedLink[1])) {
+            $domainName = explode('/', $explodedLink[1]);
+        } else {
+            $domainName = explode('/', $explodedLink[0]);
+        }
+            File::delete($post->featured_image, $post->story_list_image, $post->related_story_image,$post->shuffle_box_image);
+
+            $post->title = $request->title;
+            $post->link = $request->link;
+            $post->domain = $domainName[0];
+            $post->featured_image = $featuredImage;
+            $post->story_list_image = $imageForStoryList;
+            $post->related_story_image = $imageForRelatedStory;
+            $post->shuffle_box_image = $imageForShuffleBox;
+            $post->category = $request->category;
+            $post->description = $request->description;
+            $post->tags = $request->tags;
+            $post->update();
+        } else{
+            $post->title = $request->title;
+            $post->category = $request->category;
+            $post->description = $request->description;
+            $post->tags = $request->tags;
+            $post->update();
+        }
+
+        $title = preg_replace('/\s+/', '-', $post->title);
+        $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+        $title = $title . '-' . $post->id;
+        Toastr::success('Your story updated successfully!', 'Success', ["positionClass" => "toast-top-right"]);
+        return redirect('story/' . $title);
     }
 
     /**
@@ -452,7 +559,7 @@ class PostController extends Controller
         $posts = Post::with('votes')->with('comments')->with('saved_stories')->orderByDesc('created_at')->get();
 
         $page = 'Latest';
-
+        $posts = PostHelper::addAditionalData($posts);
 
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/all', compact('posts', 'folders', 'page'));
@@ -474,7 +581,7 @@ class PostController extends Controller
             ->orderByDesc(DB::raw("SUM(votes.vote)"))
             ->get();
         $page = 'Top';
-//        dd($posts);
+        $posts = PostHelper::addAditionalData($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/all' , compact('posts', 'folders', 'page'));
         } else {
@@ -495,7 +602,7 @@ class PostController extends Controller
             ->orderByDesc(DB::raw("COUNT(post_views.id)"))
             ->get();
         $page = 'Popular';
-//        dd($posts);
+        $posts = PostHelper::addAditionalData($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/all' , compact('posts', 'folders', 'page'));
         } else {
@@ -509,18 +616,21 @@ class PostController extends Controller
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
 
+
+        $trendingStroyFrom = SettingsHelper::getSetting('trending_story_from')->value;
         $posts = Post::select('posts.*')->with('votes')->with('comments')->with('saved_stories')
             ->leftJoin("votes", "votes.post_id", "=", "posts.id")
             ->leftJoin("comments", "comments.post_id", "=", "posts.id")
             ->leftJoin("replies", "replies.post_id", "=", "posts.id")
-            ->where("votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
-            ->orWhere("comments.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
-            ->orWhere("replies.created_at", ">=", date("Y-m-d H:i:s", strtotime('-30 days', time())))
+            ->where("votes.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingStroyFrom, time())))
+            ->orWhere("comments.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingStroyFrom, time())))
+            ->orWhere("replies.created_at", ">=", date("Y-m-d H:i:s", strtotime('-'.$trendingStroyFrom, time())))
             ->groupBy("posts.id")
 //            ->orderBy(DB::raw('SUM(votes.vote)'))
             ->orderByDesc(DB::raw("SUM(votes.vote) + COUNT(comments.id)+ COUNT(replies.id)"))
             ->get();
             $page = 'Trending';
+            $posts = PostHelper::addAditionalData($posts);
 //        dd($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/all' , compact('posts', 'folders', 'page'));

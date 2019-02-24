@@ -1,3 +1,4 @@
+var filterParam = null;
 $('.time-filter-item').click(function(){
     let thisItem = $(this);
     if(thisItem.hasClass("selected-filter")){
@@ -11,6 +12,7 @@ $('.time-filter-item').click(function(){
     updateFilterResults();
 
 })
+
 $('.topics-filter-item').click(function(){
     let thisItem = $(this);
     if(thisItem.hasClass("selected-filter")){
@@ -60,26 +62,37 @@ function getFilterParameter(filterClass) {
 
 function updateFilterResults() {
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-    var filterParam = {
-        _token: CSRF_TOKEN,
+    filterParam = {
         timefilter : getFilterParameter('.time-filter'),
         topicsfilter : getFilterParameter('.topics-filter'),
         otherfilter : getFilterParameter('.other-filter')
     };
-    console.log(filterParam);
+    var pageKey = $('#page-key').data("page");
+    var requestParam = {
+        _token: CSRF_TOKEN,
+        filterParam : filterParam,
+        pageKey : pageKey
+    };
 
+    if(pageKey == 'story-category'){
+        var searchCategory = $('#search-category').data("value");
+        requestParam.searchCategory = searchCategory;
+    }
+    console.log(filterParam);
+    var getUrl = window.location;
+    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+    if(getUrl.host == 'localhost'){
+        baseUrl = getUrl .protocol + "//" + 'localhost/shufflehex/public/'
+    }
     $.ajax({
-        url:"ajax/get_filterd_post",
+        url:baseUrl+"ajax/get_filterd_post",
         type: "POST",
-        data:filterParam,
+        data:requestParam,
         dataType: "JSON",
         success: function (data) {
             addPosts(data);
         }
     })
-
-
-
 }
 
 

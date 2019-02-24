@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\PostHelper;
+use App\Http\SettingsHelper;
 use Illuminate\Http\Request;
 use Embed\Embed;
 use App\Post;
@@ -43,7 +45,7 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -55,19 +57,22 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($category)
     {
-        if (isset(Auth::user()->id) && !empty(Auth::user()->id)){
-            $folders = Folder::where('user_id','=',Auth::user()->id)->get();
+        if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
+            $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
-        $posts = Post::with('votes')->with('comments')->with('saved_stories')->where('category','=',$category)->orderBy('views', 'DESC')->get();
+        $postLimit = SettingsHelper::getSetting('story_limit');
+        $posts = Post::with('votes')->with('comments')->with('saved_stories')->where('category', '=', $category)->orderBy('views', 'DESC')->offset(0)->limit($postLimit->value)->get();
+
+        $posts = PostHelper::addAditionalData($posts);
 
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages/categoryWisePosts', compact('posts', 'folders', 'category'));
-        } else{
+        } else {
             return view('pages/categoryWisePosts', compact('posts', 'category'));
         }
     }
@@ -75,7 +80,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -86,8 +91,8 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -98,7 +103,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -127,12 +132,24 @@ class CategoryController extends Controller
 
     public function searchTopic(Request $request)
     {
-        $category = Category::where('category',$request->category)->first();
-        if (isset($category->category) && !empty($category->category)){
-            return response()->json(['status'=>'fully matched','category' => $category]);
+        $category = Category::where('category', $request->category)->first();
+        if (isset($category->category) && !empty($category->category)) {
+            return response()->json(['status' => 'fully matched', 'category' => $category]);
         }
-        $categories = Category::where('category', 'like',  $request->category.'%' )->limit(5)->get();
-        return response()->json(['status'=>'partially matched','categories' => $categories]);
+        $categories = Category::where('category', 'like', $request->category . '%')->limit(5)->get();
+        return response()->json(['status' => 'partially matched', 'categories' => $categories]);
 
+    }
+
+    public function createTopic(Request $request)
+    {
+        if ($request->category != '') {
+            $category = new Category();
+            $category->category = $request->category;
+            $category->is_deleted = 0;
+            if ($category->save()) {
+                return response()->json(['status' => 'Topic created', 'category' => $request->category]);
+            }
+        }
     }
 }

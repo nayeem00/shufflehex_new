@@ -11,9 +11,12 @@
 |
  */
 
-Route::get('/', function () {
+//Route::post('/', function () {
+//    return redirect('/story');
+//});
+Route::get('/', [ 'as' => '/', 'uses' => function () {
     return redirect('/story');
-});
+}]);
 
 //Route::get('/pages/add', function () {
 //    return view('pages.add');
@@ -22,12 +25,12 @@ Route::get('/story/latest', 'PostController@latestPost');
 Route::get('/story/top/', 'PostController@topPost');
 Route::get('/story/popular/', 'PostController@popularPost');
 Route::get('/story/trending', 'PostController@trendingPost');
-Route::get('/story/web', 'PostController@webPost');
-Route::get('/story/images', 'PostController@imagesPost');
-Route::get('/story/videos', 'PostController@videosPost');
-Route::get('/story/articles', 'PostController@articlesPost');
-Route::get('/story/lists', 'PostController@listsPost');
-Route::get('/story/polls', 'PostController@pollsPost');
+//Route::get('/story/web', 'PostController@webPost');
+//Route::get('/story/images', 'PostController@imagesPost');
+//Route::get('/story/videos', 'PostController@videosPost');
+//Route::get('/story/articles', 'PostController@articlesPost');
+//Route::get('/story/lists', 'PostController@listsPost');
+//Route::get('/story/polls', 'PostController@pollsPost');
 Route::post('/ajax/get_more_post', 'AjaxController@get_more_post');
 Route::post('/ajax/get_filterd_post', 'AjaxController@get_filterd_post');
 Route::get('/go/{productId}', 'ProductController@redirectProductOriginalUrl');
@@ -173,6 +176,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/poll_vote', 'PollVoteController@store');
     Route::post('/poll_downvote', 'PollVoteController@downvote');
     Route::post('searchTopic', 'CategoryController@searchTopic');
+    Route::post('createTopic', 'CategoryController@createTopic');
     Route::get('/markAsRead', function () {
         auth()->user()->unreadNotifications->markAsRead();
     });

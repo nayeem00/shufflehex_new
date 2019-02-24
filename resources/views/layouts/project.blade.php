@@ -29,6 +29,8 @@
 
     <link rel="stylesheet" href="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.css') }}">
     @yield('css')
+
+    <?php echo \App\Http\SettingsHelper::getHeadScript()?>
 </head>
 
 <body class="project">
@@ -121,6 +123,8 @@
 @yield('js')
 
 {!! Toastr::message() !!}
+
+<?php echo \App\Http\SettingsHelper::getFootScript()?>
 
 </body>
 

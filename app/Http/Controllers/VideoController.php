@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Embed\Embed;
 use App\Post;
@@ -41,6 +42,13 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'title'=>'required',
+            'category'=>'required',
+            'link'=>'required',
+            'description'=>'required'
+        ]);
+
         $user = User::find(Auth::user()->id);
         $info = Embed::create($request->link);
         $extension = pathinfo($info->image, PATHINFO_EXTENSION);
@@ -109,6 +117,7 @@ class VideoController extends Controller
         $posts->is_publish = 1;
         $posts->save();
 
+        Toastr::success('Your link submitted successfully', 'Success', ["positionClass" => "toast-top-right"]);
         $title = preg_replace('/\s+/', '-', $posts->title);
         $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
         $title = $title . '-' . $posts->id;

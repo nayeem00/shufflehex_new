@@ -11,6 +11,8 @@
 
 @yield('css')
 
+    <?php echo \App\Http\SettingsHelper::getHeadScript()?>
+
 </head>
 <body>
 <div id="wrapper">
@@ -23,8 +25,12 @@
     <div class="overlay"></div>
 </div>
 @yield('js')
+
+<?php echo \App\Http\SettingsHelper::getFootScript()?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <script src="{{ asset('js/main.js') }}"></script>
+
+
 
 
 </body>

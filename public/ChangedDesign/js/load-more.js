@@ -3,8 +3,11 @@ $(document).ready(function () {
         var $win = $(window);
 
         $win.scroll(function () {
-            if ($win.scrollTop() == 0)
-                console.log("top");
+            if ($win.scrollTop() == 0){
+                var getUrl = window.location;
+                var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+                console.log(getUrl.host);
+            }
             else if ($win.height() + $win.scrollTop()
                 == $(document).height()) {
                 loadMorePost();
@@ -18,10 +21,28 @@ $(document).ready(function () {
 function loadMorePost() {
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     var offset = $('#post-count-offset').data("offset");
+    var pageKey = $('#page-key').data("page");;
+    var getUrl = window.location;
+    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+    if(getUrl.host == 'localhost'){
+        baseUrl = getUrl .protocol + "//" + 'localhost/shufflehex/public/'
+    }
+    var requestParam = {
+        _token: CSRF_TOKEN,
+        offset:offset,
+        filterParam : filterParam ,
+        pageKey: pageKey
+    };
+    if(pageKey == 'story-category'){
+        var searchCategory = $('#search-category').data("value");
+        requestParam.searchCategory = searchCategory;
+    }
+
+
     $.ajax({
-        url:"ajax/get_more_post",
+        url:baseUrl+"ajax/get_more_post",
         type: "POST",
-        data:{_token: CSRF_TOKEN, offset:offset},
+        data:requestParam,
         dataType: "JSON",
         success: function (data) {
             if(data.sucess == "true"){

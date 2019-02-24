@@ -21,4 +21,12 @@ class SettingsHelper
         return $setting;
     }
 
+    public static function getHeadScript(){
+        return self::getSetting('head_script')->value;
+    }
+
+    public static function getFootScript(){
+        return self::getSetting('foot_script')->value;
+    }
+
 }
