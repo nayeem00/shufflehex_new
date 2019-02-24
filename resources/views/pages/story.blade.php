@@ -102,7 +102,7 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
         <div class="col-xs-6">
             <a href="{{'https://twitter.com/intent/tweet?text='.$post->title. ' - '.  $actual_link }}" class="btn btn-default btn-twitter text-twitter" target="_blank" rel="nofollow"><i
                         class="fa fa-twitter"></i></a>
-            <a href="#" class="btn btn-default btn-facebook text-facebook"><i class="fa fa-facebook"></i></a>
+            <a href="{{'https://www.facebook.com/sharer/sharer.php?u='.$actual_link }}" class="btn btn-default btn-facebook text-facebook" target="_blank" rel="nofollow"><i class="fa fa-facebook"></i></a>
         </div>
         <div class="col-xs-6 text-right">
             <ul class="list-inline vote-submit-list mb-0">
