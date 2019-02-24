@@ -72,17 +72,6 @@
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            <label for="storyLink">Link</label>
-                            <div class="input-group">
-                                <input name="link" id="storyLink" type="text" class="form-control" placeholder="Link" value="{{ $post->link }}">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" id="generate"><i
-                                                class="fa fa-refresh"></i></button>
-                                  </span>
-                            </div><!-- /input-group -->
-                        </div>
-
-                        <div class="form-group">
 
                             <label for="storyTitle">Title</label>
 
@@ -179,7 +168,7 @@
 
     		</span>
 
-                                <input type="text" name="image" class="form-control" placeholder='Choose a file...'/>
+                                <input type="text" name="image" class="form-control" placeholder="Choose a file to preplace previous featured image..."/>
 
                                 <span class="input-group-btn">
 
@@ -196,7 +185,7 @@
                             <input type="text" name="category" id="search_category_article"
                                    class="form-control fontAwesome search_category"
                                    onclick="getCategory('article')" onkeyup="searchTopic('article')"
-                                   placeholder="&#xf002;  Search Category">
+                                   placeholder="&#xf002;  Search Category" value="{{ $post->category }}">
                             <div id="get_category_article" class="w-100 get-category">
                                 <div class="col-xs-12">
                                     <div class="panel panel-default">
@@ -223,7 +212,7 @@
 
                             <label>Write Article</label>
 
-                            <textarea id="" name="description" class="summernote-full"></textarea>
+                            <textarea id="" name="description" class="summernote-full">{{ $post->description }}</textarea>
 
                             {{--<textarea style="width:70%;height:200px;" name="area5" id="area5">Some Initial Content was in this textarea </textarea>--}}
 
@@ -234,7 +223,7 @@
                             <label>Tags</label>
 
                             <input name="tags" id="tags" class="form-control" placeholder="tag1, tag2, tag3"
-                                   type="text">
+                                   type="text" value="{{ $post->tags }}">
 
                         </div>
 
@@ -255,40 +244,15 @@
              @if($post->is_image == 1)
             <div id="uploadImage" class="tab-pane fade active">
 
-                <form id="addImageStory" class="addLinksForm" action="{{ route('image.store') }}" method="POST"
-                      enctype="multipart/form-data" role="form">
-
+                <form id="addImageStory" class="addLinksForm" action="{{ route('image.update',$post->id) }}" method="POST" enctype="multipart/form-data" role="form">
+                    {{ method_field('PATCH') }}
                     {{ csrf_field() }}
 
                     <label for="storyTitle">Title</label>
 
                     <div class="form-group">
 
-                        <input name="title" id="storyTitle" class="form-control" placeholder="Title" type="text">
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="image">Image</label>
-
-                        <div class="input-group input-file" name="image">
-
-			<span class="input-group-btn">
-
-        		<button class="btn btn-default btn-choose" type="button">Choose</button>
-
-    		</span>
-
-                            <input type="text" name="image" class="form-control" placeholder='Choose a file...'/>
-
-                            <span class="input-group-btn">
-
-       			 <button class="btn btn-warning btn-reset" type="button">Reset</button>
-
-    		</span>
-
-                        </div>
+                        <input name="title" id="storyTitle" class="form-control" placeholder="Title" type="text" value="{{$post->title}}">
 
                     </div>
 
@@ -297,7 +261,7 @@
                         <input type="text" name="category" id="search_category_image"
                                class="form-control fontAwesome search_category"
                                onclick="getCategory('image')" onkeyup="searchTopic('image')"
-                               placeholder="&#xf002;  Search Category">
+                               placeholder="&#xf002;  Search Category" value="{{$post->category}}">
                         <div id="get_category_image" class="w-100 get-category">
                             <div class="col-xs-12">
                                 <div class="panel panel-default">
@@ -325,7 +289,7 @@
                         <label for="storyDesc">Description</label>
 
                         <textarea type="text" name="description" id="storyDesc" rows="5"
-                                  class="form-control summernote-full"></textarea>
+                                  class="form-control summernote-full">{{ $post->description }}</textarea>
 
                     </div>
 
@@ -333,7 +297,7 @@
 
                         <label>Tags</label>
 
-                        <input name="tags" id="tags" class="form-control" placeholder="a,ab,abc" type="text">
+                        <input name="tags" id="tags" class="form-control" placeholder="a,ab,abc" type="text" value="{{$post->tags}}">
 
                     </div>
 
@@ -353,26 +317,15 @@
 
                 <div class="add-video">
 
-                    <form id="addNewVideo" class="addLinksForm" action="{{ route('video.store') }}" method="POST"
-                          role="form">
-
+                    <form id="addNewVideo" class="addLinksForm" action="{{ route('video.update',$post->id) }}" method="POST" role="form">
+                        {{ method_field('PATCH') }}
                         {{ csrf_field() }}
-
-
-                        <label for="storyLink">Youtube Video Link</label>
-
-                        <div class="form-group">
-
-                            <input name="link" id="storyLink" class="form-control" placeholder="Youtube Video Link"
-                                   type="text">
-
-                        </div>
 
                         <div class="form-group">
 
                             <label for="storyTitle">Title</label>
 
-                            <input name="title" id="storyTitle" class="form-control" placeholder="Title" type="text">
+                            <input name="title" id="storyTitle" class="form-control" placeholder="Title" type="text" value="{{ $post->title }}">
 
                         </div>
 
@@ -382,7 +335,7 @@
                             <input type="text" name="category" id="search_category_video"
                                    class="form-control fontAwesome search_category"
                                    onclick="getCategory('video')" onkeyup="searchTopic('video')"
-                                   placeholder="&#xf002;  Search Category">
+                                   placeholder="&#xf002;  Search Category" value="{{ $post->category }}">
                             <div id="get_category_video" class="w-100 get-category">
                                 <div class="col-xs-12">
                                     <div class="panel panel-default">
@@ -411,7 +364,7 @@
                             <label for="storyDesc">Description</label>
 
                             <textarea type="text" name="description" id="storyDesc" rows="5"
-                                      class="form-control summernote-full"></textarea>
+                                      class="form-control summernote-full">{{ $post->description }}</textarea>
 
                         </div>
 
@@ -419,7 +372,7 @@
 
                             <label>Tags</label>
 
-                            <input name="tags" id="tags" class="form-control" placeholder="tag1,tag2,tag3" type="text">
+                            <input name="tags" id="tags" class="form-control" placeholder="tag1,tag2,tag3" type="text" value="{{ $post->tags }}">
 
                         </div>
 
@@ -443,9 +396,9 @@
 
                     <div class="createList">
 
-                        <form id="addNewList" class="addLinksForm" action="{{ route('list.store') }}" method="POST"
-                              enctype="multipart/form-data" role="form">
+                        <form id="addNewList" class="addLinksForm" action="{{ route('list.update',$post->id) }}" method="POST" enctype="multipart/form-data" role="form">
 
+                            {{ method_field('PATCH') }}
                             {{ csrf_field() }}
 
                             <div class="form-group">
@@ -453,7 +406,7 @@
                                 <label for="storyTitle">Title</label>
 
                                 <input name="title" id="storyTitle" class="form-control" placeholder="Title"
-                                       type="text">
+                                       type="text" value="{{ $post->title }}">
 
                             </div>
 
@@ -470,7 +423,7 @@
     		</span>
 
                                     <input type="text" name="image" class="form-control"
-                                           placeholder='Choose a file...'/>
+                                           placeholder='Choose a new image...'/>
 
                                     <span class="input-group-btn">
 
@@ -487,7 +440,7 @@
                                 <input type="text" name="category" id="search_category_list"
                                        class="form-control fontAwesome search_category"
                                        onclick="getCategory('list')" onkeyup="searchTopic('list')"
-                                       placeholder="&#xf002;  Search Category">
+                                       placeholder="&#xf002;  Search Category" {{ $post->category }}>
                                 <div id="get_category_list" class="w-100 get-category">
                                     <div class="col-xs-12">
                                         <div class="panel panel-default">
@@ -515,7 +468,7 @@
                                 <label for="storyDesc">Description</label>
 
                                 <textarea type="text" name="description" id="storyDesc" rows="5"
-                                          class="form-control summernote-review"></textarea>
+                                          class="form-control summernote-review">{{ $post->description }}</textarea>
 
                             </div>
 
@@ -524,7 +477,7 @@
                                 <label>Tags</label>
 
                                 <input name="tags" id="tags" class="form-control" placeholder="tag1,tag2,tag3"
-                                       type="text">
+                                       type="text" value="{{ $post->tags }}">
 
                             </div>
 
@@ -550,9 +503,9 @@
 
                     <div class="createList">
 
-                        <form id="addNewList" class="addLinksForm" action="{{ route('poll.store') }}" method="POST"
-                              enctype="multipart/form-data" role="form">
+                        <form id="addNewList" class="addLinksForm" action="{{ route('poll.update',$post->id) }}" method="POST" enctype="multipart/form-data" role="form">
 
+                            {{ method_field('PATCH') }}
                             {{ csrf_field() }}
 
                             <div class="form-group">
@@ -560,7 +513,7 @@
                                 <label for="storyTitle">Title</label>
 
                                 <input name="title" id="storyTitle" class="form-control" placeholder="Title"
-                                       type="text">
+                                       type="text" value="{{ $post->title }}">
 
                             </div>
 
@@ -577,7 +530,7 @@
     		</span>
 
                                     <input type="text" name="image" class="form-control"
-                                           placeholder='Choose a file...'/>
+                                           placeholder='Choose a new image...'/>
 
                                     <span class="input-group-btn">
 
@@ -594,7 +547,7 @@
                                 <input type="text" name="category" id="search_category_poll"
                                        class="form-control fontAwesome search_category"
                                        onclick="getCategory('poll')" onkeyup="searchTopic('poll')"
-                                       placeholder="&#xf002;  Search Category">
+                                       placeholder="&#xf002;  Search Category" value="{{ $post->category }}">
                                 <div id="get_category_poll" class="w-100 get-category">
                                     <div class="col-xs-12">
                                         <div class="panel panel-default">
@@ -622,7 +575,7 @@
                                 <label for="storyDesc">Description</label>
 
                                 <textarea type="text" name="description" id="storyDesc" rows="5"
-                                          class="form-control summernote-review"></textarea>
+                                          class="form-control summernote-review">{{ $post->description }}</textarea>
 
                             </div>
 
@@ -631,7 +584,7 @@
                                 <label>Tags</label>
 
                                 <input name="tags" id="tags" class="form-control" placeholder="tag1,tag2,tag3"
-                                       type="text">
+                                       type="text" value="{{ $post->tags }}">
 
                             </div>
 

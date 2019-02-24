@@ -156,7 +156,23 @@ class VideoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'title'=>'required',
+            'category'=>'required',
+            'description'=>'required'
+        ]);
+        $post = Post::find($id);
+        $post->title = $request->title;
+        $post->category = $request->category;
+        $post->description = $request->description;
+        $post->tags = $request->tags;
+        $post->update();
+
+        $title = preg_replace('/\s+/', '-', $post->title);
+        $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+        $title = $title . '-' . $post->id;
+        Toastr::success('Your video info is updated successfully!', 'Success', ["positionClass" => "toast-top-right"]);
+        return redirect('story/' . $title);
     }
 
     /**
