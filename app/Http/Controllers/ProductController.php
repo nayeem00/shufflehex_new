@@ -187,6 +187,7 @@ class ProductController extends Controller
         }
 
         $post = Product::find($id);
+        $postUser = User::find($post->user_id);
         $post->product_reviews = $post->product_reviews()->get();
         $post->product_replies = $post->product_replies()->get();
         $post->product_votes = $post->product_votes()->get();
@@ -276,9 +277,9 @@ class ProductController extends Controller
         }
         $totalComments = count($post->product_reviews)+count($post->product_replies);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages.product', compact('post','totalComments','relatedPost','folders'));
+            return view('pages.product', compact('post','totalComments','relatedPost','folders','postUser'));
         }else{
-            return view('pages.product', compact('post','totalComments','relatedPost'));
+            return view('pages.product', compact('post','totalComments','relatedPost','postUser'));
         }
     }
 

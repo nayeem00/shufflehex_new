@@ -144,62 +144,80 @@ $title = $title . '-' . $post->id;
                 <p><strong>Online Shop</strong>{{ $post->store_name }} </p>
 
             </div>
+        </div>
+    </div>
 
+    <div class="row box vote-and-share mr-0 ml-0" style="margin-bottom: 15px !important;">
+        <div class="col-xs-6">
+            <a href="#" class="btn btn-default btn-twitter text-twitter"><i
+                        class="fa fa-twitter"></i></a>
+            <a href="#" class="btn btn-default btn-facebook text-facebook"><i class="fa fa-facebook"></i></a>
+        </div>
+        <div class="col-xs-6 text-right">
+            <ul class="list-inline vote-submit-list mb-0">
 
-            <div class="row vote">
-                <div class="col-md-4 col-sm-6 col-xs-6 up-btn">
+                <li>
                     @if($upVoteMatched == 1)
-                        <a class="btn btn-xs" onclick="upVote({{
-                        $post->id
-                        }})"><span  id="btn_upVote_{{ $post->id }}" class="thumb-up glyphicon glyphicon-triangle-top" style="color: green"></span></a>
-                        <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center" style="color: green;">Upvote</span>
-                        <span  id="vote_count_{{ $post->id }}" class="vote-counter text-center" style="color: green">{{ $votes }}</span>
+                        <a class="btn"  onclick="upVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-up text-shufflered" id="upvote_icon_{{$post->id}}"></i>
+                                </span>
+                        </a>
                     @else
-                        <a class="" onclick="upVote({{
-                        $post->id
-                        }})"><span id="btn_upVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span></a>
-                        <span id="btn_upVote_text_{{ $post->id }}" class="vote-counter text-center">Upvote</span>
-                        <span  id="vote_count_{{ $post->id }}" class="vote-counter text-center">{{ $votes }}</span>
+                        <a class="btn" onclick="upVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-up" id="upvote_icon_{{$post->id}}"></i>
+                                </span>
+                        </a>
                     @endif
+                    <span class="vote-counter" id="vote_count_{{$post->id}}">{{ $votes }}</span>
+                    @if($downVoteMatched == 1)
+                        <a class="btn" onclick="downVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-down text-shufflered" id="downvote_icon_{{$post->id}}"></i>
+                                </span>
+                        </a>
+                    @else
+                        <a class="btn" onclick="downVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-down" id="downvote_icon_{{$post->id}}"></i>
+                                </span>
+                        </a>
+                    @endif
+                </li>
 
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-6 col-md-offset-4 col-sm-offset-4">
-                    <div class="col-md-2 col-sm-2 col-xs-2 p-0 down-btn">
-                        @if($downVoteMatched == 1)
-                            <a class="pull-right" onclick="downVote({{
-                            $post->id
-                            }})"><span id="btn_downVote_{{ $post->id }}" class="thumb-down glyphicon glyphicon-triangle-bottom" style="color: red"></span> </a>
-                        @else
-                            <a class="pull-right" onclick="downVote({{
-                            $post->id
-                            }})"><span id="btn_downVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-bottom"></span></a>
-                        @endif
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 p-0 comment-btn text-center">
-                            <a class=""><span ><span class="vote-counter text-center" id="vote_count_1"></span></span><i class="fa fa-comment"></i>{{ $totalComments }}</a>
-                    </div>
-                    <div class="col-md-2 col-sm-2 col-xs-2 p-0 saved-btn">
-                        @if($savedStory == 1)
-                            <a class="pull-right" onclick="saveStory({{
-                        $post->id
-                        }})"><span><span class="vote-counter text-center"></span></span><i class="fa fa-bookmark saved" id="btn_saveStory_1" style="color: green"></i></a>
-                        @else
-                            <a class="pull-right" onclick="saveStory({{
-                        $post->id
-                        }})"><span></span><span class="vote-counter text-center" ></span><i class="fa fa-bookmark" id="btn_saveStory_1"></i></a>
-                        @endif
-                    </div>
-                    <div class="col-md-2 col-sm-2 col-xs-2 p-0 operation-btn dropdown">
+                @if($savedStory == 1)
+                    <li>
+                        <a class="btn" onclick="saveStory({{$post->id}})">
+                            <span class="saved"><i class="fa fa-bookmark text-shufflered" id="btn_saveStory_{{ $post->id }}"></i></span>
+                        </a>
+                    </li>
 
-                        <button style="background-color: #fff; border: none;" class="pull-right dropdown-toggle" type="button" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-option-horizontal" ></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ url('product/'.$title.'/edit') }}">Edit</a></li>
-                            <li><a href="#">Delete</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+                @else
+                    <li><a class="btn" onclick="saveStory({{$post->id}})">
+                            <span class="saved">
+                                <i class="fa fa-bookmark" id="btn_saveStory_{{ $post->id }}"></i>
+                            </span>
+                        </a>
+                    </li>
+                @endif
+                @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+                    @if($postUser->id == Auth::user()->id)
+                        <li class="dropdown">
+                            <a href="#" style="background-color: #fff; border: none;" class="btn dropdown-toggle"
+                               type="button"
+                               data-toggle="dropdown">
+                                <i class="fa fa-ellipsis-v"></i></a>
+                            <ul class="edit-menu dropdown-menu">
+                                <li><a href="{{ url('product/'.$title.'/edit') }}">Edit</a></li>
+                                <li><a href="#">Delete</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                @endif
+            </ul>
+
+
         </div>
     </div>
 <!--first Comment section -->
@@ -370,25 +388,16 @@ $title = $title . '-' . $post->id;
                 dataType: 'JSON',
                 success: function (data) {
                     console.log(data);
-                    if(data.status == 'upvoted'){
-                        $('#vote_count_'+post_id).text(data.voteNumber);
-
-                        var property = document.getElementById('btn_upVote_'+post_id);
-                        property.style.color = "green";
-                        var property = document.getElementById('btn_upVote_text_'+post_id);
-                        property.style.color = "green"
-                        var property = document.getElementById('vote_count_'+post_id);
-                        property.style.color = "green"
-                        var property = document.getElementById('btn_downVote_'+post_id);
-                        property.style.removeProperty('color');
-                    } else{
-                        $('#vote_count_'+post_id).text(data.voteNumber);
-                        var property = document.getElementById('btn_upVote_'+post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('btn_upVote_text_'+post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('vote_count_'+post_id);
-                        property.style.removeProperty('color');
+                    if (data.status == 'upvoted') {
+                        var element = document.getElementById("upvote_icon_" + post_id);
+                        element.classList.add("text-shufflered");
+                        $('#vote_count_' + post_id).text(data.voteNumber);
+                        var element = document.getElementById("downvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
+                    } else {
+                        var element = document.getElementById("upvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
+                        $('#vote_count_' + post_id).text(data.voteNumber);
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -410,18 +419,16 @@ $title = $title . '-' . $post->id;
                 dataType: 'JSON',
                 success: function (data) {
                     console.log(data);
-                    if(data.status == 'downvoted'){
-                        var property = document.getElementById('btn_upVote_'+post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('btn_upVote_text_'+post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('btn_downVote_'+post_id);
-                        property.style.color = "orangered"
-                        $('#vote_count_'+post_id).text(data.voteNumber);
-                    } else{
-                        var property = document.getElementById('btn_downVote_'+post_id);
-                        property.style.removeProperty('color');
-                        $('#vote_count_'+post_id).text(data.voteNumber);
+                    if (data.status == 'downvoted') {
+                        var element = document.getElementById("upvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
+                        var element = document.getElementById("downvote_icon_" + post_id);
+                        element.classList.add("text-shufflered");
+                        $('#vote_count_' + post_id).text(data.voteNumber);
+                    } else {
+                        var element = document.getElementById("downvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
+                        $('#vote_count_' + post_id).text(data.voteNumber);
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
