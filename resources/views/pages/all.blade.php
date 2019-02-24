@@ -34,13 +34,13 @@
 
         <?php if($pageKey == "story-main") { ?>
 
-        @include('partials.filter_row',['posts' => $posts,'removeFilter' => []]);
+        @include('partials.filter_row',['posts' => $posts,'removeFilter' => []])
         <?php } else { ?>
-        @include('partials.filter_row',['posts' => $posts,'removeFilter' => ["other" => 'other']]);
+        @include('partials.filter_row',['posts' => $posts,'removeFilter' => ["other" => 'other']])
         <?php } ?>
 
         <div class="posts">
-            @include('partials.post_item',['posts' => $posts]);
+            @include('partials.post_item',['posts' => $posts])
         </div>
 
     </div>
