@@ -101,7 +101,9 @@ Route::get('/product/{title}', 'ProductController@show');
 Route::get('/products/newest', 'ProductController@newestProjects');
 Route::get('/products/popular', 'ProductController@popularProjects');
 Route::get('/product/{title}/edit', 'ProductController@edit');
+Route::get('/project/{title}/edit', 'ProjectController@edit');
 Route::patch('/product/{id}', 'ProductController@update')->name('product.update');
+Route::patch('/project/{id}', 'ProjectController@update')->name('project.update');
 
 Route::get('/story/{title}', 'PostController@showPost');
 Route::get('/view/{title}', 'PostController@viewPost');

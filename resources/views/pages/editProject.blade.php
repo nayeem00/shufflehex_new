@@ -6,87 +6,75 @@
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/list-style.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/add.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/product.css') }}">
-{{--    <link href="{{ asset('summernote/dist/summernote.css' }}" rel="stylesheet">--}}
-
+       <!-- Bootstrap CSS CDN -->
 
 @endsection
 @section('content')
+
     {{----------------------------- store current url to session -----------------------}}
     <?php session(['last_page' => url()->current()]);?>
     {{-------------------------------------------------------------------------------------}}
+
     <div class="box">
 
         <div class="box-header">
-            <h3>Add Product</h3>
+            <h3>Edit Project</h3>
         </div>
 
         <div class="add-product">
-            <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('project.update',$project->id) }}" method="POST" enctype="multipart/form-data">
+                {{ method_field('PATCH') }}
                 {{ csrf_field() }}
                 <div class="form-group">
-                    <input type="text" class="form-control" name="product_name" placeholder="Product's Name">
+                    <label for="project_name">Project Name</label>
+                    <input type="text" id="project_name" class="form-control" name="title" placeholder="Project Name" value="{{ $project->title }}">
+                </div>
+                <div class="form-group">
+                    <label for="project_link">Project Link</label>
+                    <input type="url" id="project_link" name="link" class="form-control" placeholder="Link" value="{{ $project->link }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="tag_line">Tag Line</label>
+                    <textarea id="tag_line" name="tag_line" class="form-control" placeholder="Tagline">{{ $project->tag_line }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" class="summernote" name="description">{{ $project->description }}</textarea>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <label class="input-group-btn">
                         <span class="btn btn-primary">
-                            Select Images&hellip; <input type="file" name="img[]" style="display: none;" multiple>
+                            Logo&hellip; <input type="file" name="logo" style="display: none;" multiple>
                         </span>
                         </label>
-                        <input type="text" class="form-control" readonly>
+                        <input type="text" class="form-control" readonly placeholder="Change Logo">
+                    </div>
+                    <p class="help-text"><small>500px X 500px logo.</small></p>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <label class="input-group-btn">
+                        <span class="btn btn-primary">
+                            Screenshots&hellip; <input type="file" name="images[]" style="display: none;" multiple>
+                        </span>
+                        </label>
+                        <input type="text" class="form-control" readonly placeholder="Change Project Screenshots">
                     </div>
                 </div>
                 <div class="form-group">
-
-                    <textarea id="short-desc" name="short_desc" class="form-control" placeholder="Short Description"></textarea>
-
+                    <label for="category">Category</label>
+                    <select class="form-control" name="category" id="category">
+                        <option disabled>Category</option>
+                        @foreach($categories as $category)
+                        <option value="{{ $category->category }}" @if($category->category == $project->category) selected @endif>{{ $category->category }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
-                    <textarea id="features" name="desc" class="summernote"></textarea>
-                </div>
-                <div class="form-group">
-                    <input type="url" name="yt_video_url" class="form-control" placeholder="Youtube Video URL">
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" name="store">
-                                <option disabled selected>Select Store</option>
-                                @foreach($stores as $store)
-                                <option value="{{ $store->store_name }}">{{ $store->store_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" name="productId" class="form-control" placeholder="Product ID">
-                        </div>
-                    </div>
-                    {{--<div class="row">--}}
-                        {{--<div class="col-xs-12">--}}
-                            {{--<button type="button" style="float:right; margin-top: 5px" class="btn btn-sm btn-default"><i class="fa fa-plus"></i>&nbsp;Add More</button>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                </div>
-                <div class="form-group">
-                    <input type="text" name="price" class="form-control" placeholder="Price (Ex: $25)">
-                </div>
-                <div class="form-group">
-                    <input type="text" name="coupon" class="form-control" placeholder="Coupon">
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select class="form-control" name="category">
-                            <option disabled="disabled" selected>Category</option>
-                            @foreach($categories as $category)
-                            <option>{{ $category->category }}</option>
-                             @endforeach
-                        </select>
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <input type="text" name="tags" class="form-control" placeholder="Tags">
+                    <label for="tags">Tags</label>
+                    <input type="text" id="tags" name="tags" class="form-control" placeholder="Tags" value="{{ $project->tags }}">
                 </div>
                 <div class="form-group mr-0">
                     <input type="submit" class="btn btn-danger btn-block" value="Submit">

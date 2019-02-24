@@ -17,7 +17,7 @@
     <div class="box">
 
         <div class="box-header">
-            <h3>Add Product</h3>
+            <h3>Edit Product</h3>
         </div>
         <div class="add-product">
             <form action="{{ route('product.update',$product->id) }}" method="POST" enctype="multipart/form-data">

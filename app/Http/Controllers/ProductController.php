@@ -71,7 +71,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request);
+        $this->validate($request,[
+            'product_name'=>'required',
+            'img'=>'required',
+            'short_desc'=>'required',
+            'category'=>'required',
+            'price'=>'required',
+            'desc'=>'required'
+        ]);
         $userId = Auth::user()->id;
 
         $user = User::find($userId);
@@ -129,7 +136,7 @@ class ProductController extends Controller
         $implodedPaths = implode(',',$imgPaths);
 
         $product = new Product();
-        $product->product_name = $request->title;
+        $product->product_name = $request->product_name;
         $product->product_images = $implodedPaths;
         $product->short_desc = $request->short_desc;
         $product->description = $request->desc;
@@ -309,6 +316,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'product_name'=>'required',
+            'img'=>'required',
+            'short_desc'=>'required',
+            'category'=>'required',
+            'price'=>'required',
+            'desc'=>'required'
+        ]);
         $store = $request->store;
         $productId = $request->productId;
         $storeInfo = ProductStore::where('store_name',$store)->first();
@@ -363,7 +378,7 @@ class ProductController extends Controller
         }
         $implodedPaths = implode(',',$imgPaths);
         $product_previous_images = explode(',',$product->product_images);
-            File::delete($product_previous_images,$product->product_list_image,$product->product_meta_image);
+        File::delete($product_previous_images,$product->product_list_image,$product->product_meta_image);
 
             $product->product_name = $request->title;
             $product->product_images = $implodedPaths;
