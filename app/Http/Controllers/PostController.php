@@ -412,84 +412,20 @@ class PostController extends Controller
     {
         $this->validate($request,[
             'title'=>'required',
-            'link'=>'required',
             'category'=>'required',
             'description'=>'required'
         ]);
         $post = Post::find($id);
-        $userId = Auth::user()->id;
-
-        $user = User::find($userId);
-        if ($request->link != $post->link){
-        $info = Embed::create($request->link);
-//        dd($info);
-        $extension = pathinfo($info->image, PATHINFO_EXTENSION);
-        $ext = explode('?', $extension);
-        $featuredImage = 'images/imagesByLink/' . str_random(4) . '-' . str_slug($request->title) . '-' . time() . '.' . $ext[0];
-//        $file = file_get_contents($info->image);
-        $img = Intervention::make($info->image);
-        $resizedImage = $img->resize(650, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        $save = $resizedImage->save($featuredImage);
-
-        $imageForStoryList = 'images/imagesByLink/imagesForStoryList/' . str_random(4) . '-' . str_slug($request->title) . '-' . time() . '.' . $ext[0];
-        $img = Intervention::make($info->image);
-        $resizedImage = $img->resize(150, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-
-        $cropped = $resizedImage->crop(150, 84);
-        $save = $cropped->save($imageForStoryList);
-
-        $imageForRelatedStory = 'images/imagesByLink/imagesForRelatedStory/' . str_random(4) . '-' . str_slug($request->title) . '-' . time() . '.' . $ext[0];
-        $img = Intervention::make($info->image);
-        $resizedImage = $img->resize(57, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-
-        $cropped = $resizedImage->crop(57, 32);
-        $save = $cropped->save($imageForRelatedStory);
-
-        $imageForShuffleBox = 'images/imagesByLink/imagesForShuffleBox/' . str_random(4) . '-' . str_slug($request->title) . '-' . time() . '.' . $ext[0];
-        $img = Intervention::make($info->image);
-        $resizedImage = $img->resize(650, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        $cropped = $resizedImage->crop(650, 365);
-        $save = $cropped->save($imageForShuffleBox);
-
-        $explodedLink = explode('//', $request->link);
-        if (isset($explodedLink[1]) && !empty($explodedLink[1])) {
-            $domainName = explode('/', $explodedLink[1]);
-        } else {
-            $domainName = explode('/', $explodedLink[0]);
-        }
-            File::delete($post->featured_image, $post->story_list_image, $post->related_story_image,$post->shuffle_box_image);
-
-            $post->title = $request->title;
-            $post->link = $request->link;
-            $post->domain = $domainName[0];
-            $post->featured_image = $featuredImage;
-            $post->story_list_image = $imageForStoryList;
-            $post->related_story_image = $imageForRelatedStory;
-            $post->shuffle_box_image = $imageForShuffleBox;
-            $post->category = $request->category;
-            $post->description = $request->description;
-            $post->tags = $request->tags;
-            $post->update();
-        } else{
-            $post->title = $request->title;
-            $post->category = $request->category;
-            $post->description = $request->description;
-            $post->tags = $request->tags;
-            $post->update();
-        }
+        $post->title = $request->title;
+        $post->category = $request->category;
+        $post->description = $request->description;
+        $post->tags = $request->tags;
+        $post->update();
 
         $title = preg_replace('/\s+/', '-', $post->title);
         $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
         $title = $title . '-' . $post->id;
-        Toastr::success('Your story updated successfully!', 'Success', ["positionClass" => "toast-top-right"]);
+        Toastr::success('Your story is updated successfully!', 'Success', ["positionClass" => "toast-top-right"]);
         return redirect('story/' . $title);
     }
 

@@ -47,7 +47,11 @@ $votes += $vote->vote;
         @endif
     @endforeach
 @endif
-
+<?php
+$title = preg_replace('/\s+/', '-', $post->product_name);
+$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+$title = $title . '-' . $post->id;
+?>
 @section('content')
 
     {{----------------------------- store current url to session -----------------------}}
@@ -138,6 +142,7 @@ $votes += $vote->vote;
             <div class="promo">
                 <p><strong>Promo Code</strong>@if(isset($post->coupon) && !empty($post->coupon)){{ $post->coupon }} @else {{ 'promo code not available' }} @endif</p>
                 <p><strong>Online Shop</strong>{{ $post->store_name }} </p>
+
             </div>
 
 
@@ -189,7 +194,7 @@ $votes += $vote->vote;
                         <button style="background-color: #fff; border: none;" class="pull-right dropdown-toggle" type="button" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-option-horizontal" ></span></button>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Edit</a></li>
+                            <li><a href="{{ url('product/'.$title.'/edit') }}">Edit</a></li>
                             <li><a href="#">Delete</a></li>
                         </ul>
                     </div>
@@ -478,8 +483,7 @@ $votes += $vote->vote;
                     }
                 }
             });
-        };
-
+        }
     </script>
 
 

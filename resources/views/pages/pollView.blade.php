@@ -6,14 +6,53 @@
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/add.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/poll.css') }}">
     <style>
-        .item-form{
+        .item-form {
             margin-top: 20px;
         }
-        #addItemForm .btn-add-more{
+
+        #addItemForm .btn-add-more {
             margin: 15px auto;
         }
     </style>
 @endsection
+<?php
+$upVoteMatched = 0;
+$downVoteMatched = 0;
+$savedStory = 0;
+$votes = 0;
+$date = date('j F Y', strtotime($post->created_at));
+
+?>
+@foreach($post->votes as $key=>$vote)
+    <?php
+    $votes += $vote->vote;
+    ?>
+@endforeach
+@if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+    @foreach($post->votes as $key=>$vote)
+        @if($vote->user_id == Auth::user()->id && $vote->vote == 1)
+            <?php $upVoteMatched = 1;?>
+            @break
+        @endif
+    @endforeach
+    @foreach($post->votes as $key=>$vote)
+        @if($vote->user_id == Auth::user()->id && $vote->vote == -1)
+            <?php $downVoteMatched = 1;?>
+            @break
+        @endif
+    @endforeach
+    @foreach($post->saved_stories as $key=>$saved)
+        @if($saved->user_id == Auth::user()->id && $saved->post_id == $post->id)
+            <?php $savedStory = 1;?>
+            @break
+        @endif
+    @endforeach
+@endif
+<?php
+$title = preg_replace('/\s+/', '-', $post->title);
+$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+$title = $title . '-' . $post->id;
+?>
 @section('content')
 
     {{----------------------------- store current url to session -----------------------}}
@@ -35,21 +74,26 @@
             <p> {!! $post->description !!}  </p>
         </div>
 
+        @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+            @if($post->user_id == Auth::user()->id)
+                <div id="addItemBlock" style="padding: 10px 20px;">
+                    <form id="addItemForm" class="addLinksForm" action="{{ route('poll_item.store') }}" method="POST"
+                          enctype="multipart/form-data" role="form">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="post_id" value="{{ $post->id }}">
+                        <div id="item_form_element"></div>
+                        <div class="form-group">
+                            <a class="btn btn-add-more btn-block btn-default" onclick="AddListItemForm(event)"><i
+                                        class="fa fa-plus-circle"></i> Add Item </a>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-publish btn-danger btn-block hidden" value="Publish">
+                        </div>
+                    </form>
 
-        <div id="addItemBlock" style="padding: 10px 20px;">
-            <form id="addItemForm" class="addLinksForm" action="{{ route('poll_item.store') }}" method="POST" enctype="multipart/form-data" role="form">
-                {{ csrf_field() }}
-                <input type="hidden" name="post_id" value="{{ $post->id }}">
-                <div id="item_form_element"></div>
-                <div class="form-group">
-                    <a class="btn btn-add-more btn-block btn-default" onclick="AddListItemForm(event)"><i class="fa fa-plus-circle"></i> Add Item </a>
                 </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-publish btn-danger btn-block hidden" value="Publish">
-                </div>
-            </form>
-
-        </div>
+            @endif
+        @endif
         <?php $count = 0;
         //        print_r($post->poll_items->poll_votes);
         //        die();
@@ -76,6 +120,24 @@
                     <h3 class="poll-title pull-left">
                         <a class="font16 bold-600" href="{{ $item->link }}">{{ $item->title }}</a>
                     </h3>
+                    @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+                        @if($postUser->id == Auth::user()->id)
+                            <div class="text-right">
+                                <ul class="list-inline vote-submit-list mb-0 pull-right">
+                                    <li class="dropdown">
+                                        <a href="#" style="background-color: #fff; border: none;" class="btn dropdown-toggle"
+                                           type="button"
+                                           data-toggle="dropdown">
+                                            <i class="fa fa-ellipsis-v"></i></a>
+                                        <ul class="edit-menu dropdown-menu">
+                                            <li><a href="{{ url('poll_item/'.$item->id.'/edit') }}">Edit</a></li>
+                                            <li><a href="#">Delete</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endif
+                    @endif
                     <div class="pull-right">
                         @if($upVoteMatched == 1)
                             <a class="btn btn-xs btn-vote-submit text-shufflered" onclick="upVote({{ $item->id }})">
@@ -113,6 +175,78 @@
             </div>
 
         @endforeach
+    </div>
+    <div class="row box vote-and-share mr-0 ml-0" style="margin-bottom: 15px !important;">
+        <div class="col-xs-6">
+            <a href="#" class="btn btn-default btn-twitter text-twitter"><i
+                        class="fa fa-twitter"></i></a>
+            <a href="#" class="btn btn-default btn-facebook text-facebook"><i class="fa fa-facebook"></i></a>
+        </div>
+        <div class="col-xs-6 text-right">
+            <ul class="list-inline vote-submit-list mb-0">
+                @if($upVoteMatched == 1)
+                    <li>
+                        <a class="btn" onclick="upVote({{$post->id}})">
+                                <span class="shuffle_vote text-shufflered">
+                                    <i class="fa fa-chevron-up"></i>
+                                </span>
+                        </a>
+                        <span class="vote-counter">{{ $votes }}</span>
+                        <a class="btn" onclick="downVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-down"></i>
+                                </span>
+                        </a>
+                    </li>
+                @else
+                    <li>
+                        <a class="btn" onclick="upVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-up"></i>
+                                </span>
+                        </a>
+                        <span class="vote-counter">{{ $votes }}</span>
+                        <a class="btn" onclick="downVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-down"></i>
+                                </span>
+                        </a>
+                    </li>
+                @endif
+                @if($savedStory == 1)
+                    <li>
+                        <a class="btn" onclick="saveStory({{$post->id}})">
+                                <span class="saved" id="btn_saveStory_{{ $post->id }}"><i
+                                            class="fa fa-bookmark"></i></span>
+                        </a>
+                    </li>
+
+                @else
+                    <li><a class="btn" onclick="saveStory({{$post->id}})">
+                            <span class="saved" id="btn_saveStory_{{ $post->id }}">
+                                <i class="fa fa-bookmark"></i>
+                            </span>
+                        </a>
+                    </li>
+                @endif
+                @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+                    @if($postUser->id == Auth::user()->id)
+                        <li class="dropdown">
+                            <a href="#" style="background-color: #fff; border: none;" class="btn dropdown-toggle"
+                               type="button"
+                               data-toggle="dropdown">
+                                <i class="fa fa-ellipsis-v"></i></a>
+                            <ul class="edit-menu dropdown-menu">
+                                <li><a href="{{ url('story/'.$title.'/edit') }}">Edit</a></li>
+                                <li><a href="#">Delete</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                @endif
+            </ul>
+
+
+        </div>
     </div>
     <div class="box recent-stories vote">
         <div class="box-header">Related Stories</div>
@@ -422,7 +556,8 @@
                     <h4 class="modal-title text-center"><i class="fa fa-plus-circle"></i> Save New Story</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="addNewList" class="addLinksForm" action="{{ route('poll_item.store') }}" method="POST" enctype="multipart/form-data" role="form">
+                    <form id="addNewList" class="addLinksForm" action="{{ route('poll_item.store') }}" method="POST"
+                          enctype="multipart/form-data" role="form">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="storyTitle">Title</label>
@@ -438,7 +573,8 @@
 			<span class="input-group-btn">
         		<button class="btn btn-default btn-choose" type="button">Choose</button>
     		</span>
-                                <input type="text" name="img" class="form-control" placeholder='Choose a file...' multiple/>
+                                <input type="text" name="img" class="form-control" placeholder='Choose a file...'
+                                       multiple/>
                                 <span class="input-group-btn">
        			 <button class="btn btn-warning btn-reset" type="button">Reset</button>
     		</span>
@@ -446,7 +582,8 @@
                         </div>
                         <div class="form-group">
                             <label for="storyDesc">Description</label>
-                            <textarea type="text" name="description" id="storyDesc" rows="5" class="form-control"></textarea>
+                            <textarea type="text" name="description" id="storyDesc" rows="5"
+                                      class="form-control"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Tags</label>
@@ -454,7 +591,9 @@
                         </div>
                         {{--<input type="hidden" name="user_id" value="{{ Auth::user()->id }}">--}}
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
-                        <button type="submit" name="storySubmit" id="storySubmit" class="btn-link-submit btn btn-block btn-danger">Add Item</button>
+                        <button type="submit" name="storySubmit" id="storySubmit"
+                                class="btn-link-submit btn btn-block btn-danger">Add Item
+                        </button>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -471,7 +610,7 @@
 @section('js')
 
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
@@ -483,28 +622,27 @@
         function bs_input_file() {
 
             $(".input-file").before(
+                function () {
 
-                function() {
-
-                    if ( ! $(this).prev().hasClass('input-ghost') ) {
+                    if (!$(this).prev().hasClass('input-ghost')) {
 
                         var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
 
-                        element.attr("name",$(this).attr("name"));
+                        element.attr("name", $(this).attr("name"));
                         console.log($(this).attr("name"));
-                        element.change(function(){
+                        element.change(function () {
 
                             element.next(element).find('input').val((element.val()).split('\\').pop());
 
                         });
 
-                        $(this).find("button.btn-choose").click(function(){
+                        $(this).find("button.btn-choose").click(function () {
 
                             element.click();
 
                         });
 
-                        $(this).find("button.btn-reset").click(function(){
+                        $(this).find("button.btn-reset").click(function () {
 
                             element.val(null);
 
@@ -512,9 +650,9 @@
 
                         });
 
-                        $(this).find('input').css("cursor","pointer");
+                        $(this).find('input').css("cursor", "pointer");
 
-                        $(this).find('input').mousedown(function() {
+                        $(this).find('input').mousedown(function () {
 
                             $(this).parents('.input-file').prev().click();
 
@@ -527,7 +665,6 @@
                     }
 
                 }
-
             );
 
         }
@@ -536,33 +673,33 @@
 
 
     <script>
-        function upVote(poll_item_id){
+        function upVote(poll_item_id) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var property = 'btn_upVote_'+poll_item_id;
+            var property = 'btn_upVote_' + poll_item_id;
             console.log(CSRF_TOKEN);
             $.ajax({
-                type:'post',
+                type: 'post',
                 url: '{{url("poll_vote")}}',
-                data: {_token: CSRF_TOKEN , poll_item_id: poll_item_id},
+                data: {_token: CSRF_TOKEN, poll_item_id: poll_item_id},
                 dataType: 'JSON',
                 success: function (data) {
                     console.log(data);
-                    if(data.status == 'upvoted'){
-                        var property = document.getElementById('btn_downVote_'+poll_item_id);
+                    if (data.status == 'upvoted') {
+                        var property = document.getElementById('btn_downVote_' + poll_item_id);
                         property.style.removeProperty('color');
-                        var property = document.getElementById('btn_upVote_'+poll_item_id);
+                        var property = document.getElementById('btn_upVote_' + poll_item_id);
                         property.style.color = "green";
-                        $('#upvote_count_'+poll_item_id).text(data.upvote);
-                        $('#downvote_count_'+poll_item_id).text(data.downvote);
-                    } else{
-                        var property = document.getElementById('btn_upVote_'+poll_item_id);
+                        $('#upvote_count_' + poll_item_id).text(data.upvote);
+                        $('#downvote_count_' + poll_item_id).text(data.downvote);
+                    } else {
+                        var property = document.getElementById('btn_upVote_' + poll_item_id);
                         property.style.color = "";
-                        $('#upvote_count_'+poll_item_id).text(data.upvote);
-                        $('#downvote_count_'+poll_item_id).text(data.downvote);
+                        $('#upvote_count_' + poll_item_id).text(data.upvote);
+                        $('#downvote_count_' + poll_item_id).text(data.downvote);
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    if(xhr.status==401) {
+                    if (xhr.status == 401) {
                         window.location.href = '{{url("login")}}';
                     }
                 }
@@ -570,33 +707,33 @@
         };
 
 
-        function downVote(poll_item_id){
+        function downVote(poll_item_id) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var property = 'btn_upVote_'+poll_item_id;
+            var property = 'btn_upVote_' + poll_item_id;
             console.log(CSRF_TOKEN);
             $.ajax({
-                type:'post',
+                type: 'post',
                 url: '{{url("poll_downvote")}}',
-                data: {_token: CSRF_TOKEN , poll_item_id: poll_item_id},
+                data: {_token: CSRF_TOKEN, poll_item_id: poll_item_id},
                 dataType: 'JSON',
                 success: function (data) {
                     console.log(data);
-                    if(data.status == 'downvoted'){
-                        var property = document.getElementById('btn_upVote_'+poll_item_id);
+                    if (data.status == 'downvoted') {
+                        var property = document.getElementById('btn_upVote_' + poll_item_id);
                         property.style.removeProperty('color');
-                        var property = document.getElementById('btn_downVote_'+poll_item_id);
+                        var property = document.getElementById('btn_downVote_' + poll_item_id);
                         property.style.color = "orangered";
-                        $('#upvote_count_'+poll_item_id).text(data.upvote);
-                        $('#downvote_count_'+poll_item_id).text(data.downvote);
-                    } else{
-                        var property = document.getElementById('btn_downVote_'+poll_item_id);
+                        $('#upvote_count_' + poll_item_id).text(data.upvote);
+                        $('#downvote_count_' + poll_item_id).text(data.downvote);
+                    } else {
+                        var property = document.getElementById('btn_downVote_' + poll_item_id);
                         property.style.color = "";
-                        $('#upvote_count_'+poll_item_id).text(data.upvote);
-                        $('#downvote_count_'+poll_item_id).text(data.downvote);
+                        $('#upvote_count_' + poll_item_id).text(data.upvote);
+                        $('#downvote_count_' + poll_item_id).text(data.downvote);
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    if(xhr.status==401) {
+                    if (xhr.status == 401) {
                         window.location.href = '{{url("login")}}';
                     }
                 }
@@ -658,26 +795,26 @@
         //     });
         // };
 
-        function saveStory(post_id){
+        function saveStory(post_id) {
             var user_id = $('#save_story_user_id').val();
             $('#save_story_post_id').val(post_id);
             console.log(user_id);
-            if(user_id==''){
+            if (user_id == '') {
                 alert('You are not logged in!');
-            }else {
+            } else {
                 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                 console.log(post_id);
                 $.ajax({
-                    type:'post',
+                    type: 'post',
                     url: '{{url("saveStory")}}',
-                    data: {_token: CSRF_TOKEN , post_id: post_id, user_id: user_id},
+                    data: {_token: CSRF_TOKEN, post_id: post_id, user_id: user_id},
                     dataType: 'JSON',
                     success: function (data) {
                         console.log(data);
-                        if(data.status == 'showModal'){
+                        if (data.status == 'showModal') {
                             $('#saveStoryModal').modal('show');
-                        } else{
-                            var property = document.getElementById('btn_saveStory_'+post_id);
+                        } else {
+                            var property = document.getElementById('btn_saveStory_' + post_id);
                             property.style.removeProperty('background');
                         }
                     }
@@ -686,25 +823,25 @@
             }
         };
 
-        function saveStoryData(){
+        function saveStoryData() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var user_id = $('#save_story_user_id').val();
             var post_id = $('#save_story_post_id').val();
             var folder_id = $('#save_story_folder_id option:selected').val();
             console.log(folder_id);
             $.ajax({
-                type:'post',
+                type: 'post',
                 url: '{{url("saveStory")}}',
-                data: {_token: CSRF_TOKEN , post_id: post_id, user_id: user_id, folder_id: folder_id},
+                data: {_token: CSRF_TOKEN, post_id: post_id, user_id: user_id, folder_id: folder_id},
                 dataType: 'JSON',
                 success: function (data) {
                     console.log(data);
-                    if(data.status == 'saved'){
-                        var property = document.getElementById('btn_saveStory_'+post_id);
+                    if (data.status == 'saved') {
+                        var property = document.getElementById('btn_saveStory_' + post_id);
                         property.style.background = "yellowgreen";
                         $('#saveStoryModal').modal('hide');
-                    } else{
-                        var property = document.getElementById('btn_saveStory_'+post_id);
+                    } else {
+                        var property = document.getElementById('btn_saveStory_' + post_id);
                         property.style.removeProperty('background');
                     }
                 }
@@ -715,6 +852,7 @@
     <script>
 
         var itemNumber = 0;
+
         function AddListItemForm(event) {
             let action = '{{ route('poll_item.store') }}/';
             let post_id = '';
@@ -741,7 +879,7 @@
                 ' <textarea type="text" name="description[]" id="storyDesc" rows="5" class="form-control"></textarea>' +
                 '</div></div>');
             itemNumber++;
-            $(function() {
+            $(function () {
 
                 bs_input_file();
 

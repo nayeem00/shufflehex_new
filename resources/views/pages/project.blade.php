@@ -47,13 +47,18 @@ $countImages = count($post->screenshots);
         @endif
     @endforeach
 @endif
+<?php
+$title = preg_replace('/\s+/', '-', $post->title);
+$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+$title = $title . '-' . $post->id;
+?>
 @section('content')
     <?php session(['last_page' => url()->current()]);?>
     <div class="row box project">
         <div class="col-xs-12">
             <div id="project_carousel" class="slick-slider">
                 @for($i=0;$i<$countImages;$i++)
-                    <div class="w-100">
+                    <div>
                         <img class="img-responsive" src="{{ url($post->screenshots[$i]) }}">
                     </div>
                 @endfor
@@ -141,7 +146,7 @@ $countImages = count($post->screenshots);
                        data-toggle="dropdown">
                         <i class="fa fa-ellipsis-v"></i></a>
                     <ul class="edit-menu dropdown-menu">
-                        <li><a href="#">Edit</a></li>
+                        <li><a href="{{ url('project/'.$title.'/edit') }}">Edit</a></li>
                         <li><a href="#">Delete</a></li>
                     </ul>
                 </li>

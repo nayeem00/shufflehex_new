@@ -34,6 +34,9 @@
 </head>
 
 <body class="project">
+{{----------------------------- store current url to session -----------------------}}
+<?php session(['last_page' => url()->current()]);?>
+{{-------------------------------------------------------------------------------------}}
 <div class="page-overlay"></div>
 @if( !(Request::is('page404')) )
     @include('partials.menu_sidebar')
