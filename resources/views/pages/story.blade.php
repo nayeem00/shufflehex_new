@@ -54,7 +54,7 @@ $date = date('j F Y', strtotime($post->created_at));
 $title = preg_replace('/\s+/', '-', $post->title);
 $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
 $title = $title . '-' . $post->id;
-$storyFullUrl = $_SERVER['REQUEST_URI'];
+$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 ?>
 @section('content')
     {{----------------------------- store current url to session -----------------------}}
@@ -100,7 +100,7 @@ $storyFullUrl = $_SERVER['REQUEST_URI'];
     </div>
     <div class="row box vote-and-share mr-0 ml-0" style="margin-bottom: 15px !important;">
         <div class="col-xs-6">
-            <a href="{{'https://twitter.com/intent/tweet?text='.$post->title. ' - '.  $storyFullUrl }}" class="btn btn-default btn-twitter text-twitter" target="_blank" rel="nofollow"><i
+            <a href="{{'https://twitter.com/intent/tweet?text='.$post->title. ' - '.  $actual_link }}" class="btn btn-default btn-twitter text-twitter" target="_blank" rel="nofollow"><i
                         class="fa fa-twitter"></i></a>
             <a href="#" class="btn btn-default btn-facebook text-facebook"><i class="fa fa-facebook"></i></a>
         </div>
