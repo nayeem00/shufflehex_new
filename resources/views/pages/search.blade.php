@@ -33,14 +33,14 @@
                         @forelse($stories as $story)
                         <div class="row search-item">
                             <div class="col-xs-12">
-                                <div class="img-box52_32">
+                                <div class="img_box57_32">
                                     <a href="{{ url($story->story_link) }}" target="_blank" rel="nofollow">
                                         <img class="img-responsive"
                                              src="{{ url($story->related_story_image) }}"
                                              alt="">
                                     </a>
                                 </div>
-                                <div class="img_box52_right">
+                                <div class="img_box57_right">
                                     <a href="{{ url($story->story_link) }}" target="_blank" rel="nofollow"><span
                                                 class="font16">{{ $story->title }}</span></a>
                                 </div>
@@ -66,7 +66,7 @@
                         @forelse($products as $product)
                         <div class="row search-item">
                             <div class="col-xs-12">
-                                <div class="img-box32_32">
+                                <div class="img_box32_32">
                                     <a href="{{ url($product->product_link) }}" target="_blank" rel="nofollow">
                                         <img class="img-responsive"
                                              src="{{ url($product->related_product_image) }}"
@@ -99,7 +99,7 @@
                         @forelse($projects as $project)
                         <div class="row search-item">
                             <div class="col-xs-12">
-                                <div class="img-box32_32">
+                                <div class="img_box32_32">
                                     <a href="{{ url($project->project_link) }}" target="_blank" rel="nofollow">
                                         <img class="img-responsive"
                                              src="{{ url($project->small_logo) }}"

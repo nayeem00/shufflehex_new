@@ -3,7 +3,7 @@
         <div class="sibebar-panel">
             <div class="list-group">
 
-                <li class="list-group-item list-group-title">CATEGORIES</li>
+                <li class="list-group-item list-group-title">STORIES</li>
                 @if(isset($page) && !empty($page) && $page=='Trending')
                     <a id="trending_stories" class="list-group-item active" href="{{ url('/story/trending') }}">
                         <img src="{{ url('icons/trending-stories.svg') }}">Trending Stories</a>
