@@ -48,12 +48,12 @@
                             @if (Auth::guest())
                                 <a class="user-no-img" href="{{ url('/login') }}">
                                     <img class="img-circle"
-                                         src="@if (!empty(Auth::user()->mini_profile_picture_link)) {{url(Auth::user()->mini_profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                                         src="@if (!empty(Auth::user()->mini_profile_picture_link)) {{url(Auth::user()->mini_profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/mini_user.png') }} @endif">
                                 </a>
                             @else
                                 <a id="mobile_nav_user_icon" href="#">
                                     <img class="img-circle"
-                                         src="@if (!empty(Auth::user()->mini_profile_picture_link)) {{url(Auth::user()->mini_profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                                         src="@if (!empty(Auth::user()->mini_profile_picture_link)) {{url(Auth::user()->mini_profile_picture_link)}} @else {{ asset( 'images/user/profilePicture/default/mini_user.png') }} @endif">
                                 </a>
                             @endif
                         </li>
