@@ -11,12 +11,12 @@
 |
  */
 
-//Route::post('/', function () {
+//Route::any('{query}',
+//    function() { return redirect('/'); })
+//    ->where('query', '.*');
+//Route::get('/', [ 'as' => '/', 'uses' => function () {
 //    return redirect('/story');
-//});
-Route::get('/', [ 'as' => '/', 'uses' => function () {
-    return redirect('/story');
-}]);
+//}]);
 
 //Route::get('/pages/add', function () {
 //    return view('pages.add');
@@ -85,7 +85,12 @@ Route::get('/page404', function () {
     return view('pages.page404');
 });
 
-Route::resource('/story', 'PostController');
+Route::get('/', 'PostController@index');
+Route::get('/add', 'PostController@create');
+Route::get('/story/{title}/edit', 'PostController@edit');
+Route::get('/story/{title}', 'PostController@show');
+Route::post('/story/save', 'PostController@store')->name('story.store');
+Route::patch('/story/update', 'PostController@store')->name('story.update');
 
 Route::get('/products', 'ProductController@index');
 
@@ -105,7 +110,7 @@ Route::get('/project/{title}/edit', 'ProjectController@edit');
 Route::patch('/product/{id}', 'ProductController@update')->name('product.update');
 Route::patch('/project/{id}', 'ProjectController@update')->name('project.update');
 
-Route::get('/story/{title}', 'PostController@showPost');
+//Route::get('/story/{title}', 'PostController@showPost');
 Route::get('/view/{title}', 'PostController@viewPost');
 Route::get('/profile/{username}', 'PostController@userWisePosts');
 Route::get('/source/{domain}', 'PostController@domainWisePosts');

@@ -1,4 +1,13 @@
-@extends('layouts.master')
+@extends('layouts.storyMaster')
+<?php
+$actual_link = URL::to('/');
+$imageLink = $actual_link."/images/icons/shufflehex_featured.jpg";
+?>
+@section('meta')
+    <title>{{ $domain }} | ShuffleHex.com</title>
+    <meta name="description" content="{{ $metaDescription }}"/>
+    <meta name="og:image" content="{{ $imageLink }}"/>
+@endsection
 @section('css')
 
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/list-style.css') }}">
@@ -14,9 +23,9 @@
         <div class="row box-header m-0">
             <div class="col-md-12">
                 <div class="pull-left">
-                    <h3>{{ $domain }}</h3>
-                    <p class="font12 mt-0" style="margin-top: 5px"><strong>Title of The Domain</strong></p>
-                    <p class="font12">Description</p>
+                    <h1><small>{{ $domain }} <a href="http://{{$domain}}" target="_blank" title="{{ $metaTitle }}"><i class="fa fa-external-link"></i></a></small> </h1>
+                    <p class="font12 mt-0" style="margin-top: 5px"><h4>{{ $metaTitle }}</h4></p>
+                    <p class="font12">{{ $metaDescription }}</p>
                 </div>
                 <div class="pull-right">
                     <button class="btn" data-toggle="collapse" data-target="#filter">Filter <i

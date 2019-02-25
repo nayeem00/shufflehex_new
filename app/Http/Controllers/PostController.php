@@ -503,9 +503,9 @@ class PostController extends Controller
         $pageKey = "story-latest";
 
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/all', compact('posts', 'folders', 'page','pageKey'));
+            return view('pages/latest', compact('posts', 'folders', 'page','pageKey'));
         } else {
-            return view('pages/all', compact('posts', 'page','pageKey'));
+            return view('pages/latest', compact('posts', 'page','pageKey'));
         }
     }
 
@@ -527,9 +527,9 @@ class PostController extends Controller
         $pageKey = "story-top";
         $posts = PostHelper::addAditionalData($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/all' , compact('posts', 'folders', 'page','pageKey'));
+            return view('pages/top' , compact('posts', 'folders', 'page','pageKey'));
         } else {
-            return view('pages/all', compact('posts', 'page','pageKey'));
+            return view('pages/top', compact('posts', 'page','pageKey'));
         }
     }
 
@@ -551,9 +551,9 @@ class PostController extends Controller
         $pageKey = "story-popular";
         $posts = PostHelper::addAditionalData($posts);
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/all' , compact('posts', 'folders', 'page','pageKey'));
+            return view('pages/popular' , compact('posts', 'folders', 'page','pageKey'));
         } else {
-            return view('pages/all', compact('posts', 'page','pageKey'));
+            return view('pages/popular', compact('posts', 'page','pageKey'));
         }
     }
 
@@ -583,9 +583,9 @@ class PostController extends Controller
 //        dd($posts);
         $pageKey = "story-trending";
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/all' , compact('posts', 'folders', 'page','pageKey'));
+            return view('pages/trending' , compact('posts', 'folders', 'page','pageKey'));
         } else {
-            return view('pages/all', compact('posts', 'page','pageKey'));
+            return view('pages/trending', compact('posts', 'page','pageKey'));
         }
     }
 
@@ -885,6 +885,9 @@ class PostController extends Controller
     public function domainWisePosts($domain)
     {
 //        dd(Auth::user()->id);
+        $info = Embed::create('http://'.$domain);
+        $metaDescription = $info->description;
+        $metaTitle = $info->title;
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             $folders = Folder::where('user_id', '=', Auth::user()->id)->get();
         }
@@ -897,11 +900,9 @@ class PostController extends Controller
         $posts = PostHelper::addAditionalData($posts);
 
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
-            return view('pages/domainWisePosts', compact('posts', 'folders', 'domain', 'pageKey'));
+            return view('pages/domainWisePosts', compact('posts', 'folders', 'domain', 'pageKey', 'metaDescription', 'metaTitle'));
         } else {
-            return view('pages/domainWisePosts', compact('posts', 'domain', 'pageKey'
-
-            ));
+            return view('pages/domainWisePosts', compact('posts', 'domain', 'pageKey', 'metaDescription', 'metaTitle'));
         }
     }
 

@@ -1,7 +1,7 @@
 @extends('layouts.storyMaster')
 <?php
 $actual_link = URL::to('/');
-$imageLink = $actual_link."/images/icons/ShuffleHex - Content Discovery Platform.jpg";
+$imageLink = $actual_link."/images/icons/shufflehex_featured.jpg";
 ?>
 @section('meta')
     <title>ShuffleHex.com | Content Discovery Platform</title>

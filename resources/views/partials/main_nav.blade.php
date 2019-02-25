@@ -22,13 +22,13 @@
                         </div>
                     </form>
                     <ul class="nav navbar-nav">
-                        <li ><a href="{{ url('/story') }}">Stories<span class="sr-only">(current)</span></a></li>
+                        <li ><a href="{{ url('/') }}">Stories<span class="sr-only">(current)</span></a></li>
                         <li><a href="{{ url('/products') }}">Products</a></li>
                         <li><a href="{{ url('/projects') }}">Projects</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Add New&nbsp;&nbsp;</a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ url('/story/create') }}">Add Story</a></li>
+                                <li><a href="{{ url('/add') }}">Add Story</a></li>
                                 <li><a href="{{ url('/addproject') }}">Add Project</a></li>
                                 <li><a href="{{ url('/addproduct') }}">Add Product</a></li>
                             </ul>

@@ -11,7 +11,7 @@
         <ul class="list-unstyled">
             <li><a href="{{ url('/user/profile') }}">My Profile</a></li>
             <li><a href="{{ url('/saved') }}">My Collections</a></li>
-            <li><a href="{{ url('/story/create') }}">Add Story</a></li>
+            <li><a href="{{ url('/add') }}">Add Story</a></li>
             <li><a href="{{ url('/user/settings') }}">Settings</a></li>
         </ul>
     </div>

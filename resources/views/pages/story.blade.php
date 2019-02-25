@@ -104,7 +104,7 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
         <div class="row">
             <div class="col-md-12">
                 @if($post->is_link==1)
-                    <a class="btn btn-sm btn-block btn-danger btn-read-more" href="{{ url('view/'.$title) }}"
+                    <a class="btn btn-sm btn-block btn-danger btn-read-more" href="{{ url('view/'.$title) }}" target="_blank"
                        rel="nofollow">Read Full Story</a>
                 @endif
             </div>

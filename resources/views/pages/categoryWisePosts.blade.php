@@ -1,4 +1,13 @@
-@extends('layouts.master')
+@extends('layouts.storyMaster')
+<?php
+$actual_link = URL::to('/');
+$imageLink = $actual_link."/images/icons/shufflehex_featured.jpg";
+?>
+@section('meta')
+    <title>{{ $category }} | ShuffleHex.com</title>
+    <meta name="description" content="Stories about {{ $category }} in ShuffleHex.com"/>
+    <meta name="og:image" content="{{ $imageLink }}"/>
+@endsection
 @section('css')
 
     <!-- Our Custom CSS -->

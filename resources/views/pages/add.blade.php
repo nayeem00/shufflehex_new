@@ -90,11 +90,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="search_category_link">Category</label>
+                            <label for="search_category_link">Topic</label>
                             <input type="text" name="category" id="search_category_link"
                                    class="form-control fontAwesome search_category"
                                    onclick="getCategory('link')" onkeyup="searchTopic('link')"
-                                   placeholder="&#xf002;  Search Category">
+                                   placeholder="&#xf002;  Search Topic">
                             <div id="get_category_link" class="w-100 get-category">
                                 <div class="col-xs-12">
                                     <div class="panel panel-default">
@@ -190,11 +190,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="search_category_article">Category</label>
+                            <label for="search_category_article">Topic</label>
                             <input type="text" name="category" id="search_category_article"
                                    class="form-control fontAwesome search_category"
                                    onclick="getCategory('article')" onkeyup="searchTopic('article')"
-                                   placeholder="&#xf002;  Search Category">
+                                   placeholder="&#xf002;  Search Topic">
                             <div id="get_category_article" class="w-100 get-category">
                                 <div class="col-xs-12">
                                     <div class="panel panel-default">
@@ -290,11 +290,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="search_category_image">Category</label>
+                        <label for="search_category_image">Topic</label>
                         <input type="text" name="category" id="search_category_image"
                                class="form-control fontAwesome search_category"
                                onclick="getCategory('image')" onkeyup="searchTopic('image')"
-                               placeholder="&#xf002;  Search Category">
+                               placeholder="&#xf002;  Search Topic">
                         <div id="get_category_image" class="w-100 get-category">
                             <div class="col-xs-12">
                                 <div class="panel panel-default">
@@ -374,11 +374,11 @@
 
 
                         <div class="form-group">
-                            <label for="search_category_video">Category</label>
+                            <label for="search_category_video">Topic</label>
                             <input type="text" name="category" id="search_category_video"
                                    class="form-control fontAwesome search_category"
                                    onclick="getCategory('video')" onkeyup="searchTopic('video')"
-                                   placeholder="&#xf002;  Search Category">
+                                   placeholder="&#xf002;  Search Topic">
                             <div id="get_category_video" class="w-100 get-category">
                                 <div class="col-xs-12">
                                     <div class="panel panel-default">
@@ -478,11 +478,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="search_category_list">Category</label>
+                                <label for="search_category_list">Topic</label>
                                 <input type="text" name="category" id="search_category_list"
                                        class="form-control fontAwesome search_category"
                                        onclick="getCategory('list')" onkeyup="searchTopic('list')"
-                                       placeholder="&#xf002;  Search Category">
+                                       placeholder="&#xf002;  Search Topic">
                                 <div id="get_category_list" class="w-100 get-category">
                                     <div class="col-xs-12">
                                         <div class="panel panel-default">
@@ -584,11 +584,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="search_category_poll">Category</label>
+                                <label for="search_category_poll">Topic</label>
                                 <input type="text" name="category" id="search_category_poll"
                                        class="form-control fontAwesome search_category"
                                        onclick="getCategory('poll')" onkeyup="searchTopic('poll')"
-                                       placeholder="&#xf002;  Search Category">
+                                       placeholder="&#xf002;  Search Topic">
                                 <div id="get_category_poll" class="w-100 get-category">
                                     <div class="col-xs-12">
                                         <div class="panel panel-default">
@@ -660,7 +660,10 @@
 
 @section('js')
     <script>
-
+        jQuery(document).ready(function($) {
+            var text = $('#storyDesc');
+            text.summernote('code',text.text()); //here is the trick
+        });
         function bs_input_file() {
 
             $(".input-file").before(

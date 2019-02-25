@@ -1,147 +1,110 @@
-@extends('layouts.master')
+@extends('layouts.storyMaster')
+<?php
+$actual_link = URL::to('/');
+$imageLink = $actual_link."/images/icons/shufflehex_featured.jpg";
+?>
+@section('meta')
+    <title>Top Stories | ShuffleHex.com</title>
+    <meta name="description" content="Top stories in shufflehex.com"/>
+    <meta name="og:image" content="{{ $imageLink }}"/>
+@endsection
 @section('css')
-
-    @endsection
+    <!-- Our Custom CSS -->
+    <!-- Bootstrap CSS CDN -->
+@endsection
 
 @section('content')
-    <div id="latest-list" class="col-md-7 col-sm-12">
-        <div class="row">
-            <div class="col-md-1"><span></span></div>
-            <div class="col-md-11 plr-1"><h3>Latest Stories</h3></div>
-        </div>
-<?php
-function time_elapsed_string($datetime, $full = false) {
-	$now = new DateTime;
-	$ago = new DateTime($datetime);
-	$diff = $now->diff($ago);
 
-	$diff->w = floor($diff->d / 7);
-	$diff->d -= $diff->w * 7;
+    {{----------------------------- store current url to session -----------------------}}
+    <?php use App\Http\SettingsHelper;session(['last_page' => url()->current()]);?>
+    {{-------------------------------------------------------------------------------------}}
 
-	$string = array(
-		'y' => 'year',
-		'm' => 'month',
-		'w' => 'week',
-		'd' => 'day',
-		'h' => 'hour',
-		'i' => 'minute',
-		's' => 'second',
-	);
-	foreach ($string as $k => &$v) {
-		if ($diff->$k) {
-			$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-		} else {
-			unset($string[$k]);
-		}
-	}
+    @include('partials.shufflebox')
 
-	if (!$full) {
-		$string = array_slice($string, 0, 1);
-	}
+    <div class="box">
+        <div class="row box-header m-0">
+            @if(isset($page2) && !empty($page2))
+                <div class="col-md-12"><h3>{{ $page2.' '.$page1 }} </h3></div>
+            @else
+                <div class="col-md-12">
+                    <div class="pull-left">
+                        <h3>All Stories</h3>
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn" data-toggle="collapse" data-target="#filter">Filter <i
+                                    class="fa fa-filter"></i></button>
+                    </div>
 
-	return $string ? implode(', ', $string) . ' ago' : 'just now';
-}
-?>
-        @foreach($posts as $key=>$post)
-            <?php
-$upVoteMatched = 0;
-$downVoteMatched = 0;
-$votes = 0;
-?>
-             @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
-            @foreach($post->votes as $key=>$vote)
-                @if($vote->user_id == Auth::user()->id && $vote->vote == 1)
-                    <?php $upVoteMatched = 1;?>
-                    @break
-                @endif
-            @endforeach
-            @foreach($post->votes as $key=>$vote)
-                @if($vote->user_id == Auth::user()->id && $vote->vote == -1)
-                    <?php $downVoteMatched = 1;?>
-                    @break
-                @endif
-            @endforeach
-            @foreach($post->votes as $key=>$vote)
-                <?php
-$votes += $vote->vote;
-?>
-            @endforeach
+
+                </div>
+
             @endif
-        <div class="story-item">
-                <div class="row">
+        </div>
 
-                    <?php
-$title = preg_replace('/\s+/', '-', $post->title);
-$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+        <?php if($pageKey == "story-main") { ?>
 
-//                    ---------------------------- Time conversion --------------------------------
-$date = time_elapsed_string($post->created_at, false);
-?>
-                    <div class="col-md-3 col-sm-3 col-xs-3 pr-0">
-                        <div class="story-img">
-                            <a href="{{ url('post/'.$post->id.'/'.$title) }}" target="_blank"><img class="" src="{{ $post->featured_image }}"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-9 col-sm-9 col-xs-8 pr-0">
+        @include('partials.filter_row',['posts' => $posts,'removeFilter' => []])
+        <?php } else { ?>
+        @include('partials.filter_row',['posts' => $posts,'removeFilter' => ["other" => 'other']])
+        <?php } ?>
 
-                        <h4 class="story-title"><a href="{{ url('post/'.$post->id.'/'.$title) }}" target="_blank"> {{ $post->title }}</a></h4>
-                        <div class="dis-cls">
-                            <p><small>Submitted by <strong><span>{{ $post->username }}</span></strong></small></p>
-                        </div>
+        <div class="posts">
+            @include('partials.post_item',['posts' => $posts])
+        </div>
 
-                        <div class="row dis-n">
-                            <div class="col-md-6 dis-n"><p class="story-domain">{{ $post->domain }}</p></div>
+    </div>
+    <?php $offset = SettingsHelper::getSetting('story_limit') ?>
+    <input type="hidden" value="<?= $offset->value?>" id="post-count-offset" data-offset="<?= $offset->value?>">
+    <input type="hidden" value="" id="page-key" data-page="<?= $pageKey ?>">
+    <div class="text-center">
+        <label style="font-size: 14px" class="text-danger text-center no-post-available"></label>
+    </div>
 
-                            <div class="col-md-6 col-sm-6 col-xs-12 vote">
-                                <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-2 p-0 up-btn">
-                                    @if($upVoteMatched == 1)
-                                        <a class="" onclick="upVote({{
-                                        $post->id
-                                        }})"><span  id="btn_upVote_{{ $post->id }}" class="thumb-up glyphicon glyphicon-triangle-top" ></span></a>
-                                        <span class="vote-counter text-center" >Upvote</span>
-                                        <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                                    @else
-                                        <a class="" onclick="upVote( {{ $post->id }} )">
-                                        <span id="btn_upVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span>
-                                        </a>
-                                        <span class="vote-counter text-center" >Upvote</span>
-                                        <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                                    @endif
-                                </div>
 
-                                <div class="col-md-2 col-sm-2 col-xs-2 p-0 saved-btn">
-                                    <a class="" onclick="downVote({{ $post->id }})">
-                                        <span class="saved glyphicon glyphicon-bookmark" ></span>
-                                    </a>
-                                </div>
-
-                                <div class="col-md-2 col-sm-2 col-xs-2 p-0 down-btn">
-                                    <a onclick="downVote({{ $post->id }})">
-                                        <span class="thumb glyphicon glyphicon-share-alt"></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-1 dis-show vote plr-0">
-                        <div class="p-0 up-btn">
-                            @if($upVoteMatched == 1)
-                                <a onclick="upVote({{
-                                $post->id
-                                }})"><span  id="btn_upVote_{{ $post->id }}" class="thumb-up glyphicon glyphicon-triangle-top" alt="Upvote"></span></a>
-                                <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
-                            @else
-                                <a alt="UpVote" onclick="upVote( {{ $post->id }} )">
-                                <span id="btn_upVote_{{ $post->id }}" class="thumb glyphicon glyphicon-triangle-top" ></span>
-                                </a>
-                                <span class="vote-counter text-center" id="vote_count_{{ $post->id }}">{{ $votes }}</span>
+    <!-- save url modal -->
+    <div class="save-page-modal modal fade" id="saveStoryModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title text-center"><i class="fa fa-plus-circle"></i> Save New Story</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('folderStory.store') }}" method="POST">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <label>Select a folder to save this story.</label>
+                            @if(isset($folders) && !empty($folders))
+                                <select class="selectpicker" data-live-search="true" name="folder_id"
+                                        id="save_story_folder_id">
+                                    @foreach($folders as $folder)
+                                        <option value="{{ $folder->id }}"
+                                                data-tokens="{{ $folder->folder_name }}">{{ $folder->folder_name }}</option>
+                                    @endforeach
+                                </select>
                             @endif
                         </div>
-                    </div>
+                        <input type="hidden" name="post_id" class="form-control" id="save_story_post_id">
+                        @if(isset(Auth::user()->id) && !empty(Auth::user()->id))
+                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" id="save_story_user_id">
+                        @else
+                            <input type="hidden" name="user_id" value="" id="save_story_user_id">
+                        @endif
+                        <div class="form-group">
+                            <button type="button" class="btn btn-block btn-danger" onclick="saveStoryData()">Save
+                                Story
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
-        @endforeach
+        </div>
     </div>
+
 @endsection
 
 
@@ -149,57 +112,134 @@ $date = time_elapsed_string($post->created_at, false);
 
 @section('js')
 
+    <script src="{{ asset('ChangedDesign/js/filter-story.js') }}"></script>
+    <script src="{{ asset('ChangedDesign/js/load-more.js') }}"></script>
+
+
+
     <script>
-        function upVote(post_id){
+        function upVote(post_id) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var property = 'btn_upVote_'+post_id;
+            var property = 'btn_upVote_' + post_id;
             console.log(post_id);
             $.ajax({
-                type:'post',
-                url: 'vote',
-                data: {_token: CSRF_TOKEN , post_id: post_id},
+                type: 'post',
+                url: '{{url("vote")}}',
+                data: {_token: CSRF_TOKEN, post_id: post_id},
                 dataType: 'JSON',
                 success: function (data) {
                     console.log(data);
-                    if(data.status == 'upvoted'){
-                        var property = document.getElementById('btn_downVote_'+post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('btn_upVote_'+post_id);
-                        property.style.color = "green"
-                        $('#vote_count_'+post_id).text(data.voteNumber);
-                    } else{
-                        var property = document.getElementById('btn_upVote_'+post_id);
-                        property.style.removeProperty('color');
-                        $('#vote_count_'+post_id).text(data.voteNumber);
+                    if (data.status == 'upvoted') {
+                        var element = document.getElementById("upvote_icon_"+post_id);
+                        element.classList.add("text-shufflered");
+                        $('#vote_count_' + post_id).text(data.voteNumber);
+                    } else {
+                        var element = document.getElementById("upvote_icon_"+post_id);
+                        element.classList.remove("text-shufflered");
+                        $('#vote_count_' + post_id).text(data.voteNumber);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == 401) {
+                        window.location.href = '{{url("login")}}';
                     }
                 }
             });
         };
 
-        function downVote(post_id){
+        // function downVote(post_id){
+        //     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        //     var property = 'btn_downVote_'+post_id;
+        //     console.log(property);
+        //     $.ajax({
+        //         type:'post',
+        //         url: 'vote/downVote',
+        //         data: {_token: CSRF_TOKEN , post_id: post_id},
+        //         dataType: 'JSON',
+        //         success: function (data) {
+        //             console.log(data);
+        //             if(data.status == 'downvoted'){
+        //                 var property = document.getElementById('btn_upVote_'+post_id);
+        //                 property.style.removeProperty('color');
+        //                 var property = document.getElementById('btn_downVote_'+post_id);
+        //                 property.style.color = "orangered"
+        //                 $('#vote_count_'+post_id).text(data.voteNumber);
+        //             } else{
+        //                 var property = document.getElementById('btn_downVote_'+post_id);
+        //                 property.style.removeProperty('color');
+        //                 $('#vote_count_'+post_id).text(data.voteNumber);
+        //             }
+        //         }
+        //     });
+        // };
+
+        function saveStory(post_id) {
+            var user_id = $('#save_story_user_id').val();
+            $('#save_story_post_id').val(post_id);
+            console.log(user_id);
+            if (user_id == '') {
+                window.location.href = '{{url("login")}}';
+            } else {
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                console.log(post_id);
+                $.ajax({
+                    type: 'post',
+                    url: '{{url("saveStory")}}',
+                    data: {_token: CSRF_TOKEN, post_id: post_id, user_id: user_id},
+                    dataType: 'JSON',
+                    success: function (data) {
+                        console.log(data);
+                        if (data.status == 'showModal') {
+                            $('#saveStoryModal').modal('show');
+                        } else {
+                            var property = document.getElementById('btn_saveStory_' + post_id);
+                            property.style.removeProperty('color');
+                        }
+                    }
+                });
+
+            }
+        };
+
+        function saveStoryData() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var property = 'btn_downVote_'+post_id;
-            console.log(property);
+            var user_id = $('#save_story_user_id').val();
+            var post_id = $('#save_story_post_id').val();
+            var folder_id = $('#save_story_folder_id option:selected').val();
+            console.log(folder_id);
             $.ajax({
-                type:'post',
-                url: 'vote/downVote',
-                data: {_token: CSRF_TOKEN , post_id: post_id},
+                type: 'post',
+                url: '{{url("saveStory")}}',
+                data: {_token: CSRF_TOKEN, post_id: post_id, user_id: user_id, folder_id: folder_id},
                 dataType: 'JSON',
                 success: function (data) {
                     console.log(data);
-                    if(data.status == 'downvoted'){
-                        var property = document.getElementById('btn_upVote_'+post_id);
+                    if (data.status == 'saved') {
+                        var property = document.getElementById('btn_saveStory_' + post_id);
+                        property.style.color = "green";
+                        $('#saveStoryModal').modal('hide');
+                    } else {
+                        var property = document.getElementById('btn_saveStory_' + post_id);
                         property.style.removeProperty('color');
-                        var property = document.getElementById('btn_downVote_'+post_id);
-                        property.style.color = "orangered"
-                        $('#vote_count_'+post_id).text(data.voteNumber);
-                    } else{
-                        var property = document.getElementById('btn_downVote_'+post_id);
-                        property.style.removeProperty('color');
-                        $('#vote_count_'+post_id).text(data.voteNumber);
                     }
                 }
             });
         };
+
     </script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script>
+
+        function shuffleNewStory() {
+            document.getElementById('wait').style.display = "block";
+            $("#shuffle_box").load(location.href + " #shuffle_box");
+            document.getElementById('wait').style.display = "none";
+        };
+
+    </script>
+
 @endsection

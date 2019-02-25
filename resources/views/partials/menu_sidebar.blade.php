@@ -10,7 +10,6 @@
                     <a href="#">Stories <span class="arrow"></span></a>
                 </li>
                 <ul class="sub-menu collapse" id="stories-menu">
-                    <li><a href="{{ url('/story') }}">All</a></li>
                     <li><a href="{{ url('/story/trending') }}">Trending</a></li>
                     <li><a href="{{ url('/story/latest') }}">Latest</a></li>
                     <li><a href="{{ url('/story/top') }}">Top</a></li>
