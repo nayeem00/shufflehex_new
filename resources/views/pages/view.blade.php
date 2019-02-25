@@ -116,7 +116,10 @@
             </nav>
         </div>
     </div>
-    <iframe is="x-frame-bypass" src="{{ $post->link }}" style="position: absolute; height: 100%; width: 100%; border: none"></iframe>
+    <div>
+        <iframe id="i_frame" is="x-frame-bypass" src="{{ $post->link }}" style="position: absolute; height: 100%; width: 100%; border: none"></iframe>
+    </div>
+
 
     {{--<iframe src="{{ $post->link }}" style="position: absolute; height: 100%; width: 100%; border: none"></iframe>--}}
 
@@ -137,5 +140,78 @@
 <script src='{{ asset('ChangedDesign/js/stopExecutionTimeOut.js') }}'></script>
 <script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
 <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
+
+<script>
+
+    // function onLoadHandler() {
+    //     var iframe = document.getElementById('i_frame');
+    //     var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+    //
+    //     // Check if loading is complete
+    //     if (iframeDoc.readyState  == 'complete') {
+    //         //iframe.contentWindow.alert("Hello");
+    //         iframe.contentWindow.onload = function(){
+    //
+    //         };
+    //     } else {
+    //         alert("I am not loaded");
+    //     }
+    // }
+    // if ($('#i_frame').on('load')) {
+    //     // Get a handle to the iframe element
+    //     var iframe = document.getElementById('i_frame');
+    //     var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+    //
+    //     // Check if loading is complete
+    //     if (iframeDoc.readyState  == 'complete') {
+    //         //iframe.contentWindow.alert("Hello");
+    //         iframe.contentWindow.onload = function(){
+    //
+    //         };
+    //     } else {
+    //         alert("I am not loaded");
+    //     }
+    // }
+
+
+    {{--if ($('#i_frame').on('load')){--}}
+        {{--var iframe = document.getElementById('i_frame');--}}
+        {{--var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;--}}
+
+        {{--// Check if loading is complete--}}
+        {{--if (  iframeDoc.readyState  == 'complete' ) {--}}
+            {{--//iframe.contentWindow.alert("Hello");--}}
+            {{--iframe.contentWindow.onload = function(){--}}
+                {{--alert("I am loaded");--}}
+            {{--};--}}
+    {{--}else {--}}
+        {{--alert('not loaded')--}}
+{{--var iframe_html = '<iframe id="i_frame" is="x-frame-bypass" src="{{ $post->link }}" style="position: absolute; height: 100%; width: 100%; border: none"></iframe>';--}}
+        {{--document.getElementById("iframe_div").innerHTML = iframe_html;--}}
+    {{--}--}}
+    {{--$('#i_frame').on('load', function() {--}}
+        {{--// Get a handle to the iframe element--}}
+        {{--var iframe = document.getElementById('i_frame');--}}
+        {{--var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;--}}
+
+        {{--// Check if loading is complete--}}
+        {{--if (  iframeDoc.readyState  == 'complete' ) {--}}
+            {{--//iframe.contentWindow.alert("Hello");--}}
+            {{--iframe.contentWindow.onload = function(){--}}
+                {{--alert("I am loaded");--}}
+            {{--};--}}
+            {{--// The loading is complete, call the function we want executed once the iframe is loaded--}}
+            {{--afterLoading();--}}
+            {{--return;--}}
+        {{--}--}}
+
+        {{--// If we are here, it is not loaded. Set things up so we check   the status again in 100 milliseconds--}}
+        {{--window.setTimeout(checkIframeLoaded, 100);--}}
+    {{--});--}}
+    {{--function afterLoading(){--}}
+        {{--// alert("I am here");--}}
+    {{--}--}}
+    {{--checkIframeLoaded();--}}
+</script>
 </body>
 </html>

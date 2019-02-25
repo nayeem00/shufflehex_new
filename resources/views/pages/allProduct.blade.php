@@ -4,8 +4,8 @@ $actual_link = URL::to('/');
 $imageLink = $actual_link."/images/icons/shufflehex_featured.jpg";
 ?>
 @section('meta')
-    <title>ShuffleHex.com | Content Discovery Platform</title>
-    <meta name="description" content="ShuffleHex is a next generation content discovery platform that pushed recommends of web content to it's users. Users can also save anything from anywhere."/>
+    <title>Products | ShuffleHex.com</title>
+    <meta name="description" content="products in shufflehex.com"/>
     <meta name="og:image" content="{{ $imageLink }}"/>
 @endsection
 @section('css')

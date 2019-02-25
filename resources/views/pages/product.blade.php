@@ -1,7 +1,16 @@
-@extends('layouts.master')
+@extends('layouts.storyMaster')
+<?php
+$actual_link = URL::to('/');
+$imageLink = $actual_link."/".$post->product_images[0];
+?>
+@section('meta')
+    <title>{{ $post->product_name }} | ShuffleHex.com</title>
+    <meta name="description" content="{{ $post->short_desc }}"/>
+    <meta name="keywords" content="{{ $post->tags }}">
+    <meta name="category" content="{{ $post->category }}">
+    <meta name="og:image" content="{{ $imageLink }}"/>
+@endsection
 @section('css')
-    <!-- Bootstrap CSS CDN -->
-    <title>Product</title>
 
     {{--<!-- Our Custom CSS -->--}}
     {{--    <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/list-style.css') }}">--}}
@@ -492,6 +501,40 @@ $title = $title . '-' . $post->id;
             });
         }
     </script>
+
+    {{--------------------------------------- Google Schema For Single Product --------------------------}}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ $post->product_name }}",
+  "image": [
+  @foreach($post->product_images as $image)
+        @if($loop->last)
+            "{{ $actual_link."/".$image }}"
+        @else
+            "{{ $actual_link."/".$image }}",
+        @endif
+   @endforeach
+   ],
+  "description": "{{ $post->short_desc }}",
+  "brand": {
+    "@type": "{{ $post->category }}",
+    "name": "{{ $post->store_name }}"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ $post->product_review }}",
+    "reviewCount": "{{ $post->total_reviews }}"
+  },
+  "offers": {
+  "@type": "Offer",
+  "priceCurrency": "USD",
+  "price": "{{ $post->price }}"
+  },
+}
+</script>
 
 
 @endsection
