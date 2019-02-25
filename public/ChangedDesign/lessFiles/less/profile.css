@@ -1,3 +1,38 @@
+.profile-container {
+  max-width: 800px;
+  margin: auto;
+}
+.profile-container .user-post-item {
+  min-height: 80px;
+  max-height: 140px;
+  padding: 15px 0;
+  border-bottom: 1px solid #eaeaea;
+}
+.profile-container .user-post-item .post-img {
+  margin-top: 4px;
+}
+.profile-container .user-post-item .post-title {
+  margin-top: 0;
+}
+.profile {
+  padding: 10px;
+}
+.profile .profile-header {
+  margin-bottom: 20px;
+}
+.profile .profile-header .changhe-img-form {
+  margin-top: 10px;
+}
+.profile .profile-img {
+  max-width: 150px;
+  max-height: 150px;
+  margin: auto;
+}
+.profile .profile-img img {
+  width: 100%;
+  height: auto;
+  margin: auto;
+}
 .profile-sidebar-nav .tab-bar .nav {
   font-weight: 600;
 }
@@ -34,6 +69,7 @@
 #profile-content .notification-item p {
   padding: 0 !important;
   margin: 0 0 5px 0;
+  line-height: 1;
 }
 #profile-content .notification-item .notification-title {
   font-weight: 600;

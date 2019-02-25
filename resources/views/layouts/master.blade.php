@@ -10,7 +10,7 @@
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
     <title>Shufflehex</title>
     <!-- Bootstrap CSS CDN -->
@@ -31,7 +31,6 @@
     <?php echo \App\Http\SettingsHelper::getHeadScript()?>
 
 
-
 </head>
 
 <body class="master">
@@ -46,48 +45,28 @@
     @endif
 @endif
 <div id="wrapper">
-	@if( !(Request::is('page404')) )
-
+    @if( !(Request::is('page404')) )
         @include('partials.mobile_nav')
         @include('partials.main_nav')
-
-	@endif
-
-<div class="container">
-
-	<div class="row">
-
-
-
-		<div class="col-md-2 plr-0">
-
-			@if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404'))  )
-
-			    @include('partials.list-left-sidebar')
-
-			@endif
-
-		</div>
-
-		<div class="col-md-8 col-sm-12 plr-2">
-			@yield('content')
-
-		</div>
-
-		<div class="col-md-2 plr-0">
-
-			@if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404')) )
-
-			    @include('partials.list-right-sidebar')
-
-			@endif
-
+    @endif
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 plr-0">
+                @if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404'))  )
+                    @include('partials.list-left-sidebar')
+                @endif
+            </div>
+            <div class="col-md-8 col-sm-12 plr-2">
+                @yield('content')
+            </div>
+            <div class="col-md-2 plr-0">
+                @if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404')) )
+                    @include('partials.list-right-sidebar')
+                @endif
+            </div>
+            <div class="overlay"></div>
+        </div>
     </div>
-
-    <div class="overlay"></div>
-    </div>
-</div>
-
 </div>
 <div class="go-top">
     <button class="go-top-btn">
@@ -113,7 +92,7 @@
     @endforeach
 @endif
 <script>
-    $(document).scroll(function() {
+    $(document).scroll(function () {
         var y = $(this).scrollTop();
         if (y > 10) {
             $('.go-top').fadeIn(100);
