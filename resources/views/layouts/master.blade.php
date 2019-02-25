@@ -94,7 +94,6 @@
         <i class="fa fa-chevron-up"></i>
     </button>
 </div>
-@yield('js')
 <!-- jQuery CDN -->
 <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('bootstrap3/js/bootstrap.min.js')}}"></script>
