@@ -15,6 +15,8 @@
             <div class="col-md-12">
                 <div class="pull-left">
                     <h3>{{ $domain }}</h3>
+                    <p class="font12 mt-0">Title of The Domain</p>
+                    <p class="font12">Description</p>
                 </div>
                 <div class="pull-right">
                     <button class="btn" data-toggle="collapse" data-target="#filter">Filter <i
