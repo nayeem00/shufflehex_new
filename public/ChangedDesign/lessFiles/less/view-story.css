@@ -6,6 +6,9 @@
   display: inline-block;
   margin-bottom: 20px;
 }
+.single-story-body * {
+  max-width: 100%;
+}
 .single-story-body .story-heading {
   margin-bottom: 20px;
 }
@@ -29,6 +32,7 @@
 .single-story-body .story-content * {
   font-size: 16px;
   color: #555;
+  max-width: 100% !important;
 }
 .single-story-body .btn-read-more {
   letter-spacing: 0.5px;
