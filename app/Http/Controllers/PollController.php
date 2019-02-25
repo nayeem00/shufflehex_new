@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Embed\Embed;
 use App\Post;
@@ -45,6 +46,7 @@ class PollController extends Controller
         $this->validate($request,[
             'title'=>'required',
             'category'=>'required',
+            'image'=>'required|mimes:jpg,jpeg,bmp,png,gif',
             'description'=>'required'
         ]);
 //        dd($request);
@@ -159,7 +161,87 @@ class PollController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+//        dd($request);
+        $this->validate($request,[
+            'title'=>'required',
+            'category'=>'required',
+            'description'=>'required'
+        ]);
+        $post = Post::find($id);
+        $user = User::find(Auth::user()->id);
+        if (Input::hasFile('image')) {
+            $img = Input::file('image');
+//        $img=$_FILES['image'];
+            $imgName = $img->getClientOriginalName();
+            if ($imgName == "") {
+                echo "Select an image please!!!";
+            } else {
+                $image = $request->image;
+                $extension =$image->getClientOriginalExtension();//get image extension only
+                $imageOriginalName= $image->getClientOriginalName();
+                $basename = substr($imageOriginalName, 0 , strrpos($imageOriginalName, "."));//get image name without extension
+                $imageName=$basename.date("YmdHis").'.'.$extension;//make new name
+                $featuredPicture = 'images/polls/featured/' . $imageName;
+                $imageSave = Intervention::make($image);
+                $resizedImage = $imageSave->resize(650, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $save = $resizedImage->save($featuredPicture);
+
+                $imageForStoryList = 'images/polls/imagesForStoryList/'.$imageName;
+                $img = Intervention::make($image);
+                $resizedImage = $img->resize(150, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                $cropped = $resizedImage->crop(150,84);
+                $save = $cropped->save($imageForStoryList);
+
+                $imageForRelatedStory = 'images/polls/imagesForRelatedStory/'.$imageName;
+                $img = Intervention::make($image);
+                $resizedImage = $img->resize(57, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                $cropped = $resizedImage->crop(57,32);
+                $save = $cropped->save($imageForRelatedStory);
+
+                $imageForShuffleBox = 'images/polls/imagesForShuffleBox/'.$imageName;
+                $img = Intervention::make($image);
+                $resizedImage = $img->resize(650, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                $cropped = $resizedImage->crop(650,365);
+                $save = $cropped->save($imageForShuffleBox);
+
+                File::delete($post->featured_image, $post->story_list_image, $post->related_story_image,$post->shuffle_box_image);
+
+                $post->title = $request->title;
+                $post->featured_image = $featuredPicture;
+                $post->story_list_image = $imageForStoryList;
+                $post->related_story_image = $imageForRelatedStory;
+                $post->shuffle_box_image = $imageForShuffleBox;
+                $post->category = $request->category;
+                $post->description = $request->description;
+                $post->tags = $request->tags;
+                $post->update();
+            }
+        }else{
+            $post->title = $request->title;
+            $post->category = $request->category;
+            $post->description = $request->description;
+            $post->tags = $request->tags;
+            $post->update();
+        }
+
+
+        Toastr::success('Your poll is updated successfully', 'Success', ["positionClass" => "toast-top-right"]);
+        $title = preg_replace('/\s+/', '-', $post->title);
+        $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+        $title = $title . '-' . $post->id;
+
+        return redirect('story/'.$title);
     }
 
     /**

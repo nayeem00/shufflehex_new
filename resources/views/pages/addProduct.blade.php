@@ -24,7 +24,7 @@
             <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="form-group">
-                    <input type="text" class="form-control" name="title" placeholder="Product's Name">
+                    <input type="text" class="form-control" name="product_name" placeholder="Product's Name">
                 </div>
                 <div class="form-group">
                     <div class="input-group">
@@ -61,11 +61,11 @@
                             <input type="text" name="productId" class="form-control" placeholder="Product ID">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <button type="button" style="float:right; margin-top: 5px" class="btn btn-sm btn-default"><i class="fa fa-plus"></i>&nbsp;Add More</button>
-                        </div>
-                    </div>
+                    {{--<div class="row">--}}
+                        {{--<div class="col-xs-12">--}}
+                            {{--<button type="button" style="float:right; margin-top: 5px" class="btn btn-sm btn-default"><i class="fa fa-plus"></i>&nbsp;Add More</button>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                 </div>
                 <div class="form-group">

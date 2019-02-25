@@ -1,0 +1,12 @@
+.voting {
+  margin-right: 8px;
+}
+.voting li button {
+  border: 0;
+  background: transparent;
+}
+.voting li .vote-count {
+  font-size: 12px;
+  font-weight: 600;
+}
+/*# sourceMappingURL=voting.css.map */

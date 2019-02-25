@@ -124,33 +124,45 @@ $date = time_elapsed_string($post->created_at, false);
                                 <h5>{{ $post->price }}</h5>
                             </div>
                             <div class="star-rating">
-                                    <span class="star-icon">
-                                        <i class="fa fa-star-o"></i>
-                                    </span>
-                                <span class="star-icon">
-                                        <i class="fa fa-star-o"></i>
-                                    </span>
-                                <span class="star-icon">
-                                        <i class="fa fa-star-o"></i>
-                                    </span>
-                                <span class="star-icon">
-                                        <i class="fa fa-star-o"></i>
-                                    </span>
-                                <span class="star-icon">
-                                        <i class="fa fa-star-o"></i>
-                                    </span>
+                                <?php
+                                $reviewStar = $post->product_review;
+                                ?>
+                                @for($i=0;$i<5;$i++)
+                                    @if($reviewStar>=1)
+                                        <span class="star-icon star-icon-full">
+                            <i class="fa fa-star"></i>
+                        </span>
+                                        <?php
+                                        $reviewStar -= 1;
+                                        ?>
+                                    @elseif($reviewStar<1 && $reviewStar>0)
+                                        <span class="star-icon star-icon-half">
+                            <i class="fa fa-star-half-o"></i>
+                        </span>
+                                        <?php
+                                        $reviewStar -= $reviewStar;
+                                        ?>
+                                    @else
+                                        <span class="star-icon star-icon-blank">
+                            <i class="fa fa-star-o"></i>
+                        </span>
+                                    @endif
+                                @endfor
+                                <span style="font-size: 12px">{{ $post->product_review }} &nbsp;@if($post->total_reviews>0)
+                                        {{ "(".$post->total_reviews." reviews)" }}
+                                    @else {{ "(0 reviews)" }} @endif</span>
                             </div>
                         </div>
                         <div class="vote-submit-right text-center pull-right">
                             @if($upVoteMatched == 1)
-                                <a href="#" class="text-shufflered" onclick="upVote({{$post->id}})">
-                                    <div class="vote-icon"><i class="fa fa-chevron-up"></i></div>
-                                    <div class="vote-counter">{{ $votes }}</div>
+                                <a href="#" onclick="upVote({{$post->id}})">
+                                    <div class="vote-icon"><i class="fa fa-chevron-up text-shufflered" id="upvote_icon_{{$post->id}}"></i></div>
+                                    <div class="vote-counter" id="vote_count_{{$post->id}}">{{ $votes }}</div>
                                 </a>
                             @else
                                 <a href="#" onclick="upVote({{$post->id}})">
-                                    <div class="vote-icon"><i class="fa fa-chevron-up"></i></div>
-                                    <div class="vote-counter">{{ $votes }}</div>
+                                    <div class="vote-icon"><i class="fa fa-chevron-up" id="upvote_icon_{{$post->id}}"></i></div>
+                                    <div class="vote-counter" id="vote_count_{{$post->id}}">{{ $votes }}</div>
                                 </a>
                             @endif
                         </div>
@@ -206,12 +218,6 @@ $date = time_elapsed_string($post->created_at, false);
 
 @section('js')
     <script>
-        $( document ).ready(function() {
-            $("#latest_stories").attr("href", "{{ url('/story/latest/all') }}");
-            $("#top_stories").attr("href", "{{ url('/story/top/all') }}");
-            $("#popular_stories").attr("href", "{{ url('/story/popular/all') }}");
-            $("#trending_stories").attr("href", "{{ url('/story/trending/all') }}");
-        });
         function upVote(post_id){
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var property = 'btn_upVote_'+post_id;
@@ -223,22 +229,14 @@ $date = time_elapsed_string($post->created_at, false);
                 dataType: 'JSON',
                 success: function (data) {
                     console.log(data);
-                    if(data.status == 'upvoted'){
-                        var property = document.getElementById('btn_upVote_'+post_id);
-                        property.style.color = "green";
-                        var property = document.getElementById('upvote_'+post_id);
-                        property.style.color = "green";
-                        var property = document.getElementById('vote_count_'+post_id);
-                        property.style.color = "green";
-                        $('#vote_count_'+post_id).text(data.voteNumber);
-                    } else{
-                        var property = document.getElementById('btn_upVote_'+post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('upvote_'+post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('vote_count_'+post_id);
-                        property.style.removeProperty('color');
-                        $('#vote_count_'+post_id).text(data.voteNumber);
+                    if (data.status == 'upvoted') {
+                        var element = document.getElementById("upvote_icon_"+post_id);
+                        element.classList.add("text-shufflered");
+                        $('#vote_count_' + post_id).text(data.voteNumber);
+                    } else {
+                        var element = document.getElementById("upvote_icon_"+post_id);
+                        element.classList.remove("text-shufflered");
+                        $('#vote_count_' + post_id).text(data.voteNumber);
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

@@ -1,0 +1,77 @@
+.voting {
+  margin-right: 8px;
+}
+.voting li button {
+  border: 0;
+  background: transparent;
+}
+.voting li .vote-count {
+  font-size: 12px;
+  font-weight: 600;
+}
+.category-tab {
+  background-color: #fff;
+  box-shadow: 0 1px 2px 1px grey;
+}
+.category-tab a {
+  color: #000;
+}
+#catPost {
+  margin-top: 20px;
+  position: relative;
+}
+.navbar-cat .nav-tabs {
+  padding: 0 2% 0 2%;
+  border-bottom: 0;
+}
+.link-item {
+  display: block;
+  margin-bottom: 15px;
+  min-height: 100px;
+  padding: 10px 0;
+  height: auto;
+}
+.link-thumb {
+  width: 70px;
+  float: left;
+  box-shadow: 0 0 0 2px grey;
+  display: inline-block;
+  margin-right: 10px;
+  height: 60px;
+}
+.link-thumb img {
+  display: block;
+  max-width: 100%;
+  height: 100%;
+  margin: auto;
+}
+.link-content {
+  vertical-align: top;
+  line-height: 1;
+  position: absolute;
+  margin-left: 120px;
+  margin-top: -5px;
+}
+.link-content * {
+  margin: auto;
+}
+.link-content h4 a {
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #091b2c;
+  vertical-align: text-top;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.link-content a:hover {
+  text-decoration: none;
+}
+.link-content p {
+  font-size: 13px;
+}
+@media screen and (max-width: 480px) {
+  .link-desc {
+    display: none;
+  }
+}
+/*# sourceMappingURL=allstories.css.map */

@@ -1,4 +1,5 @@
 <div id="filter" class="row collapse m-0">
+    <?php if(!isset($removeFilter['time'])) { ?>
     <div class="col-md-3 col-sm-4 col-xs-6 time-filter">
         <h4 class="filter-title">Upload Date</h4>
         <hr>
@@ -9,8 +10,10 @@
             <li><a id="year" class="time-filter-item">This year</a></li>
         </ul>
     </div>
+        <?php }?>
+        <?php  if(!isset($removeFilter['topics'])) { ?>
     <div class="col-md-3 col-sm-4 col-xs-6 topics-filter">
-        <h4 class="filter-title">Topics</h4>
+        <h4 class="filter-title">Type</h4>
         <hr>
         <ul class="list-unstyled">
             <li><a id="link" class="topics-filter-item">Web</a></li>
@@ -19,8 +22,10 @@
             <li><a id="article" class="topics-filter-item">Articles</a></li>
         </ul>
     </div>
+        <?php }?>
+        <?php if(!isset($removeFilter['topics'])) { ?>
     <div class="col-md-3 col-sm-4 col-xs-6 topics-filter">
-        <h4 class="filter-title">Topics</h4>
+        <h4 class="filter-title">Type</h4>
         <hr>
         <ul class="list-unstyled">
             <li><a id="list" class="topics-filter-item">Lists</a></li>
@@ -28,6 +33,8 @@
             {{--<li><a href="#">Type 1</a></li>--}}
         </ul>
     </div>
+        <?php }?>
+        <?php if(!isset($removeFilter['other'])) { ?>
     <div class="col-md-3 col-sm-4 col-xs-6 other-filter">
         <h4 class="filter-title">Other</h4>
         <hr>
@@ -38,5 +45,6 @@
             <li><a id="most-comment" class="other-filter-item">Most Comments</a></li>
         </ul>
     </div>
+        <?php }?>
 
 </div>
