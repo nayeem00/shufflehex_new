@@ -95,35 +95,35 @@ $title = $title . '-' . $post->id;
         </div>
         <div class="col-xs-6 text-right">
             <ul class="list-inline vote-submit-list mb-0">
-                @if($upVoteMatched == 1)
-                    <li>
-                        <a class="btn" onclick="upVote({{$post->id}})">
-                                <span class="shuffle_vote text-shufflered">
-                                    <i class="fa fa-chevron-up"></i>
-                                </span>
-                        </a>
-                        <span class="vote-counter">{{ $votes }}</span>
-                        <a class="btn" onclick="downVote({{$post->id}})">
+                <li>
+                    @if($upVoteMatched == 1)
+                        <a class="btn"  onclick="upVote({{$post->id}})">
                                 <span class="shuffle_vote">
-                                    <i class="fa fa-chevron-down"></i>
+                                    <i class="fa fa-chevron-up text-shufflered" id="upvote_icon_{{$post->id}}"></i>
                                 </span>
                         </a>
-                    </li>
-                @else
-                    <li>
+                    @else
                         <a class="btn" onclick="upVote({{$post->id}})">
                                 <span class="shuffle_vote">
-                                    <i class="fa fa-chevron-up"></i>
+                                    <i class="fa fa-chevron-up" id="upvote_icon_{{$post->id}}"></i>
                                 </span>
                         </a>
-                        <span class="vote-counter">{{ $votes }}</span>
+                    @endif
+                    <span class="vote-counter" id="vote_count_{{$post->id}}">{{ $votes }}</span>
+                    @if($downVoteMatched == 1)
                         <a class="btn" onclick="downVote({{$post->id}})">
                                 <span class="shuffle_vote">
-                                    <i class="fa fa-chevron-down"></i>
+                                    <i class="fa fa-chevron-down text-shufflered" id="downvote_icon_{{$post->id}}"></i>
                                 </span>
                         </a>
-                    </li>
-                @endif
+                    @else
+                        <a class="btn" onclick="downVote({{$post->id}})">
+                                <span class="shuffle_vote">
+                                    <i class="fa fa-chevron-down" id="downvote_icon_{{$post->id}}"></i>
+                                </span>
+                        </a>
+                    @endif
+                </li>
                 @if($savedStory == 1)
                     <li>
                         <a class="btn" onclick="saveStory({{$post->id}})">
@@ -354,18 +354,14 @@ $title = $title . '-' . $post->id;
                 success: function (data) {
                     console.log(data);
                     if (data.status == 'upvoted') {
-                        var property = document.getElementById('btn_upVote_' + post_id);
-                        property.style.color = "green";
-                        var property = document.getElementById('btn_upVote_text_' + post_id);
-                        property.style.color = "green"
+                        var element = document.getElementById("upvote_icon_" + post_id);
+                        element.classList.add("text-shufflered");
                         $('#vote_count_' + post_id).text(data.voteNumber);
-                        var property = document.getElementById('btn_downVote_' + post_id);
-                        property.style.removeProperty('color');
+                        var element = document.getElementById("downvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
                     } else {
-                        var property = document.getElementById('btn_upVote_' + post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('btn_upVote_text_' + post_id);
-                        property.style.removeProperty('color');
+                        var element = document.getElementById("upvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
                         $('#vote_count_' + post_id).text(data.voteNumber);
                     }
                 },
@@ -389,16 +385,14 @@ $title = $title . '-' . $post->id;
                 success: function (data) {
                     console.log(data);
                     if (data.status == 'downvoted') {
-                        var property = document.getElementById('btn_upVote_' + post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('btn_upVote_text_' + post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('btn_downVote_' + post_id);
-                        property.style.color = "orangered"
+                        var element = document.getElementById("upvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
+                        var element = document.getElementById("downvote_icon_" + post_id);
+                        element.classList.add("text-shufflered");
                         $('#vote_count_' + post_id).text(data.voteNumber);
                     } else {
-                        var property = document.getElementById('btn_downVote_' + post_id);
-                        property.style.removeProperty('color');
+                        var element = document.getElementById("downvote_icon_" + post_id);
+                        element.classList.remove("text-shufflered");
                         $('#vote_count_' + post_id).text(data.voteNumber);
                     }
                 },
