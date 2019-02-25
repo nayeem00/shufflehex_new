@@ -434,9 +434,9 @@ class ProductController extends Controller
     {
         preg_match_all('!\d+!', $productId, $matches);
         $productId = $matches[0][0];
-        $affiliatePrefix = ProductSetting::first();
+//        $affiliatePrefix = ProductSetting::first();
         $product = Product::where('product_id',$productId)->first();
-        $finalUrl = $affiliatePrefix->affiliate_prefix.$product->store_url;
+//        $finalUrl = $affiliatePrefix->affiliate_prefix.$product->store_url;
 //        return Redirect::to($finalUrl);
         return Redirect::to($product->store_url);
     }

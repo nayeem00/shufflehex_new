@@ -660,10 +660,7 @@
 
 @section('js')
     <script>
-        jQuery(document).ready(function($) {
-            var text = $('#storyDesc');
-            text.summernote('code',text.text()); //here is the trick
-        });
+
         function bs_input_file() {
 
             $(".input-file").before(
