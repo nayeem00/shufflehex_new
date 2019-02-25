@@ -123,6 +123,18 @@
     $('.selectpicker').selectpicker();
 
 </script>
+<script>
+    $(document).ready(function () {
+        $('.slick-slider').slick({
+            dots: true,
+            infinite: true,
+            speed: 500,
+            fade: true,
+            autoplay: true,
+            cssEase: 'linear'
+        });
+    });
+</script>
 @yield('js')
 
 {!! Toastr::message() !!}

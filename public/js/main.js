@@ -74,14 +74,3 @@ $(".go-top-btn").click(function() {
     $("html, body").animate({ scrollTop: 0 }, "slow");
     return false;
 });
-
-$(document).ready(function () {
-    $('.slick-slider').slick({
-        dots: true,
-        infinite: true,
-        speed: 500,
-        fade: true,
-        autoplay: true,
-        cssEase: 'linear'
-    });
-});
