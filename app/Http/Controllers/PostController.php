@@ -241,6 +241,8 @@ class PostController extends Controller
             $reply->user = $replyUser;
         }
         $post->views = $thisStoryViews;
+        $post->metaDescription = substr($post->description, 0, 160);
+        $post->metaDescription .= '...';
         $tags = $post->tags;
         $category = $post->category;
         $relatedPost = Post::with('votes')->where('id', '!=', $post->id)->where('category', '=', $category)->where('tags', '=', $tags)->take(3)->get();

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    <link rel="icon" type="image/png" href="{{asset('/images/icons/shufflehex.png')}}">
     <title>Profile</title>
     <link rel="stylesheet" href="{{ asset('bootstrap3/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bootstrap-select-1.13.2/css/bootstrap-select.min.css') }}">

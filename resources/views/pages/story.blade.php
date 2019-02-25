@@ -1,4 +1,16 @@
-@extends('layouts.master')
+@extends('layouts.storyMaster')
+<?php
+$actual_link = URL::to('/');
+$imageLink = $actual_link."/".$post->featured_image;
+?>
+@section('meta')
+<title>{{ $post->title }}</title>
+<meta name="description" content="{{ $post->metaDescription }}"/>
+<meta name="keywords" content="{{ $post->tags }}">
+<meta name="category" content="{{ $post->category }}">
+<meta name="author" content="{{ $postUser->name }}">
+<meta name="og:image" content="{{ $imageLink }}"/>
+@endsection
 @section('css')
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/view-story.css') }}">

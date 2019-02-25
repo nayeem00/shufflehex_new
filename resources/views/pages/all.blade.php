@@ -1,4 +1,13 @@
-@extends('layouts.master')
+@extends('layouts.storyMaster')
+<?php
+$actual_link = URL::to('/');
+$imageLink = $actual_link."/images/icons/ShuffleHex - Content Discovery Platform.jpg";
+?>
+@section('meta')
+    <title>ShuffleHex.com | Content Discovery Platform</title>
+    <meta name="description" content="ShuffleHex is a next generation content discovery platform that pushed recommends of web content to it's users. Users can also save anything from anywhere."/>
+    <meta name="og:image" content="{{ $imageLink }}"/>
+@endsection
 @section('css')
     <!-- Our Custom CSS -->
     <!-- Bootstrap CSS CDN -->

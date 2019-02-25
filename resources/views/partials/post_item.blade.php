@@ -6,7 +6,7 @@
             <div class="col-md-11 col-sm-11 col-xs-11 pr-0">
                 <div class="story-img img-box150_84">
                     <a href="{{ url($post->storyLink) }}" target="_blank"><img class="img-responsive"
-                                                                               src="{{ url($post->story_list_image) }}"></a>
+                                                                               src="{{ url($post->story_list_image) }}" alt="{{ $post->title }}"></a>
                 </div>
                 <div class="img_box150_right">
                     <h4 class="story-title"><a href="{{ url($post->storyLink) }}"

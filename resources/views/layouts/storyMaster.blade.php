@@ -10,9 +10,9 @@
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <link rel="icon" type="image/png" href="{{asset('/images/icons/shufflehex.png')}}">
-    <title>Shufflehex</title>
+    @yield('meta')
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="{{ asset('bootstrap3/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bootstrap-select-1.13.2/css/bootstrap-select.min.css') }}">
@@ -31,7 +31,6 @@
     <?php echo \App\Http\SettingsHelper::getHeadScript()?>
 
 
-
 </head>
 
 <body class="master">
@@ -47,37 +46,33 @@
 @endif
 <div id="wrapper">
     @if( !(Request::is('page404')) )
-
         @include('partials.mobile_nav')
         @include('partials.main_nav')
-
     @endif
-
     <div class="container">
-
         <div class="row">
-
-
-
-
-
-            <div class="col-md-12">
-                @yield('content')
-
+            <div class="col-md-2 plr-0">
+                @if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404'))  )
+                    @include('partials.list-left-sidebar')
+                @endif
             </div>
-
+            <div class="col-md-8 col-sm-12 plr-2">
+                @yield('content')
+            </div>
+            <div class="col-md-2 plr-0">
+                @if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404')) )
+                    @include('partials.list-right-sidebar')
+                @endif
+            </div>
             <div class="overlay"></div>
         </div>
     </div>
-
 </div>
 <div class="go-top">
     <button class="go-top-btn">
         <i class="fa fa-chevron-up"></i>
     </button>
 </div>
-<?php echo \App\Http\SettingsHelper::getFootScript()?>
-@yield('js')
 <!-- jQuery CDN -->
 <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('bootstrap3/js/bootstrap.min.js')}}"></script>
@@ -97,7 +92,7 @@
     @endforeach
 @endif
 <script>
-    $(document).scroll(function() {
+    $(document).scroll(function () {
         var y = $(this).scrollTop();
         if (y > 10) {
             $('.go-top').fadeIn(100);
@@ -124,8 +119,7 @@
 @yield('js')
 
 {!! Toastr::message() !!}
-
-
+<?php echo \App\Http\SettingsHelper::getFootScript()?>
 
 </body>
 
