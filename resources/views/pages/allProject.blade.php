@@ -120,14 +120,14 @@ $date = time_elapsed_string($post->created_at, false);
                         </div>
                         <div class="vote-submit-right pull-right" style="margin-left: -40px">
                             @if($upVoteMatched == 1)
-                                <a href="#" class="text-shufflered" onclick="upVote({{$post->id}})">
-                                    <div class="vote-icon"><i class="fa fa-chevron-up"></i></div>
-                                    <div class="vote-counter">{{ $votes }}</div>
+                                <a onclick="upVote({{$post->id}})">
+                                    <div class="vote-icon"><i class="fa fa-chevron-up text-shufflered" id="upvote_icon_{{$post->id}}"></i></div>
+                                    <div class="vote-counter" id="vote_count_{{$post->id}}">{{ $votes }}</div>
                                 </a>
                             @else
-                                <a href="#" onclick="upVote({{$post->id}})">
-                                    <div class="vote-icon"><i class="fa fa-chevron-up"></i></div>
-                                    <div class="vote-counter">{{ $votes }}</div>
+                                <a onclick="upVote({{$post->id}})">
+                                    <div class="vote-icon"><i class="fa fa-chevron-up" id="upvote_icon_{{$post->id}}"></i></div>
+                                    <div class="vote-counter" id="vote_count_{{$post->id}}">{{ $votes }}</div>
                                 </a>
                             @endif
                         </div>
@@ -234,22 +234,14 @@ $date = time_elapsed_string($post->created_at, false);
                 dataType: 'JSON',
                 success: function (data) {
                     console.log(data);
-                    if(data.status == 'upvoted'){
-                        var property = document.getElementById('btn_upVote_'+post_id);
-                        property.style.color = "green";
-                        var property = document.getElementById('upvote_'+post_id);
-                        property.style.color = "green";
-                        var property = document.getElementById('vote_count_'+post_id);
-                        property.style.color = "green";
-                        $('#vote_count_'+post_id).text(data.voteNumber);
-                    } else{
-                        var property = document.getElementById('btn_upVote_'+post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('upvote_'+post_id);
-                        property.style.removeProperty('color');
-                        var property = document.getElementById('vote_count_'+post_id);
-                        property.style.removeProperty('color');
-                        $('#vote_count_'+post_id).text(data.voteNumber);
+                    if (data.status == 'upvoted') {
+                        var element = document.getElementById("upvote_icon_"+post_id);
+                        element.classList.add("text-shufflered");
+                        $('#vote_count_' + post_id).text(data.voteNumber);
+                    } else {
+                        var element = document.getElementById("upvote_icon_"+post_id);
+                        element.classList.remove("text-shufflered");
+                        $('#vote_count_' + post_id).text(data.voteNumber);
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
