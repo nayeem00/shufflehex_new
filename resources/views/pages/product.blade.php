@@ -537,7 +537,7 @@ $productUrl = $actual_link.'/product/'.$title;
   "priceCurrency": "USD",
   "price": "{{ $priceOfProduct }}",
   "itemCondition": "https://schema.org/NewCondition",
-  "availability": "https://schema.org/InStock",
+  "availability": "https://schema.org/InStock"
   }
 }
 </script>
