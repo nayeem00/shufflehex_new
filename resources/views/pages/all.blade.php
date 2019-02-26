@@ -2,6 +2,7 @@
 <?php
 $actual_link = URL::to('/');
 $imageLink = $actual_link."/images/icons/shufflehex_featured.jpg";
+$searchUrl = $actual_link."/search?search={search_term}";
 ?>
 @section('meta')
     <title>ShuffleHex.com | Content Discovery Platform</title>
@@ -241,5 +242,22 @@ $imageLink = $actual_link."/images/icons/shufflehex_featured.jpg";
         };
 
     </script>
+
+
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "WebSite",
+          "url": "http://www.shufflehex.com/",
+          "name": "ShuffleHex.com | Content Discovery Platform",
+          "description": "ShuffleHex is a next generation content discovery platform that pushed recommends of web content to it's users. Users can also save anything from anywhere.",
+          "publisher": "ShuffleHex",
+          "image": "{{ $imageLink }}",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ $searchUrl }}",
+            "query-input": "required name=search" }
+            }
+        </script>
 
 @endsection

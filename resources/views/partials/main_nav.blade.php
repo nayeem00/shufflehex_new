@@ -15,7 +15,7 @@
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar">
-                    <form class="navbar-form navbar-search navbar-left" role="search"  action="{{ route('search.all') }}" method="POST">
+                    <form class="navbar-form navbar-search navbar-left" role="search"  action="{{ route('search.all') }}" method="GET">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <input type="text" name="search" class="fontAwesome form-control" placeholder="&#xf002; Discover New Content">

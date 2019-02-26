@@ -2,6 +2,12 @@
 <?php
 $actual_link = URL::to('/');
 $imageLink = $actual_link."/".$post->featured_image;
+$title = preg_replace('/\s+/', '-', $post->title);
+$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+$title = $title . '-' . $post->id;
+$storyUrl = $actual_link.'/story/'.$title;
+$storyImage = $actual_link.'/'.$post->featured_image;
+$wordCount = str_word_count($post->description);
 ?>
 @section('meta')
 <title>{{ $post->title }}</title>
@@ -63,9 +69,6 @@ $date = date('j F Y', strtotime($post->created_at));
     @endforeach
 @endif
 <?php
-$title = preg_replace('/\s+/', '-', $post->title);
-$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
-$title = $title . '-' . $post->id;
 $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 ?>
 @section('content')
@@ -696,4 +699,44 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
         };
 
     </script>
+
+    {{--------------------------------------------- schema for article non amp ------------------------------}}
+@if($post->is_video == 1)
+
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "VideoObject",
+          "name": "{{ $post->title }}",
+          "description": "{{ $post->metaDescription }}",
+          "thumbnailUrl": "{{ $storyImage }}",
+          "uploadDate": "{{ $post->created_at }}",
+          "embedUrl": "{{ $storyUrl }}"
+        }
+        </script>
+@else
+        <script type="application/ld+json">
+        { "@context": "http://schema.org",
+         "@type": "Article",
+         "headline": "{{ $post->title }}",
+         "alternativeHeadline": "{{ $post->title }}",
+         "image": "{{ $storyImage }}",
+         "author": "{{ $postUser->name }}",
+         "genre": "{{ $post->category }}",
+         "keywords": "{{ $post->tags }}",
+         "wordcount": "{{ $wordCount }}",
+         @if($post->is_link = 1)
+         "publisher": "{{ $post->domain }}",
+         @else
+         "publisher": "ShuffleHex",
+         @endif
+         "url": "{{ $storyUrl }}",
+         "datePublished": "{{ $post->created_at }}",
+         "dateCreated": "{{ $post->created_at }}",
+         "dateModified": "{{ $post->updated_at }}",
+         "description": "{{ $post->metaDescription }}",
+         "articleBody": "{{ $post->description }}"
+         }
+        </script>
+@endif
 @endsection

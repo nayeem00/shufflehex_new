@@ -7,7 +7,7 @@
 @section('content')
     <div class="row" style="margin-top: 10px">
         <div class="col-xs-12">
-            <form class="w-100" action="{{ route('search.all') }}" method="POST">
+            <form class="w-100" action="{{ route('search.all') }}" method="GET">
                 {{ csrf_field() }}
                 <div class="input-group w-100">
                     <input type="text" name="search" class="form-control" placeholder="Search for..." value="{{ $searchText }}" id="searchInput" onkeyup="setSearchText()">

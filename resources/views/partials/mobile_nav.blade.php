@@ -7,8 +7,9 @@
                     <a href="#" id="sidebarCollapse" class="btn-menu-toggle d-inline-block">
                         <i class="fa fa-bars"></i>
                     </a>
-                    <form class="mobile-nav-search d-inline-block" role="search">
-                        <input type="text" class="fontAwesome" placeholder="&#xf002; Discover New">
+                    <form class="mobile-nav-search d-inline-block" role="search" action="{{ route('search.all') }}" method="GET">
+                        {{ csrf_field() }}
+                        <input type="text" name="search" class="fontAwesome" placeholder="&#xf002; Discover New">
                     </form>
                 </div>
                 <div class="mobile-nav-list mobile-nav-right pull-right">
@@ -66,8 +67,9 @@
     </nav>
     <nav class="navbar" style="display: none">
         <div class="mobile-search-bar">
-            <form style="padding: 5px 30px">
-                <input class="form-control">
+            <form style="padding: 5px 30px" action="{{ route('search.all') }}" method="GET">
+                {{ csrf_field() }}
+                <input class="form-control" type="text" name="search">
 
             </form>
         </div>
