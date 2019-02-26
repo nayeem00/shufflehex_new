@@ -544,7 +544,7 @@ $countImages = count($post->screenshots);
           "name": "{{ $post->title }}",
           "description": "{{ $post->tag_line }}",
           "image": "{{ $imageLink }}",
-          "url": {{ $projectUrl }}
+          "url": "{{ $projectUrl }}"
         }
         </script>
 @endsection
