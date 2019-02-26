@@ -151,6 +151,7 @@ class PostController extends Controller
         }
         $posts = new Post();
         $posts->title = $request->title;
+        $posts->slug = str_slug($request->title);
         $posts->link = $request->link;
         $posts->domain = $domainName[0];
         $posts->featured_image = $featuredImage;
@@ -232,6 +233,8 @@ class PostController extends Controller
         }
 
         $post = Post::with('comments')->with('replies')->with('votes')->with('saved_stories')->with('comment_votes')->with('comment_reply_votes')->find($id);
+        $slug = str_slug($post->title);
+        dd($slug);
         foreach ($post->comments as $comment){
             $commentUser = User::find($comment->user_id);
             $comment->user = $commentUser;
