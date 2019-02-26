@@ -21,6 +21,7 @@
 //Route::get('/pages/add', function () {
 //    return view('pages.add');
 //});
+Route::get('/feed', 'FeedController@feed');
 Route::get('/story/latest', 'PostController@latestPost');
 Route::get('/story/top/', 'PostController@topPost');
 Route::get('/story/popular/', 'PostController@popularPost');
