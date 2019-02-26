@@ -16,7 +16,7 @@
         $post->description = stripslashes($post->description);
         $post->slug = stripslashes($post->slug);
 
-        if ($post->image !='') {
+        if ($post->featured_image !='') {
             $img = "<img src='".url($post->featured_image)."' alt='".$post->title."' width='600'>";
         } else {
             $img = null;
