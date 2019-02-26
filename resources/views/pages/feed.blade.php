@@ -16,7 +16,7 @@
         $post->description = stripslashes($post->description);
         $post->slug = stripslashes($post->slug);
 
-        if ($post->featured_image !='') {
+        if (!empty($post->featured_image)) {
             $img = "<img src='".url($post->featured_image)."' alt='".$post->title."' width='600'>";
         } else {
             $img = null;
@@ -26,7 +26,7 @@
                 <title>{{ $post->title }}</title>
                 <description><![CDATA[{!! $img !!} {!! $post->description !!}]]></description>
                 <pubDate>{{ date('D, d M Y H:i:s', strtotime($post->created_at)) }} GMT</pubDate>
-                <link>{{ url($post->slug) }}</link>
+                <link>{{ url($post->slug.'-'.$post->id) }}</link>
                 <guid>{{ url($post->slug) }}</guid>
                 <atom:link href="{{ url($post->slug) }}" rel="self" type="application/rss+xml"/>
             </item>
