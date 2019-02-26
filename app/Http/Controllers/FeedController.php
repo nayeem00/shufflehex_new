@@ -54,7 +54,7 @@ class FeedController extends Controller
                 ],
             ];
         }
-        return $data;
+        return response()->json($data);
     }
 
 }
