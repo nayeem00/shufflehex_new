@@ -2,6 +2,7 @@
 <?php
 $actual_link = URL::to('/');
 $imageLink = $actual_link."/".$post->product_images[0];
+$priceOfProduct = ltrim($post->price, '$');
 ?>
 @section('meta')
     <title>{{ $post->product_name }} | ShuffleHex.com</title>
@@ -520,7 +521,7 @@ $title = $title . '-' . $post->id;
    ],
   "description": "{{ $post->short_desc }}",
   "brand": {
-    "@type": "{{ $post->category }}",
+    "@type": "Thing",
     "name": "{{ $post->store_name }}"
   },
   "aggregateRating": {
@@ -531,8 +532,8 @@ $title = $title . '-' . $post->id;
   "offers": {
   "@type": "Offer",
   "priceCurrency": "USD",
-  "price": "{{ $post->price }}"
-  },
+  "price": "{{ $priceOfProduct }}"
+  }
 }
 </script>
 
