@@ -61,6 +61,7 @@ $votes += $vote->vote;
 $title = preg_replace('/\s+/', '-', $post->product_name);
 $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
 $title = $title . '-' . $post->id;
+$productUrl = $actual_link.'/product/'.$title;
 ?>
 @section('content')
 
@@ -520,6 +521,7 @@ $title = $title . '-' . $post->id;
    @endforeach
    ],
   "description": "{{ $post->short_desc }}",
+  "sku": "{{$post->product_id}}",
   "brand": {
     "@type": "Thing",
     "name": "{{ $post->store_name }}"
@@ -531,8 +533,11 @@ $title = $title . '-' . $post->id;
   },
   "offers": {
   "@type": "Offer",
+  "url": "{{ $productUrl }}",
   "priceCurrency": "USD",
-  "price": "{{ $priceOfProduct }}"
+  "price": "{{ $priceOfProduct }}",
+  "itemCondition": "https://schema.org/NewCondition",
+  "availability": "https://schema.org/InStock",
   }
 }
 </script>
