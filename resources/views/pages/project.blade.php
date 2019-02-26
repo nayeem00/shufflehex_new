@@ -2,6 +2,10 @@
 <?php
 $actual_link = URL::to('/');
 $imageLink = $actual_link."/".$post->logo;
+$title = preg_replace('/\s+/', '-', $post->title);
+$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+$title = $title . '-' . $post->id;
+$projectUrl = $actual_link.'/project/'.$title;
 ?>
 @section('meta')
     <title>{{ $post->title }} | ShuffleHex.com</title>
@@ -55,11 +59,6 @@ $countImages = count($post->screenshots);
         @endif
     @endforeach
 @endif
-<?php
-$title = preg_replace('/\s+/', '-', $post->title);
-$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
-$title = $title . '-' . $post->id;
-?>
 @section('content')
     <?php session(['last_page' => url()->current()]);?>
     <div class="row box project">
@@ -536,5 +535,16 @@ $title = $title . '-' . $post->id;
         }
     </script>
 
+    {{------------------------------------ schema for software application -------------------------------}}
 
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Thing",
+          "name": "{{ $post->title }}",
+          "description": "{{ $post->tag_line }}",
+          "image": "{{ $imageLink }}",
+          "url": {{ $projectUrl }}
+        }
+        </script>
 @endsection
