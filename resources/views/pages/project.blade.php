@@ -1,8 +1,16 @@
-@extends('layouts.project')
+@extends('layouts.storyMaster')
+<?php
+$actual_link = URL::to('/');
+$imageLink = $actual_link."/".$post->logo;
+?>
+@section('meta')
+    <title>{{ $post->title }} | ShuffleHex.com</title>
+    <meta name="description" content="{{ $post->tag_line }}"/>
+    <meta name="keywords" content="{{ $post->tags }}">
+    <meta name="category" content="{{ $post->category }}">
+    <meta name="og:image" content="{{ $imageLink }}"/>
+@endsection
 @section('css')
-    <!-- Bootstrap CSS CDN -->
-    <title>Project</title>
-    <!-- Include Editor style. -->
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/add.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/project.css') }}">
