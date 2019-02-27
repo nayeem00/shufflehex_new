@@ -64,26 +64,4 @@ $post = $post[0];
             </a>
         </div>
     </div>
-
-
-    <div class="shufflebox-modal modal fade" id="share" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h5 class="modal-title">Share on</h5>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="shufflebox-share" role="group">
-                        <a href="#" class="btn btn-default btn-facebook"><i class="fab fa-facebook-square"></i>Facebook</a>
-                        <a href="#" class="btn btn-default btn-twitter"><i class="fab fa-twitter-square"></i>Twitter</a>
-                        <a href="#" class="btn btn-default btn-tumblr"><i class="fab fa-tumblr-square"></i>Tumblr</a>
-                        <a href="#" class="btn btn-default btn-google"><i class="fab fa-google-plus-square"></i>GOOGLE
-                            PLUS</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
