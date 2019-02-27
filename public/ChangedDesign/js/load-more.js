@@ -1,19 +1,34 @@
 $(document).ready(function () {
-    $(function () {
-        var $win = $(window);
+//    $(function () {
+   var $win = $(window);
 
-        $win.scroll(function () {
-            if ($win.scrollTop() == 0){
+    //    $win.scroll(function () {
+      //      if ($win.scrollTop() == 0){
+        //        var getUrl = window.location;
+          //      var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+            //    console.log(getUrl.host);
+           // }
+           // else if ($win.height() + $win.scrollTop()
+            //    == $(document).height()) {
+             //   loadMorePost();
+           // }
+      //  });
+   // });
+  $(document.body).on('touchmove', onScroll); // for mobile
+$(window).on('scroll', onScroll);
+ 
+function onScroll(){ 
+if ($win.scrollTop() == 0){
                 var getUrl = window.location;
-                var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
-                console.log(getUrl.host);
-            }
-            else if ($win.height() + $win.scrollTop()
-                == $(document).height()) {
-                loadMorePost();
-            }
-        });
-    });
+            var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+         console.log(getUrl.host);
+         }
+         else if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+             loadMorePost();
+         }
+
+
+}
 
 
 })
