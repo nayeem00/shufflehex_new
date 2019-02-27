@@ -10,7 +10,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="{{ url('/story') }}"><img class="logo" src="{{ asset('img/logo/shufflehex.png') }}"></a>
+                    <a href="{{ url('/story') }}"><img class="logo" src="{{ asset('img/logo/shufflehex.png') }}" alt="ShuffleHex"></a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
