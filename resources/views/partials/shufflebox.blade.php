@@ -6,14 +6,14 @@ $post = $post[0];
 <div class="shuffle-box" id="shuffle_box">
     <div class="box-image">
         <a class="d-inline-block" href="{{ url($post->storyLink) }}" target="_blank" rel="nofollow"> <img
-                    class="img-responsive" src="{{ url($post->shuffle_box_image) }}"></a>
+                    class="img-responsive" src="{{ url($post->shuffle_box_image) }}" alt="{{ $post->title }}"></a>
     </div>
     <div class="text-center" id="wait" style="display: none">
         <div style="height: 87px"><img src={{ asset('images/preloader/preloader_3.svg') }} width="100" height="87"/>
         </div>
     </div>
     <div class="box-content">
-        <a href="{{ $post->link }}" target="_blank" rel="nofollow">
+        <a href="{{ url('source/'.$post->domain) }}" target="_blank" rel="nofollow">
             <h5>{{ $post->domain }}</h5>
         </a>
         <a href="{{ url($post->storyLink) }}" target="_blank" rel="nofollow">

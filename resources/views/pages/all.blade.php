@@ -24,12 +24,10 @@ $searchUrl = $actual_link."/search?search={search_term}";
 
     <div class="box">
         <div class="row box-header m-0">
-            @if(isset($page2) && !empty($page2))
-                <div class="col-md-12"><h3>{{ $page2.' '.$page1 }} </h3></div>
-            @else
+
                 <div class="col-md-12">
                     <div class="pull-left">
-                        <h3>All Stories</h3>
+                        <h1 style="margin: 0;"><small>ShuffleHex Stories</small></h1>
                     </div>
                     <div class="pull-right">
                         <button class="btn" data-toggle="collapse" data-target="#filter">Filter <i
@@ -38,8 +36,6 @@ $searchUrl = $actual_link."/search?search={search_term}";
 
 
                 </div>
-
-            @endif
         </div>
 
         <?php if($pageKey == "story-main") { ?>

@@ -1475,7 +1475,7 @@ a[aria-expanded="true"]::before {
     display: none !important;
   }
 }
-
+/* slick slider */
 .slick-slider {
   .slick-slide {
     img {
@@ -1539,6 +1539,22 @@ a[aria-expanded="true"]::before {
     }
   }
 }
+.slick-slider {
+  background: url('https://learn.jazzhr.com/wp-content/uploads/2018/03/ajax-loader.gif');
+}
+.slick-slider .slick-list {
+  opacity: 0;
+  position: absolute;
+}
+.slick-slider.slick-initialized {
+  background: none;
+}
+.slick-slider.slick-initialized .slick-list {
+  opacity: 1;
+  position: relative;
+  transition: opacity 0.2s ease-in;
+}
+/* slick slider end */
 
 .vote-and-share {
   padding: 15px 0;
