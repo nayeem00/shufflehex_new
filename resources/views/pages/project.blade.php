@@ -19,6 +19,8 @@ $projectUrl = $actual_link.'/project/'.$title;
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/add.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/project.css') }}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/view-story.css') }}">
+    <link rel="stylesheet" href="{{ asset('slick1.8/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('slick1.8/slick-theme.css') }}">
 
 
 @endsection
@@ -63,7 +65,7 @@ $countImages = count($post->screenshots);
     <?php session(['last_page' => url()->current()]);?>
     <div class="row box project">
         <div class="col-xs-12">
-            <div id="project_carousel" class="slick-slider">
+            <div id="project_carousel" class="slick-slider dis-n">
                 @for($i=0;$i<$countImages;$i++)
                     <div>
                         <img class="img-responsive" src="{{ url($post->screenshots[$i]) }}">
@@ -347,7 +349,25 @@ $countImages = count($post->screenshots);
     </div>
 @endsection
 @section('js')
+    <script src="{{ asset('slick1.8/slick.js')}}"></script>
 
+    <script>
+        $(document).ready(function () {
+            $('.slick-slider').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                fade: true,
+                autoplay: true,
+                cssEase: 'linear'
+            });
+            setTimeout(function(){
+                // document.getElementsByClassName('slick-slider').style.display = 'block';
+                $('.slick-slider').css('display', 'block');
+            }, 500);
+
+        });
+    </script>
     <script>
         function upVote(post_id) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
