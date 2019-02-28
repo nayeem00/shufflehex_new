@@ -24,13 +24,14 @@
   margin-top: 10px;
 }
 .profile .profile-img {
-  max-width: 150px;
-  max-height: 150px;
+  width: 150px;
+  height: 150px;
   margin: auto;
 }
 .profile .profile-img img {
   width: 100%;
   height: auto;
+  max-height: 100%;
   margin: auto;
 }
 .profile-sidebar-nav .tab-bar .nav {
