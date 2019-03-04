@@ -11,8 +11,15 @@ $(document).ready(function () {
                 ['table', ['table']],
                 ['insert', ['link', 'picture', 'hr']],
                 ['view', ['fullscreen', 'codeview']],
-                ['help', ['help']]
+                ['help', ['help']],
             ],
+
+            onPaste: function(content) {
+                console.log("ss");
+                setTimeout(function () {
+                    editor.code(content.target.textContent);
+                }, 10)
+            }
         }
     );
     $('.summernote-short').summernote({

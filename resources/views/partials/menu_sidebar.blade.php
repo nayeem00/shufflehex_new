@@ -36,7 +36,7 @@
                     <a href="#">Add New <span class="arrow"></span></a>
                 </li>
                 <ul class="sub-menu collapse" id="add-menu">
-                    <li><a href="{{ url('/story/create') }}">Add Story</a></li>
+                    <li><a href="{{ url('/add') }}">Add Story</a></li>
                     <li><a href="{{ url('/addproject') }}">Add Product</a></li>
                     <li><a href="{{ url('/addproduct') }}">Add Project</a></li>
                 </ul>

@@ -6,7 +6,7 @@
                 <div class="right-sidebar">
                     @foreach($products as $product)
                     <a id="trending-product" class="list-group-item" href="{{ url($product->product_link) }}">
-                        <img src="{{ url($product->related_product_image) }}">{{ $product->product_title }}</a>
+                        <img src="{{ url($product->related_product_image) }}" alt="{{ $product->product_title }}">{{ $product->product_title }}</a>
                      @endforeach
                 </div>
 
@@ -21,7 +21,7 @@
                     <div class="right-sidebar">
                         @foreach($projects as $project)
                             <a id="trending-project" class="list-group-item" href="{{ url($project->project_link) }}">
-                                <img src="{{ url($project->small_logo) }}">{{ $project->project_title }}</a>
+                                <img src="{{ url($project->small_logo) }}" alt="{{ $project->project_title }}">{{ $project->project_title }}</a>
                         @endforeach
                     </div>
 

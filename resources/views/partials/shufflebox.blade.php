@@ -6,14 +6,14 @@ $post = $post[0];
 <div class="shuffle-box" id="shuffle_box">
     <div class="box-image">
         <a class="d-inline-block" href="{{ url($post->storyLink) }}" target="_blank" rel="nofollow"> <img
-                    class="img-responsive" src="{{ url($post->shuffle_box_image) }}"></a>
+                    class="img-responsive" src="{{ url($post->shuffle_box_image) }}" alt="{{ $post->title }}"></a>
     </div>
     <div class="text-center" id="wait" style="display: none">
         <div style="height: 87px"><img src={{ asset('images/preloader/preloader_3.svg') }} width="100" height="87"/>
         </div>
     </div>
     <div class="box-content">
-        <a href="{{ $post->link }}" target="_blank" rel="nofollow">
+        <a href="{{ url('source/'.$post->domain) }}" target="_blank" rel="nofollow">
             <h5>{{ $post->domain }}</h5>
         </a>
         <a href="{{ url($post->storyLink) }}" target="_blank" rel="nofollow">
@@ -62,28 +62,6 @@ $post = $post[0];
             <a class="btn btn-danger btn-sm pull-right" id="shuffle_new_story" onclick="shuffleNewStory()">
                 SHUFFLE <span class="hidden-xs">NEW STORY</span>
             </a>
-        </div>
-    </div>
-
-
-    <div class="shufflebox-modal modal fade" id="share" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h5 class="modal-title">Share on</h5>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="shufflebox-share" role="group">
-                        <a href="#" class="btn btn-default btn-facebook"><i class="fab fa-facebook-square"></i>Facebook</a>
-                        <a href="#" class="btn btn-default btn-twitter"><i class="fab fa-twitter-square"></i>Twitter</a>
-                        <a href="#" class="btn btn-default btn-tumblr"><i class="fab fa-tumblr-square"></i>Tumblr</a>
-                        <a href="#" class="btn btn-default btn-google"><i class="fab fa-google-plus-square"></i>GOOGLE
-                            PLUS</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
