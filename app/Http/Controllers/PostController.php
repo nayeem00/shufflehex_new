@@ -95,23 +95,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
-//        $string = $request->description;
-        $request->description = strip_tags($request->description);
-//        $replaced = preg_replace('~<p[^>]*>~', '', $string);
-//        $output = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $string);
-//        dd($output);
-//        $pattern1 = "=^<p[^>]*>(.*)<br></p>$=i";
-//        $pattern2 = "=^<p>(.*)</p>$=i";
-//
-//        preg_match($pattern1, $string, $matches1). "<br>" ;
-//        preg_match($pattern2, $string, $matches2). "<br>" ;
-//        if (!empty($matches1)){
-//            $request->description = $matches1[1];
-//        } else if (!empty($matches2)){
-//            $request->description = $matches2[1];
-//        }
-//        dd($request->description);
         $this->validate($request,[
             'title'=>'required',
             'link'=>'required',
@@ -261,6 +244,7 @@ class PostController extends Controller
         $post->views = $thisStoryViews;
         $post->metaDescription = substr($post->description, 0, 160);
         $post->metaDescription .= '...';
+        $post->metaDescription = strip_tags($post->metaDescription);
         $tags = $post->tags;
         $category = $post->category;
         $relatedPost = Post::with('votes')->where('id', '!=', $post->id)->where('category', '=', $category)->where('tags', '=', $tags)->take(3)->get();
