@@ -433,9 +433,13 @@ class ProductController extends Controller
 
     public function redirectProductOriginalUrl($productId)
     {
-        preg_match_all('!\d+!', $productId, $matches);
-        $productId = $matches[0][0];
+//        preg_match_all('!\d+!', $productId, $matches);
+//        $productId = $matches[0][0];
 //        $affiliatePrefix = ProductSetting::first();
+        $stores = ProductStore::all();
+        foreach ($stores as $store){
+            $productId = str_replace($store->store_name, "", $productId);
+        }
         $product = Product::where('product_id',$productId)->first();
 //        $finalUrl = $affiliatePrefix->affiliate_prefix.$product->store_url;
 //        return Redirect::to($finalUrl);
