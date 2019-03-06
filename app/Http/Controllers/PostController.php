@@ -106,7 +106,7 @@ class PostController extends Controller
 
         $user = User::find($userId);
         $info = Embed::create($request->link);
-//        dd($info);
+        $info->image = str_replace('https', 'http', strtolower($info->image));
         $extension = pathinfo($info->image, PATHINFO_EXTENSION);
         $ext = explode('?', $extension);
         $featuredImage = 'images/imagesByLink/' . str_random(4) . '-' . str_slug($request->title) . '-' . time() . '.' . $ext[0];
@@ -244,6 +244,7 @@ class PostController extends Controller
         $post->views = $thisStoryViews;
         $post->metaDescription = substr($post->description, 0, 160);
         $post->metaDescription .= '...';
+        $post->metaDescription = strip_tags($post->metaDescription);
         $tags = $post->tags;
         $category = $post->category;
         $relatedPost = Post::with('votes')->where('id', '!=', $post->id)->where('category', '=', $category)->where('tags', '=', $tags)->take(3)->get();

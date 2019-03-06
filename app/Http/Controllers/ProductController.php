@@ -196,6 +196,7 @@ class ProductController extends Controller
         $post->product_images = explode(',',$post->product_images);
         $tags = $post->tags;
         $category = $post->category;
+        $post->short_desc = strip_tags($post->short_desc);
         $relatedPost = Product::where('id','!=',$post->id)->where('category','=',$category)->where('tags','=',$tags)->take(3)->get();
         foreach ($relatedPost as $relPost){
             $relPost->product_votes = $relPost->product_votes();

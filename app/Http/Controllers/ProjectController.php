@@ -161,6 +161,7 @@ class ProjectController extends Controller
         $post->screenshots = explode(',',$post->screenshots);
         $tags = $post->tags;
         $category = $post->category;
+        $post->tag_line = strip_tags($post->tag_line);
         $relatedPost = Project::where('id','!=',$post->id)->where('category','=',$category)->where('tags','=',$tags)->take(3)->get();
         foreach ($relatedPost as $relPost){
             $relPost->project_votes = $relPost->project_votes();
