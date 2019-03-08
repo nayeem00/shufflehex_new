@@ -105,6 +105,7 @@ class PostHelper
                 $post->pin_count = 0;
 
             }
+            $post->description = strip_tags($post->description);
 
 //          ---------------------  Time Calculation ------------------
 
