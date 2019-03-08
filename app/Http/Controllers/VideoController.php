@@ -67,7 +67,7 @@ class VideoController extends Controller
             $constraint->aspectRatio();
         });
 
-        $cropped = $resizedImage->crop(150,84);
+        $cropped = $resizedImage->fit(150,84);
         $save = $cropped->save($imageForStoryList);
 
         $imageForRelatedStory = 'images/videos/imagesForRelatedStory/'.str_random(4).'-'.str_slug($request->title).'-'.time().'.'.$ext[0];
@@ -76,7 +76,7 @@ class VideoController extends Controller
             $constraint->aspectRatio();
         });
 
-        $cropped = $resizedImage->crop(57,32);
+        $cropped = $resizedImage->fit(57,32);
         $save = $cropped->save($imageForRelatedStory);
 
         $imageForShuffleBox = 'images/imagesByLink/imagesForShuffleBox/'.str_random(4).'-'.str_slug($request->title).'-'.time().'.'.$ext[0];
@@ -84,7 +84,7 @@ class VideoController extends Controller
         $resizedImage = $img->resize(650, null, function ($constraint) {
             $constraint->aspectRatio();
         });
-        $cropped = $resizedImage->crop(650,365);
+        $cropped = $resizedImage->fit(650,365);
         $save = $cropped->save($imageForShuffleBox);
         $explodedLink = explode('//', $request->link);
         if (isset($explodedLink[1]) && !empty($explodedLink[1])) {
@@ -92,10 +92,11 @@ class VideoController extends Controller
         }else {
             $domainName = explode('/', $explodedLink[0]);
         }
+        $domain =  str_ireplace('www.', '', $domainName[0]);
         $posts = new Post();
         $posts->title = $request->title;
         $posts->link = $request->link;
-        $posts->domain = $domainName[0];
+        $posts->domain = $domain;
         $posts->featured_image = $featuredImage;
         $posts->story_list_image = $imageForStoryList;
         $posts->related_story_image = $imageForRelatedStory;

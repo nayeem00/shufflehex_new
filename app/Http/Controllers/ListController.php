@@ -73,7 +73,7 @@ class ListController extends Controller
                     $constraint->aspectRatio();
                 });
 
-                $cropped = $resizedImage->crop(150,84);
+                $cropped = $resizedImage->fit(150,84);
                 $save = $cropped->save($imageForStoryList);
 
                 $imageForRelatedStory = 'images/lists/imagesForRelatedStory/'.$imageName;
@@ -82,7 +82,7 @@ class ListController extends Controller
                     $constraint->aspectRatio();
                 });
 
-                $cropped = $resizedImage->crop(57,32);
+                $cropped = $resizedImage->fit(57,32);
                 $save = $cropped->save($imageForRelatedStory);
 
                 $imageForShuffleBox = 'images/lists/imagesForShuffleBox/'.$imageName;
@@ -91,7 +91,7 @@ class ListController extends Controller
                     $constraint->aspectRatio();
                 });
 
-                $cropped = $resizedImage->crop(650,365);
+                $cropped = $resizedImage->fit(650,365);
                 $save = $cropped->save($imageForShuffleBox);
 
             }

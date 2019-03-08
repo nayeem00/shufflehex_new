@@ -92,7 +92,7 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
             @endif
             @if(isset($post->domain) && !empty($post->domain))
                 <div class="link-source">
-                    <span class="pull-left">source: <a href="{{ $post->link }}" target="_blank"
+                    <span class="pull-left">source: <a href="{{ url('source/'.$post->domain) }}" target="_blank"
                                                        rel="nofollow">{{ $post->domain }}</a></span>
                 </div>
             @endif
