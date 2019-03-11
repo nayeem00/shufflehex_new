@@ -105,8 +105,9 @@ class PostController extends Controller
         $userId = Auth::user()->id;
 
         $user = User::find($userId);
+//        $info = Embed::create($request->link);
         $info = Embed::create($request->link);
-        $info->image = str_replace('https', 'http', strtolower($info->image));
+        $info->image = str_replace('https', 'http', $info->image);
         $extension = pathinfo($info->image, PATHINFO_EXTENSION);
         $ext = explode('?', $extension);
         $featuredImage = 'images/imagesByLink/' . str_random(4) . '-' . str_slug($request->title) . '-' . time() . '.' . $ext[0];
