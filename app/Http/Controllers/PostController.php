@@ -176,9 +176,8 @@ class PostController extends Controller
         $posts->is_publish = 1;
         $posts->save();
 
-        $title = preg_replace('/\s+/', '-', $posts->title);
-        $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
-        $title = $title . '-' . $posts->id;
+        $slug = $posts->slug . '-' . $posts->id;
+        $title = $slug . '-' . $posts->id;
 
         return redirect('story/' . $title);
     }
@@ -427,9 +426,7 @@ class PostController extends Controller
         $post->tags = $request->tags;
         $post->update();
 
-        $title = preg_replace('/\s+/', '-', $post->title);
-        $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
-        $title = $title . '-' . $post->id;
+        $title = $post->slug . '-' . $post->id;
         Toastr::success('Your story is updated successfully!', 'Success', ["positionClass" => "toast-top-right"]);
         return redirect('story/' . $title);
     }
@@ -489,8 +486,28 @@ class PostController extends Controller
 
         $exploded = explode('-', $title);
         $id = array_values(array_slice($exploded, -1))[0];
-        $post = Post::with('comments')->find($id);
-        return view('pages.view', compact('post'));
+        $post = Post::find($id);
+        $post->metaDescription = substr($post->description, 0, 160);
+        $post->metaDescription .= '...';
+        $post->metaDescription = strip_tags($post->metaDescription);
+        $postUser = User::find($post->user_id);
+        $previousId = Post::where('id','<',$post->id)->where('is_link',1)->max('id');
+        if (empty($previousId)){
+            $previousId = Post::where('is_link',1)->max('id');
+        }
+        $previous = Post::find($previousId);
+        $title = $previous->slug . '-' . $previous->id;
+        $storyLink = 'view/'.$title;
+        $previous->story_link = $storyLink;
+        $nextId = Post::where('id','>',$post->id)->where('is_link',1)->min('id');
+        if (empty($nextId)){
+            $nextId = Post::where('is_link',1)->min('id');
+        }
+        $next = Post::find($nextId);
+        $title = $next->slug . '-' . $next->id;
+        $storyLink = 'view/'.$title;
+        $next->story_link = $storyLink;
+        return view('pages.view', compact('post','postUser','previous','next'));
     }
 
     public function latestPost()

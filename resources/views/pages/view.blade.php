@@ -1,8 +1,27 @@
+<?php
+$actual_link = URL::to('/');
+$imageLink = $actual_link."/".$post->featured_image;
+$title = preg_replace('/\s+/', '-', $post->title);
+$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+$title = $title . '-' . $post->id;
+$storyUrl = $actual_link.'/story/'.$title;
+$storyImage = $actual_link.'/'.$post->featured_image;
+$wordCount = str_word_count($post->description);
+?>
+
 <!DOCTYPE html>
 <html class=''>
 <head>
     <meta charset='UTF-8'>
     <meta name="robots" content="noindex">
+    <title>{{ $post->title }}</title>
+    <meta name="description" content="{{ $post->metaDescription }}"/>
+    <meta name="keywords" content="{{ $post->tags }}">
+    <meta name="category" content="{{ $post->category }}">
+    <meta name="author" content="{{ $postUser->name }}">
+    <meta name="og:image" content="{{ $imageLink }}"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    <link rel="icon" type="image/png" href="{{asset('/images/icons/shufflehex.png')}}">
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css') }}">
@@ -44,19 +63,19 @@
                     <div class="collapse navbar-collapse" id="navbar">
                         <ul class="nav navbar-nav">
                             <li>
-                                <a href="#">
+                                <a href="{{ url($previous->story_link) }}">
                                     <img class="icon" src="{{ asset('img/back-button.svg') }}">
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="{{ url($next->story_link) }}">
                                     <img class="icon" src="{{ asset('img/right-arrow-circular-button.svg') }}">
                                 </a>
                             </li>
                             <li class="story-list">
-                                <p class="title">This is story title</p>
+                                <p class="title">{{ $post->title }}</p>
                                 <p class="username">
-                                    <small>Username</small>
+                                    <small><a href="{{ url('profile/'.$postUser->username) }}" rel="nofollow"> {{ $postUser->name }}</a></small>
                                 </p>
                             </li>
                         </ul>

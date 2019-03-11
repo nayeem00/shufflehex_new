@@ -257,9 +257,11 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
         </div>
         <div class="pa-15">
             <div class="author">
+                <a href="{{ url('profile/'.$post->username) }}">
                 <img class="img-responsive author-img"
                      src="@if (!empty($postUser->mini_profile_picture_link)) {{ asset( $postUser->mini_profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
                 <p class="author-name"><strong>{{ $postUser->name }}</strong></p>
+                </a>
             </div>
             @if(!empty($postUser->work_at))
                 <div class="info">

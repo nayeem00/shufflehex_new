@@ -108,11 +108,8 @@ class PostHelper
             $post->description = strip_tags($post->description);
 
 //          ---------------------  Time Calculation ------------------
-
-            $title = preg_replace('/\s+/', '-', $post->title);
-            $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
-            $title = $title . '-' . $post->id;
-            $storyLink = 'story/'.$title;
+            $slug = $post->slug . '-' . $post->id;
+            $storyLink = 'story/'.$slug;
 
             //                    ---------------------------- Time conversion --------------------------------
             $date = PostHelper::time_elapsed_string($post->created_at, false);
