@@ -112,5 +112,5 @@ class RegisterController extends Controller
             return "not_found";
         }
     }
-    
+
 }
