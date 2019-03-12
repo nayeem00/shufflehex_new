@@ -6,6 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use ReCaptcha\ReCaptcha;
+use GuzzleHttp\Client;
 
 class RegisterController extends Controller
 {
@@ -34,6 +36,7 @@ class RegisterController extends Controller
      *
      * @return void
      */
+    protected $data;
     public function __construct()
     {
         $this->middleware('guest');
@@ -42,23 +45,38 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $this->data = $data;
+        $rules = [
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-        ]);
+            'g-recaptcha-response' => 'required',
+        ];
+
+        $customMessages = [
+            'g-recaptcha-response.required' => 'Please complete catcha verification!'
+        ];
+
+        $validator = Validator::make($data, $rules, $customMessages);
+        $validator->after(function ($validator) {
+            $status = $this->passes();
+            if ($status == "robot") {
+                $validator->errors()->add('g-recaptcha-response', 'Probably you are a robot!');
+            }
+        });
+        return $validator;
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \App\User
      */
     protected function create(array $data)
@@ -70,4 +88,29 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    public function passes()
+    {
+        $token = $this->data['g-recaptcha-response'];
+        if (!empty($token)) {
+            $client = new Client();
+            $response = $client->post('https://www.google.com/recaptcha/api/siteverify', [
+                'form_params' => array(
+                    'secret' => env('reCAPTCHA_secret_key'),
+                    'response' => $token
+                )
+            ]);
+            $results = json_decode($response->getBody()->getContents());
+            $this->data = '';
+            if ($results->success) {
+                return "success";
+            } else {
+                return "robot";
+            }
+        } else {
+
+            return "not_found";
+        }
+    }
+    
 }

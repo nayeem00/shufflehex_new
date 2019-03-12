@@ -30,7 +30,9 @@
 
     <?php echo \App\Http\SettingsHelper::getHeadScript()?>
 
-
+    @if( (Request::is('login') || Request::is('pages/register')))  )
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    @endif
 </head>
 
 <body class="master">
@@ -101,7 +103,9 @@
         }
     });
 </script>
+@if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404'))  )
 <script src="{{ asset('js/main.js') }}"></script>
+@endif
 <script>
 
     $(document).ready(function () {

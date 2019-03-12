@@ -97,7 +97,7 @@ class PostController extends Controller
     {
         $this->validate($request,[
             'title'=>'required',
-            'link'=>'required',
+            'link'=>'required|unique:posts',
             'category'=>'required',
             'description'=>'required'
         ]);
