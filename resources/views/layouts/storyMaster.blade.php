@@ -73,6 +73,7 @@
         <i class="fa fa-chevron-up"></i>
     </button>
 </div>
+@include('modals/modal_social_login')
 <!-- jQuery CDN -->
 <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('bootstrap3/js/bootstrap.min.js')}}"></script>

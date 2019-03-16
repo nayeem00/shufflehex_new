@@ -51,8 +51,10 @@
         @include('partials.mobile_nav')
         @include('partials.main_nav')
     @endif
+
     <div class="container">
         <div class="row">
+            <a onclick="openLoginSocialModal(this,event)" href="#" class="btn btn-block btn-lg btn-danger">Sign in</a>
             <div class="col-md-2 plr-0">
                 @if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404'))  )
                     @include('partials.list-left-sidebar')

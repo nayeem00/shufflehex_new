@@ -74,3 +74,14 @@ $(".go-top-btn").click(function() {
     $("html, body").animate({ scrollTop: 0 }, "slow");
     return false;
 });
+function openLoginSocialModal($this,event) {
+    event.preventDefault();
+    let modal = $($this).data('modal');
+    $(modal).modal('show').fadeIn(200);
+}
+$(document).ready(function(){
+    setTimeout(function(){
+        $('#social_login_modal').modal('show');
+    },1000)
+
+});
