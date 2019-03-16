@@ -96,7 +96,7 @@ class ProductController extends Controller
         $resizedImage = Intervention::make($image->getRealPath())->resize(84, null, function ($constraint) {
             $constraint->aspectRatio();
         });
-        $cropped = $resizedImage->crop(84,84);
+        $cropped = $resizedImage->fit(84,84);
         $save = $cropped->save($product_list_image);
 
         $image = $request->img[0];
@@ -108,7 +108,7 @@ class ProductController extends Controller
         $resizedImage = Intervention::make($image->getRealPath())->resize(50, null, function ($constraint) {
             $constraint->aspectRatio();
         });
-        $cropped = $resizedImage->crop(50,50);
+        $cropped = $resizedImage->fit(50,50);
         $save = $cropped->save($related_product_image);
 
         $extension =$image->getClientOriginalExtension();//get image extension only
@@ -341,7 +341,7 @@ class ProductController extends Controller
         $resizedImage = Intervention::make($image->getRealPath())->resize(84, null, function ($constraint) {
             $constraint->aspectRatio();
         });
-        $cropped = $resizedImage->crop(84,84);
+        $cropped = $resizedImage->fit(84,84);
         $save = $cropped->save($product_list_image);
 
         $image = $request->img[0];
@@ -353,7 +353,7 @@ class ProductController extends Controller
         $resizedImage = Intervention::make($image->getRealPath())->resize(50, null, function ($constraint) {
             $constraint->aspectRatio();
         });
-        $cropped = $resizedImage->crop(50,50);
+        $cropped = $resizedImage->fit(50,50);
         $save = $cropped->save($related_product_image);
 
         $extension =$image->getClientOriginalExtension();//get image extension only
