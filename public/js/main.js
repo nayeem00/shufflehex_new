@@ -79,9 +79,10 @@ function openLoginSocialModal($this,event) {
     let modal = $($this).data('modal');
     $(modal).modal('show').fadeIn(200);
 }
-$(document).ready(function(){
-    setTimeout(function(){
-        $('#social_login_modal').modal('show');
-    },1000)
-
-});
+// social login modal js
+// $(document).ready(function(){
+//     setTimeout(function(){
+//         $('#social_login_modal').modal('show');
+//     },1000)
+//
+// });

@@ -10,7 +10,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="{{ url('/story') }}"><img class="logo" src="{{ asset('img/logo/shufflehex.png') }}" alt="ShuffleHex"></a>
+                    <a href="/"><img class="logo" src="{{ asset('img/logo/shufflehex.png') }}" alt="ShuffleHex"></a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -25,21 +25,27 @@
                         <li ><a href="{{ url('/') }}">Stories<span class="sr-only">(current)</span></a></li>
                         <li><a href="{{ url('/products') }}">Products</a></li>
                         <li><a href="{{ url('/projects') }}">Projects</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Add New&nbsp;&nbsp;</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ url('/add') }}">Add Story</a></li>
-                                <li><a href="{{ url('/addproject') }}">Add Project</a></li>
-                                <li><a href="{{ url('/addproduct') }}">Add Product</a></li>
-                            </ul>
-                        </li>
+                        @if (Auth::guest())
+                            <li><a href="{{ url('/add') }}">Add New</a></li>
+                        @else
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Add New&nbsp;&nbsp;</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ url('/add') }}">Add Story</a></li>
+                                    <li><a href="{{ url('/addproject') }}">Add Project</a></li>
+                                    <li><a href="{{ url('/addproduct') }}">Add Product</a></li>
+                                </ul>
+                            </li>
+                        @endif
+
 
                     </ul>
                     <div class="pull-right profile">
-                        <ul class="list-unstyled dis-infl">
+                        <ul class="list-unstyled list-inline mb-0">
                             @if (Auth::guest())
-                                <li><a class="btn btn-default" href="{{ url('/login') }}">LOG IN</a></li>
-                                <li><a class="btn btn-danger mr-l-1" href="{{ url('pages/register') }}">SIGN UP</a></li>
+                                <li><a class="btn" href="{{ url('/login') }}">Login</a></li>
+                                <li><a class="btn btn-outline-shufflered mr-l-1" href="{{ url('pages/register') }}">Signup</a></li>
                             @else
                                 @if(True)
 

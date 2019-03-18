@@ -23,19 +23,8 @@ $searchUrl = $actual_link."/search?search={search_term}";
     @include('partials.shufflebox')
 
     <div class="box">
-        <div class="row box-header m-0">
-
-                <div class="col-md-12">
-                    <div class="pull-left">
-                        <h1 style="margin: 0;"><small>ShuffleHex Stories</small></h1>
-                    </div>
-                    <div class="pull-right">
-                        <button class="btn" data-toggle="collapse" data-target="#filter">Filter <i
-                                    class="fa fa-filter"></i></button>
-                    </div>
-
-
-                </div>
+        <div class="row box-header list-box-header m-0">
+            @include('partials.story_list_header')
         </div>
 
         <?php if($pageKey == "story-main") { ?>

@@ -19,7 +19,6 @@ $wordCount = str_word_count($post->description);
 @endsection
 @section('css')
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/view-story.css') }}">
 @endsection
 <?php
 $embed = EmbedVideo::make($post->link)->parseUrl();
@@ -79,10 +78,10 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
         <div class="story-heading">
             <h1>{{ $post->title }}</h1>
             <p><span class="small"
-                     style="color: #999999">Submitted by <strong>{{ $post->username }}</strong> at {{ $date }}
-                    in <strong>{{ $post->category }}</strong></span></p>
+                     style="color: #999999">Submitted by <strong><i class="fa fa-user"></i>&nbsp;{{ $post->username }}</strong> at {{ $date }}
+                    in <strong><i class="fa fa-tag"></i>&nbsp;{{ $post->category }}</strong></span></p>
         </div>
-        <div class="feature-img">
+        <div class="feature-img d-inline-block w-100">
             @if($post->is_video==1)
                 <?php
                 echo $embed->getHtml();
@@ -91,8 +90,8 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
                 <img class="img-responsive" src="{{ url($post->featured_image) }}">
             @endif
             @if(isset($post->domain) && !empty($post->domain))
-                <div class="link-source">
-                    <span class="pull-left">source: <a href="{{ url('source/'.$post->domain) }}" target="_blank"
+                <div class="link-source d-inline-block w-100">
+                    <span class="text-left">source: <a href="{{ url('source/'.$post->domain) }}" target="_blank"
                                                        rel="nofollow">{{ $post->domain }}</a></span>
                 </div>
             @endif
@@ -102,15 +101,10 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
             <p>
                 {!! $post->description !!}
             </p>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                @if($post->is_link==1)
-                    <a class="btn btn-sm btn-block btn-danger btn-read-more" href="{{ url('view/'.$title) }}" target="_blank"
-                       rel="nofollow">Read Full Story</a>
-                @endif
-            </div>
+            @if($post->is_link==1)
+                <a class="btn btn-block btn-outline-shufflered" href="{{ url('view/'.$title) }}" target="_blank"
+                   rel="nofollow">Read Full Story</a>
+            @endif
         </div>
     </div>
     <div class="row box vote-and-share mr-0 ml-0" style="margin-bottom: 15px !important;">
@@ -249,7 +243,7 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
     <div class="box about-author">
         <div class="box-header">
             <div class="pull-left">
-                <h4>About The Author</h4>
+                <h4 style="font-size: 14px"> About The Author</h4>
             </div>
             <div class="pull-right">
                 <a class="btn btn-danger" href="#">Donate Author</a>
@@ -257,44 +251,48 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
         </div>
         <div class="pa-15">
             <div class="author">
-                <a href="{{ url('profile/'.$post->username) }}">
-                <img class="img-responsive author-img"
-                     src="@if (!empty($postUser->mini_profile_picture_link)) {{ asset( $postUser->mini_profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
-                <p class="author-name"><strong>{{ $postUser->name }}</strong></p>
-                </a>
+                <div class="img_box50_50">
+                    <img class="img-responsive img-circle author-img" src="@if (!empty($postUser->mini_profile_picture_link)) {{ asset( $postUser->mini_profile_picture_link) }} @else {{ asset( 'images/user/profilePicture/default/user.png') }} @endif">
+                </div>
+                <div class="img_box50_right">
+                    <h4 class="author-name"><a href="{{ url('profile/'.$post->username) }}">@if (!empty($postUser->name)){{ $postUser->name }}@else {{$post->username}} @endif</a></h4>
+                </div>
             </div>
-            @if(!empty($postUser->work_at))
-                <div class="info">
-                    <span class="info-icon"><i class="fa fa-briefcase"></i></span>
-                    <p class="info-txt">Works at <strong>{{ $postUser->work_at }}</strong></p>
-                </div>
-            @endif
-            @if(!empty($postUser->education))
-                <div class="info">
-                    <span class="info-icon"><i class="fa fa-graduation-cap "></i></span>
-                    <p class="info-txt">Studied at <strong>{{ $postUser->education }}</strong></p>
-                </div>
-            @endif
-            @if(!empty($postUser->location))
-                <div class="info">
-                    <span class="info-icon"><i class="fa fa-map-marker"></i></span>
-                    <p class="info-txt">Lives in <strong>{{ $postUser->location }}</strong></p>
-                </div>
-            @endif
-            @if(!empty($postUser->languages))
-                <div class="info">
-                    <span class="info-icon"><i class="fa fa-globe"></i></span>
-                    <p class="info-txt">Knows <strong>{{ $postUser->languages }}</strong></p>
-                </div>
-            @endif
-            @if(!empty($totalViews))
-                <div class="info">
-                    <span class="info-icon"><i class="fa fa-eye"></i></span>
-                    <p class="info-txt">{{ $totalViews }} Total Stories Views <br>
-                        <span class="light-title-sub">{{ $post->views }} views in this post</span>
-                    </p>
-                </div>
-            @endif
+            <div class="author-info">
+                @if(!empty($postUser->work_at))
+                    <div class="info">
+                        <span class="info-icon"><i class="fa fa-briefcase"></i></span>
+                        <p class="info-txt">Works at <strong>{{ $postUser->work_at }}</strong></p>
+                    </div>
+                @endif
+                @if(!empty($postUser->education))
+                    <div class="info">
+                        <span class="info-icon"><i class="fa fa-graduation-cap "></i></span>
+                        <p class="info-txt">Studied at <strong>{{ $postUser->education }}</strong></p>
+                    </div>
+                @endif
+                @if(!empty($postUser->location))
+                    <div class="info">
+                        <span class="info-icon"><i class="fa fa-map-marker"></i></span>
+                        <p class="info-txt">Lives in <strong>{{ $postUser->location }}</strong></p>
+                    </div>
+                @endif
+                @if(!empty($postUser->languages))
+                    <div class="info">
+                        <span class="info-icon"><i class="fa fa-globe"></i></span>
+                        <p class="info-txt">Knows <strong>{{ $postUser->languages }}</strong></p>
+                    </div>
+                @endif
+                @if(!empty($totalViews))
+                    <div class="info">
+                        <span class="info-icon"><i class="fa fa-eye"></i></span>
+                        <p class="info-txt">{{ $totalViews }} Total Stories Views <br>
+                            <span class="light-title-sub">{{ $post->views }} views in this post</span>
+                        </p>
+                    </div>
+                @endif
+            </div>
+
         </div>
     </div>
 
