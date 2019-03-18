@@ -740,6 +740,7 @@ a[aria-expanded="true"]::before {
 }
 #top-bar .navbar .pull-right.profile {
   margin-top: 0;
+  padding: 5px !important;
 }
 #top-bar .navbar .navbar-search {
   max-width: 250px;
@@ -790,6 +791,7 @@ a[aria-expanded="true"]::before {
   height: 30px;
   border-radius: 50%;
   display: inline-flex;
+  margin-top: -5px;
 }
 #top-bar .profile .dis-infl {
   display: inline-flex;

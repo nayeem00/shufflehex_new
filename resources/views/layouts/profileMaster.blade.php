@@ -13,6 +13,7 @@
     {{--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">--}}
     <link rel="stylesheet" href="{{asset('jquery-confirm/jquery-confirm.min.css')}}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/saved-list.css') }}">
     <link rel="stylesheet" href="{{ asset('toastr/toastr.min.css') }}">
 @yield('css')
 

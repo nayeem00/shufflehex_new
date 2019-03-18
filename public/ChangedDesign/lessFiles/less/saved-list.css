@@ -23,6 +23,7 @@
 .folder-item .folder-title {
   font-size: 14px;
   font-weight: 500;
+  margin-left: 5px;
   line-height: 30px;
 }
 .folder-item .folder-title a {
@@ -32,9 +33,6 @@
 .folder-item .folder-title .lh-17 {
   line-height: 17px !important;
 }
-.folder-item .dis-hover {
-  display: none;
-}
 .folder-item .btn-xs {
   padding: 1px 10px !important;
 }
@@ -43,11 +41,5 @@
 }
 .folder-item:hover {
   background-color: #fafafa;
-}
-.folder-item:hover .folder-title a {
-  color: #ddd;
-}
-.folder-item:hover .dis-hover {
-  display: inline-flex;
 }
 /*# sourceMappingURL=saved-list.css.map */
