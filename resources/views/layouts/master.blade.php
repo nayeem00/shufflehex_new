@@ -33,6 +33,7 @@
     @if( (Request::is('login') || Request::is('pages/register')))  )
     <script src="https://www.google.com/recaptcha/api.js"></script>
     @endif
+    <meta name="google-signin-client_id" content="{{env('GOOGLE_CLIENT_ID')}}">
 </head>
 
 <body class="master">

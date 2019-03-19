@@ -21,6 +21,8 @@
 //Route::get('/pages/add', function () {
 //    return view('pages.add');
 //});
+Route::get('login/google', 'Auth\RegisterController@redirectToProvider');
+Route::get('login/google/callback', 'Auth\RegisterController@handleProviderCallback');
 Route::get('/feed', 'FeedController@feed');
 Route::get('/story/latest', 'PostController@latestPost');
 Route::get('/story/top/', 'PostController@topPost');
