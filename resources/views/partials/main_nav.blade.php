@@ -21,7 +21,7 @@
                             <input type="text" name="search" class="fontAwesome form-control" placeholder="&#xf002; Discover New Content">
                         </div>
                     </form>
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav main-nav-list-left">
                         <li ><a href="{{ url('/') }}">Stories<span class="sr-only">(current)</span></a></li>
                         <li><a href="{{ url('/products') }}">Products</a></li>
                         <li><a href="{{ url('/projects') }}">Projects</a></li>
@@ -42,7 +42,7 @@
 
                     </ul>
                     <div class="pull-right profile">
-                        <ul class="list-unstyled list-inline mb-0">
+                        <ul class="list-unstyled list-inline mb-0 @if (Auth::guest())navbar-login-right @endif">
                             @if (Auth::guest())
                                 <li><a class="btn" href="{{ url('/login') }}">Login</a></li>
                                 <li><a class="btn btn-outline-shufflered mr-l-1" href="{{ url('pages/register') }}">Signup</a></li>

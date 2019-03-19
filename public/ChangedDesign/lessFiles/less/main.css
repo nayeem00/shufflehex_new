@@ -672,6 +672,9 @@ a[aria-expanded="true"]::before {
   border-right: 1px solid #999;
   margin: 0;
 }
+#top-bar .story-view .navbar .container-fluid .navbar-header a img.logo {
+  padding-top: 5px;
+}
 #top-bar .story-view .navbar .container-fluid .nav .story-list {
   padding-top: 5px;
   padding-left: 10px;
@@ -744,9 +747,14 @@ a[aria-expanded="true"]::before {
 }
 #top-bar .navbar .navbar-search {
   max-width: 250px;
+  padding-top: 6px;
 }
 #top-bar .navbar .navbar-search .form-control {
   width: 100%;
+}
+#top-bar .navbar .main-nav-list-left,
+#top-bar .navbar .navbar-login-right {
+  padding: 8px 0 !important;
 }
 #top-bar .navbar .nav li a {
   padding: 10px;
@@ -796,7 +804,7 @@ a[aria-expanded="true"]::before {
 #top-bar .profile .dis-infl {
   display: inline-flex;
   line-height: 12px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   margin-top: 10px;
 }
 #top-bar .profile .dropdown-menu {
