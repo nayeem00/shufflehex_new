@@ -1,4 +1,4 @@
-@extends('layouts.storyMaster')
+@extends('layouts.project')
 <?php
 $actual_link = URL::to('/');
 $imageLink = $actual_link."/".$post->logo;
