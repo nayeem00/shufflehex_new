@@ -12,24 +12,28 @@
   }
   .story-heading {
     margin-bottom: 20px;
-
-    p {
-      margin: 0;
-    }
-
     h1 {
       margin: 0;
-      font-size: 24px;
+      font-size: 22px;
+      color: @color555;
+    }
+    p {
+      margin: 0;
+      .fa{
+        font-size: 11px;
+      }
+      strong{
+        font-weight: 600;
+      }
     }
   }
 
   .feature-img {
-    margin-bottom: 40px;
     .link-source {
       font-size: 14px;
-      color: #999999;
+      color: @color999;
       a {
-        color: #999999;
+        color: @color999;
 
       }
     }
@@ -37,7 +41,6 @@
   .story-content {
     * {
       font-size: 16px;
-      color: @color555;
       max-width: 100% !important;
     }
   }
@@ -74,22 +77,12 @@
   }
 
   .story-content {
-    margin: 20px auto;
+    margin: auto;
     font-size: 14px;
     text-align: justify;
 
     p {
       color: #576574;
-    }
-
-    .btn {
-      font-family: 'open-sans', sans-serif;
-      font-weight: 600;
-      font-size: 18px;
-      background-color: #ee5253 !important;
-      box-shadow: 0 0 1px 0 #a94442;
-      margin-top: 10px;
-      color: #fff;
     }
   }
 
@@ -304,14 +297,20 @@
 
     display: inline-flex;
     .author-img {
+      width: 100%;
+      height: auto;
       border-radius: 50%;
-      height: 40px;
-      width: 40px;
     }
     .author-name {
-      font-size: 18px;
-      line-height: 40px;
-      padding-left: 16px;
+      float: left;
+      line-height: 30px;
+      a{
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+    .author-info{
+      margin-top: 50px;
     }
 
   }
@@ -326,7 +325,7 @@
       float: left;
       display: inline-block;
       position: absolute;
-      line-height: 1.7;
+      line-height: 2;
     }
 
     .info-txt {

@@ -59,6 +59,9 @@ Route::get('/pages/privacy', function () {
 Route::get('/pages/support', function () {
     return view('pages.support');
 });
+Route::get('/verify/email', function () {
+    return view('pages.emailVerify');
+});
 
 //Route::get('/addproduct', function () {
 //	return view('pages.addProduct');

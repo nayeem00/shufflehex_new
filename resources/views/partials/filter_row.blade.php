@@ -1,8 +1,7 @@
-<div id="filter" class="row collapse m-0">
+<div id="filter" class="row filter-list collapse m-0">
     <?php if(!isset($removeFilter['time'])) { ?>
     <div class="col-md-3 col-sm-4 col-xs-6 time-filter">
-        <h4 class="filter-title">Upload Date</h4>
-        <hr>
+        <div class="filter-title">Upload Date</div>
         <ul class="list-unstyled">
             <li><a id="day" class="time-filter-item">Today</a></li>
             <li><a id="week" class="time-filter-item">This week</a></li>
@@ -13,8 +12,7 @@
         <?php }?>
         <?php  if(!isset($removeFilter['topics'])) { ?>
     <div class="col-md-3 col-sm-4 col-xs-6 topics-filter">
-        <h4 class="filter-title">Type</h4>
-        <hr>
+        <div class="filter-title">Type</div>
         <ul class="list-unstyled">
             <li><a id="link" class="topics-filter-item">Web</a></li>
             <li><a id="image" class="topics-filter-item">Images</a></li>
@@ -25,8 +23,7 @@
         <?php }?>
         <?php if(!isset($removeFilter['topics'])) { ?>
     <div class="col-md-3 col-sm-4 col-xs-6 topics-filter">
-        <h4 class="filter-title">Type</h4>
-        <hr>
+        <div class="filter-title">Type</div>
         <ul class="list-unstyled">
             <li><a id="list" class="topics-filter-item">Lists</a></li>
             <li><a id="poll" class="topics-filter-item">poll</a></li>
@@ -36,8 +33,7 @@
         <?php }?>
         <?php if(!isset($removeFilter['other'])) { ?>
     <div class="col-md-3 col-sm-4 col-xs-6 other-filter">
-        <h4 class="filter-title">Other</h4>
-        <hr>
+        <div class="filter-title">Other</div>
         <ul class="list-unstyled">
             <li><a id="upvote" class="other-filter-item">Upvote</a></li>
             <li><a id="downvote" class="other-filter-item">Downvote</a></li>
@@ -46,5 +42,7 @@
         </ul>
     </div>
         <?php }?>
-
+<div class="col-xs-12 p-0">
+    <hr class="m-0">
+</div>
 </div>

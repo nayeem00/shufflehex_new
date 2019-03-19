@@ -20,9 +20,6 @@
     {{--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">--}}
     <link rel="stylesheet" href="{{asset('jquery-confirm/jquery-confirm.min.css')}}">
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/list-style.css') }}">
     <link rel="stylesheet" href="{{ asset('toastr/toastr.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.css') }}">
@@ -52,6 +49,7 @@
         @include('partials.mobile_nav')
         @include('partials.main_nav')
     @endif
+
     <div class="container">
         <div class="row">
             <div class="col-md-2 plr-0">

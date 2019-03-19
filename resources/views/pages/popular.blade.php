@@ -22,23 +22,8 @@ $imageLink = $actual_link."/images/icons/shufflehex_featured.jpg";
     @include('partials.shufflebox')
 
     <div class="box">
-        <div class="row box-header m-0">
-            @if(isset($page2) && !empty($page2))
-                <div class="col-md-12"><h3>{{ $page2.' '.$page1 }} </h3></div>
-            @else
-                <div class="col-md-12">
-                    <div class="pull-left">
-                        <h3>All Stories</h3>
-                    </div>
-                    <div class="pull-right">
-                        <button class="btn" data-toggle="collapse" data-target="#filter">Filter <i
-                                    class="fa fa-filter"></i></button>
-                    </div>
-
-
-                </div>
-
-            @endif
+        <div class="row box-header list-box-header m-0">
+            @include('partials.story_list_header')
         </div>
 
         <?php if($pageKey == "story-main") { ?>

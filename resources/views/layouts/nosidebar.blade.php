@@ -1,18 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 
-<html ⚡>
+<html>
 
 <head>
 
     <meta charset="utf-8">
 
-    <meta name="viewport" content="width=device-width,minimum-scale=1, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <link rel="icon" type="image/png" href="{{asset('/images/icons/shufflehex.png')}}">
-    @yield('meta')
+    <title>Shufflehex</title>
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="{{ asset('bootstrap3/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bootstrap-select-1.13.2/css/bootstrap-select.min.css') }}">
@@ -22,12 +22,13 @@
     <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/main.css') }}">
     <link rel="stylesheet" href="{{ asset('toastr/toastr.min.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.css') }}">
     @yield('css')
 
     <?php echo \App\Http\SettingsHelper::getHeadScript()?>
 
-
+    @if( (Request::is('login') || Request::is('pages/register')))  )
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    @endif
 </head>
 
 <body class="master">
@@ -46,23 +47,9 @@
         @include('partials.mobile_nav')
         @include('partials.main_nav')
     @endif
+
     <div class="container">
-        <div class="row">
-            <div class="col-md-2 plr-0">
-                @if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404'))  )
-                    @include('partials.list-left-sidebar')
-                @endif
-            </div>
-            <div class="col-md-8 col-sm-12 plr-2">
-                @yield('content')
-            </div>
-            <div class="col-md-2 plr-0">
-                @if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404')) )
-                    @include('partials.list-right-sidebar')
-                @endif
-            </div>
-            <div class="overlay"></div>
-        </div>
+        @yield('content')
     </div>
 </div>
 <div class="go-top">
@@ -76,9 +63,6 @@
 <script src="{{ asset('js/jquery.nicescroll.min.js')}}"></script>
 <script src="{{ asset('bootstrap-select-1.13.2/js/bootstrap-select.min.js')}}"></script>
 <script src="{{ asset('jquery-confirm/jquery-confirm.min.js') }}"></script>
-<script src="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.js') }}"></script>
-<script src="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote-image-attributes.js') }}"></script>
-<script type="text/javascript" src="{{ asset('ChangedDesign/js/text-editor.js') }}"></script>
 <script src="{{ asset('toastr/toastr.min.js')}}"></script>
 
 @if ($errors->any())
@@ -98,21 +82,9 @@
         }
     });
 </script>
-<script src="{{ asset('js/main.js') }}"></script>
-<script>
-
-    $(document).ready(function () {
-
-        $('[data-toggle="tooltip"]').tooltip();
-
-    });
-
-</script>
-<script>
-
-    $('.selectpicker').selectpicker();
-
-</script>
+@if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404'))  )
+    <script src="{{ asset('js/main.js') }}"></script>
+@endif
 @yield('js')
 
 {!! Toastr::message() !!}
