@@ -672,8 +672,12 @@ a[aria-expanded="true"]::before {
   border-right: 1px solid #999;
   margin: 0;
 }
-#top-bar .story-view .navbar .container-fluid .navbar-header a img.logo {
-  padding-top: 5px;
+#top-bar .story-view .navbar .container-fluid .navbar-header a.navbar-logo {
+  display: inline-block;
+}
+#top-bar .story-view .navbar .container-fluid .navbar-header a.navbar-logo img.logo {
+  display: inline-block;
+  padding-top: 5px !important;
 }
 #top-bar .story-view .navbar .container-fluid .nav .story-list {
   padding-top: 5px;
