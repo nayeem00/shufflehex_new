@@ -207,7 +207,12 @@ class AppServiceProvider extends ServiceProvider
             ->get();
 //        dd($products);
         foreach ($products as $product){
-            $productTitle = $this->limit_text($product->product_name, 2);
+            $titleLength = strlen($product->product_name);
+            $productTitle = $product->product_name;
+            if ($titleLength >20) {
+                $productTitle = substr($product->product_name, 0, 20);
+                $productTitle .= '...';
+            }
             $title = preg_replace('/\s+/', '-', $product->product_name);
             $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
             $title = $title . '-' . $product->id;
@@ -236,7 +241,12 @@ class AppServiceProvider extends ServiceProvider
             ->get();
 //        dd($products);
         foreach ($projects as $project){
-            $projectTitle = $this->limit_text($project->title, 2);
+            $titleLength = strlen($project->title);
+            $projectTitle = $project->title;
+            if ($titleLength >20){
+            $projectTitle = substr($project->title, 0, 20);
+            $projectTitle .= '...';
+            }
             $title = preg_replace('/\s+/', '-', $project->title);
             $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
             $title = $title . '-' . $project->id;
