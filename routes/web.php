@@ -123,6 +123,8 @@ Route::get('/source/{domain}', 'PostController@domainWisePosts');
 Route::resource('/category', 'CategoryController');
 Auth::routes();
 
+Route::get('/topics', 'TopicController@index');
+
 //Route::get('/home', 'HomeController@index')->name('home');
 //Route::post('/addPost', 'PostController@store')->name('home');
 Route::group(['middleware' => 'auth'], function () {
