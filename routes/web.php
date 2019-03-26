@@ -124,6 +124,7 @@ Route::resource('/category', 'CategoryController');
 Auth::routes();
 
 Route::get('/topics', 'TopicController@index');
+Route::post('loginWithGoogle', 'Auth\RegisterController@findOrCreateUser');
 
 //Route::get('/home', 'HomeController@index')->name('home');
 //Route::post('/addPost', 'PostController@store')->name('home');

@@ -10,4 +10,8 @@ class Category extends Model
         'category',
     ];
     protected $dates=['deleted_at'];
+
+    public function posts() {
+        return $this->hasMany('App\Post');
+    }
 }

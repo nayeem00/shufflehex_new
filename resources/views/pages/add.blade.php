@@ -94,7 +94,7 @@
                             <input type="text" name="category" id="search_category_link"
                                    class="form-control fontAwesome search_category"
                                    onclick="getCategory('link')" onkeyup="searchTopic('link')"
-                                   placeholder="&#xf002;  Search Topic">
+                                   placeholder="&#xf002;  Search Topic" autocomplete="off">
                             <div id="get_category_link" class="w-100 get-category">
                                 <div class="col-xs-12">
                                     <div class="panel panel-default">
@@ -194,7 +194,7 @@
                             <input type="text" name="category" id="search_category_article"
                                    class="form-control fontAwesome search_category"
                                    onclick="getCategory('article')" onkeyup="searchTopic('article')"
-                                   placeholder="&#xf002;  Search Topic">
+                                   placeholder="&#xf002;  Search Topic" autocomplete="off">
                             <div id="get_category_article" class="w-100 get-category">
                                 <div class="col-xs-12">
                                     <div class="panel panel-default">
@@ -294,7 +294,7 @@
                         <input type="text" name="category" id="search_category_image"
                                class="form-control fontAwesome search_category"
                                onclick="getCategory('image')" onkeyup="searchTopic('image')"
-                               placeholder="&#xf002;  Search Topic">
+                               placeholder="&#xf002;  Search Topic" autocomplete="off">
                         <div id="get_category_image" class="w-100 get-category">
                             <div class="col-xs-12">
                                 <div class="panel panel-default">
@@ -378,7 +378,7 @@
                             <input type="text" name="category" id="search_category_video"
                                    class="form-control fontAwesome search_category"
                                    onclick="getCategory('video')" onkeyup="searchTopic('video')"
-                                   placeholder="&#xf002;  Search Topic">
+                                   placeholder="&#xf002;  Search Topic" autocomplete="off">
                             <div id="get_category_video" class="w-100 get-category">
                                 <div class="col-xs-12">
                                     <div class="panel panel-default">
@@ -482,7 +482,7 @@
                                 <input type="text" name="category" id="search_category_list"
                                        class="form-control fontAwesome search_category"
                                        onclick="getCategory('list')" onkeyup="searchTopic('list')"
-                                       placeholder="&#xf002;  Search Topic">
+                                       placeholder="&#xf002;  Search Topic" autocomplete="off">
                                 <div id="get_category_list" class="w-100 get-category">
                                     <div class="col-xs-12">
                                         <div class="panel panel-default">
@@ -588,7 +588,7 @@
                                 <input type="text" name="category" id="search_category_poll"
                                        class="form-control fontAwesome search_category"
                                        onclick="getCategory('poll')" onkeyup="searchTopic('poll')"
-                                       placeholder="&#xf002;  Search Topic">
+                                       placeholder="&#xf002;  Search Topic" autocomplete="off">
                                 <div id="get_category_poll" class="w-100 get-category">
                                     <div class="col-xs-12">
                                         <div class="panel panel-default">

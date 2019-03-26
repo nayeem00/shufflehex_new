@@ -33,11 +33,11 @@
                 <div class="login-title">
                     <h3>LOGIN</h3>
                 </div>
-                <div class="form-group {{ $errors->has('username') ? ' has-error' : '' }}">
-                    <input type="text" name="username" id="loginUsername" class="form-control" placeholder="Username" required>
-                    @if ($errors->has('username'))
+                <div class="form-group {{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}">
+                    <input type="text" name="login" id="loginUsername" class="form-control" value="{{ old('username') ?: old('email') }}" placeholder="Username or Email" required>
+                    @if ($errors->has('username') || $errors->has('email'))
                         <span class="help-block">
-                                        <strong>{{ $errors->first('username') }}</strong>
+                                        <strong>{{ $errors->first('username') ?: $errors->first('email') }}</strong>
                                     </span>
                     @endif
                 </div>
