@@ -101,7 +101,15 @@ class PostController extends Controller
             'category'=>'required',
             'description'=>'required'
         ]);
-
+        if ($request->category != '') {
+            $categoryCheck = Category::where('category',$request->category)->first();
+            if (!$categoryCheck){
+            $category = new Category();
+            $category->category = $request->category;
+            $category->is_deleted = 0;
+            $category->save();
+            }
+        }
         $userId = Auth::user()->id;
 
         $user = User::find($userId);

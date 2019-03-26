@@ -49,6 +49,15 @@ class PollController extends Controller
             'image'=>'required|mimes:jpg,jpeg,bmp,png,gif',
             'description'=>'required'
         ]);
+        if ($request->category != '') {
+            $categoryCheck = Category::where('category',$request->category)->first();
+            if (!$categoryCheck){
+                $category = new Category();
+                $category->category = $request->category;
+                $category->is_deleted = 0;
+                $category->save();
+            }
+        }
 //        dd($request);
         $user = User::find(Auth::user()->id);
         if (Input::hasFile('image')) {
