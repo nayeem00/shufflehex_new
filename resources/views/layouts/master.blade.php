@@ -12,7 +12,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <link rel="icon" type="image/png" href="{{asset('/images/icons/shufflehex.png')}}">
-    <title>Shufflehex</title>
+    <title>ShuffleHex</title>
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="{{ asset('bootstrap3/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bootstrap-select-1.13.2/css/bootstrap-select.min.css') }}">
@@ -27,8 +27,8 @@
 
     <?php echo \App\Http\SettingsHelper::getHeadScript()?>
 
-    @if( (Request::is('login') || Request::is('pages/register')))  )
-    <script src="https://www.google.com/recaptcha/api.js"></script>
+    @if( (Request::is('login') || Request::is('pages/register')))
+        <script src="https://www.google.com/recaptcha/api.js"></script>
     @endif
     <meta name="google-signin-client_id" content="{{env('GOOGLE_CLIENT_ID')}}">
 </head>
@@ -103,7 +103,7 @@
     });
 </script>
 @if( !(Request::is('login') || Request::is('pages/register') || Request::is('page404'))  )
-<script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 @endif
 <script>
 

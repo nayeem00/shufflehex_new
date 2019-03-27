@@ -48,6 +48,10 @@ class Post extends Model {
 		return $this->belongsTo('App\Folder');
 	}
 
+	public function categories() {
+		return $this->belongsTo('App\Category');
+	}
+
 //    public function poll_votes()
 	//    {
 	//        return $this->hasManyThrough('App\PollVote', 'App\PollItem','post-id','poll_item_id');

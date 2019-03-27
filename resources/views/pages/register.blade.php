@@ -1,5 +1,4 @@
 
-
 @extends('layouts.master')
 
 @section('css')
@@ -66,7 +65,11 @@
                         <input type="submit" name="btn-signup" id="btn-signup" value="Signup" class="btn btn-block btn-danger">
                     </div>
                     <div class="form-group">
-                        <a class="btn btn-block btn-default" href="{{ url('/pages/signin') }}">Login</a>
+                        <a class="btn btn-block btn-default" href="{{ url('/login') }}">Login</a>
+                    </div>
+                    <div class="form-group">
+                        {{--<a class="btn btn-block btn-default" href="{{ url('/login/google') }}">Login with google</a>--}}
+                        <div id="my-signin2" data-onsuccess="onSignIn"></div>
                     </div>
                 </form>
             </div>
@@ -75,7 +78,50 @@
 
 @section('js')
 
+    <script>
+        var googleUser = '';
+        function onPageLoad(user) {
+            googleUser = user;
+            console.log(googleUser);
+        }
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log(profile.getName());
+            var name = profile.getName();
+            var email = profile.getEmail();
+            var image = profile.getImageUrl();
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                type: 'post',
+                url: '{{url("loginWithGoogle")}}',
+                data: {_token: CSRF_TOKEN, name: name, email: email, image: image},
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data.status==='success'){
+                        window.location.href = '{{url("/")}}';
+                    }
+                }
+            });
+        }
+        function onSuccess(googleUser) {
 
+        }
+        function onFailure(error) {
+            console.log(error);
+        }
+        function renderButton() {
+            gapi.signin2.render('my-signin2', {
+                'scope': 'profile email',
+                'width': 240,
+                'height': 50,
+                'longtitle': true,
+                'theme': 'dark',
+                'onfailure': onFailure
+            });
+        }
+    </script>
+
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 <!-- Include Editor JS files. -->
 
 @endsection

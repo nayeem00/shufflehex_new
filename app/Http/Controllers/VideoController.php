@@ -48,7 +48,15 @@ class VideoController extends Controller
             'link'=>'required',
             'description'=>'required'
         ]);
-
+        if ($request->category != '') {
+            $categoryCheck = Category::where('category',$request->category)->first();
+            if (!$categoryCheck){
+                $category = new Category();
+                $category->category = $request->category;
+                $category->is_deleted = 0;
+                $category->save();
+            }
+        }
         $user = User::find(Auth::user()->id);
         $info = Embed::create($request->link);
         $extension = pathinfo($info->image, PATHINFO_EXTENSION);

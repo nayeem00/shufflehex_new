@@ -18,7 +18,7 @@
                         @endif
                     @endforeach
                     <li class="list-group-item text-center">
-                        <a href="#">See All Topics</a>
+                        <a href="{{ url('/topics') }}">See All Topics</a>
                     </li>
                 </ul>
             </div>
