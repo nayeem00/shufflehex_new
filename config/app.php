@@ -164,7 +164,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         'Cohensive\Embed\EmbedServiceProvider',
         Intervention\Image\ImageServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -235,7 +234,6 @@ return [
         'EmbedVideo' => 'Cohensive\Embed\Facades\Embed',
         'Intervention' => Intervention\Image\Facades\Image::class,
         'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 
