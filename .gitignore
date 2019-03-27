@@ -5,3 +5,4 @@ vendor/
 node_modules/
 /.idea
 /public/ChangedDesign/lessFiles/less/style.css.map
+/public/images/
