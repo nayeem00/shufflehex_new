@@ -1,2 +1,5 @@
+# robots.txt generated for shufflehex.com
 User-agent: *
-Disallow:
+Disallow: 
+Disallow: /cgi-bin/
+Sitemap: https://shufflehex.com/feed
