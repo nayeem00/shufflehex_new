@@ -69,7 +69,7 @@
                     </div>
                     <div class="form-group">
                         {{--<a class="btn btn-block btn-default" href="{{ url('/login/google') }}">Login with google</a>--}}
-                        {{--<div id="my-signin2" data-onsuccess="onSignIn"></div>--}}
+                        <div id="my-signin2" data-onsuccess="onSignIn"></div>
                     </div>
                 </form>
             </div>
