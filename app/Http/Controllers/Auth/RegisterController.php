@@ -101,7 +101,7 @@ class RegisterController extends Controller
             $client = new Client();
             $response = $client->post('https://www.google.com/recaptcha/api/siteverify', [
                 'form_params' => array(
-                    'secret' => env('reCAPTCHA_secret_key'),
+                    'secret' => "6LfQ57EUAAAAAPbA6TpwVSE9Bo-4q2x_OgQVv5uc",
                     'response' => $token
                 )
             ]);
