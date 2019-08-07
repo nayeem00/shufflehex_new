@@ -96,7 +96,7 @@ class RegisterController extends Controller
 
     public function passes()
     {
-        $token = $this->data['g-recaptcha-response'];
+        $token = isset($this->data['g-recaptcha-response']) ? $this->data['g-recaptcha-response']:"";
         if (!empty($token)) {
             $client = new Client();
             $response = $client->post('https://www.google.com/recaptcha/api/siteverify', [

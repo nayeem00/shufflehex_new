@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
-                        <div class="g-recaptcha" data-sitekey = "{{ env('reCAPTCHA_site_key') }}"></div>
+                        <div class="g-recaptcha" data-sitekey ="6LfQ57EUAAAAALH8mmY8IxIjxL1vA-vYFIaiBJJ4"></div>
                         @if($errors->has('g-recaptcha-response'))
                             @if ($errors->has('g-recaptcha-response'))
                                 <span class="help-block">
@@ -69,7 +69,7 @@
                     </div>
                     <div class="form-group">
                         {{--<a class="btn btn-block btn-default" href="{{ url('/login/google') }}">Login with google</a>--}}
-                        <div id="my-signin2" data-onsuccess="onSignIn"></div>
+                        {{--<div id="my-signin2" data-onsuccess="onSignIn"></div>--}}
                     </div>
                 </form>
             </div>
@@ -121,7 +121,7 @@
         }
     </script>
 
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton&render=explicit" async defer></script>
 <!-- Include Editor JS files. -->
 
 @endsection
