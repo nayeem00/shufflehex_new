@@ -1,5 +1,10 @@
 # robots.txt generated for shufflehex.com
 User-agent: *
-Disallow: 
+Disallow:
 Disallow: /cgi-bin/
+Disallow: /view/
+Disallow: /product/downvote
+Disallow: /product/upvote
+Disallow: /project/downvote
+Disallow: /project/upvote
 Sitemap: https://shufflehex.com/feed
