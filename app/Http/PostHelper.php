@@ -108,7 +108,9 @@ class PostHelper
             $post->description = strip_tags($post->description);
 
 //          ---------------------  Time Calculation ------------------
-            $slug = $post->slug . '-' . $post->id;
+            $title = preg_replace('/\s+/', '-', $post->title);
+            $title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+            $slug = $title . '-' . $post->id;
             $storyLink = 'story/'.$slug;
 
             //                    ---------------------------- Time conversion --------------------------------
