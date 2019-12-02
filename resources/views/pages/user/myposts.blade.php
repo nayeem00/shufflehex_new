@@ -79,18 +79,21 @@
                         allowOutsideClick: true,
                         allowEscapeKey: true
                 }).then(function(result){
-                    if (result.value && deletePost(id)) {
-                        Swal.fire(
-                            'Deleted!',
-                            'Your Post has been deleted.',
-                            'success'
-                        )
-                    }else{
-                        Swal.fire(
-                            'Error!',
-                            'Error Deleting Post.',
-                            'error'
-                        )
+                    if (result.value) {
+                        if(deletePost(id)){
+                            Swal.fire(
+                                'Deleted!',
+                                'Your Post has been deleted.',
+                                'success'
+                            )
+                        }else{
+                            Swal.fire(
+                                'Error!',
+                                'Error Deleting Post.',
+                                'error'
+                            )
+                        }
+
                     }
                  });
             })
