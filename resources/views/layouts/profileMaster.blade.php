@@ -89,7 +89,8 @@
             };
         });
     </script>
-
+</div>
+@yield('js')
 
 <?php echo \App\Http\SettingsHelper::getFootScript()?>
 

@@ -36,6 +36,7 @@ Route::get('/story/trending', 'PostController@trendingPost');
 //Route::get('/story/polls', 'PostController@pollsPost');
 Route::post('/ajax/get_more_post', 'AjaxController@get_more_post');
 Route::post('/ajax/get_filterd_post', 'AjaxController@get_filterd_post');
+Route::post('/ajax/delete_user_posts', 'AjaxController@delete_user_posts');
 Route::get('/go/{productId}', 'ProductController@redirectProductOriginalUrl');
 Route::get('/search', 'SearchController@search')->name('search.all');
 Route::get('/pages/all', function () {

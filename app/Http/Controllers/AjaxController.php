@@ -7,6 +7,7 @@ use App\Http\PostHelper;
 use App\Http\SettingsHelper;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AjaxController extends Controller
@@ -98,6 +99,21 @@ class AjaxController extends Controller
         }else{
             return response()->json(['sucess'=>'false']);
         }
+    }
+
+    public function delete_user_posts(Request $request){
+        $userId = Auth::user()->id;
+        $post = Post::find($request->id);
+        $returnData = ['result' => false];
+        if($post){
+            if($userId == $post->user_id){
+                if($post->delete()){
+                    $returnData = ['result' => true];
+                }
+            }
+        }
+
+        return response()->json($returnData);
     }
 
 }
