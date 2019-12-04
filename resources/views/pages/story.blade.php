@@ -753,10 +753,7 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
                 Swal.fire({
                     title: '<h2>Your story is published</h2>',
                     html: '<p>Thanks for your submission.  Share your story with your friends.</p><br>'+
-                    '<div class="a2a_kit a2a_kit_size_32 a2a_default_style" style="text-align: center"><a class="a2a_button_facebook"></a><a class="a2a_button_twitter"></a><a class="a2a_button_pinterest"></a><a class="a2a_button_linkedin"></a> <a class="a2a_button_reddit"></a> <a class="a2a_button_mix"></a> <a class="a2a_button_tumblr"></a> <a class="a2a_button_flipboard"></a> <a class="a2a_button_vk"></a><a class="a2a_button_blogger"></a>\n' +
-                    '<a class="a2a_button_google_gmail"></a>\n' +
-                    '<a class="a2a_button_box_net"></a> </div>',
-                    showCloseButton: true,
+                    '<div class="a2a_kit a2a_kit_size_32 a2a_default_style" style="text-align: center"><a class="a2a_button_facebook"></a><a class="a2a_button_twitter"></a><a class="a2a_button_pinterest"></a><a class="a2a_button_linkedin"></a> <a class="a2a_button_reddit"></a> <a class="a2a_button_mix"></a> <a class="a2a_button_tumblr"></a> <a class="a2a_button_flipboard"></a> <a class="a2a_button_vk"></a>',
                     showConfirmButton: false,
                     focusConfirm: false,
                     customClass: 'swal-wide',
