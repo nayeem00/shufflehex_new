@@ -188,7 +188,7 @@ class PostController extends Controller
         $slug = $posts->slug . '-' . $posts->id;
         $title = $slug . '-' . $posts->id;
 
-        return redirect('story/' . $title);
+        return redirect('story/' . $title."?share=1");
     }
 
     /**
@@ -386,6 +386,11 @@ class PostController extends Controller
                     return view('pages.pollBeforePublish', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews'));
                 }
             }
+        }
+        if(isset($_GET['share']) && $_GET['share'] == 1){
+           $post->share = 1;
+        }else{
+            $post->share = 0;
         }
         if (isset(Auth::user()->id) && !empty(Auth::user()->id)) {
             return view('pages.story', compact('post', 'totalComments', 'relatedPost', 'postUser', 'totalViews', 'folders'));

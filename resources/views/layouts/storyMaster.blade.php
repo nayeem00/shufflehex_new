@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ asset('font-awesome-4.7.0/css/font-awesome.min.css') }}">
     {{--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">--}}
     <link rel="stylesheet" href="{{asset('jquery-confirm/jquery-confirm.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('ChangedDesign/lessFiles/less/main.css?v=1') }}">
     <link rel="stylesheet" href="{{ asset('toastr/toastr.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.css') }}">

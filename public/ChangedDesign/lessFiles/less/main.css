@@ -1,3 +1,9 @@
+.swal-wide{
+  width:500px !important;
+  align-items: center;
+  height: 300px;
+}
+
 @font-face {
   font-family: 'Crimson Text', serif;
   src: url("https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,600,600i,700,700i");
