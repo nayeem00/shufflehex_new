@@ -24,8 +24,11 @@
     <link rel="stylesheet" href="{{ asset('toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('slick1.8/slick.css')}}">
     <link rel="stylesheet" href="{{ asset('slick1.8/slick-theme.css')}}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/medium-editor-insert-plugin/2.5.0/css/medium-editor-insert-plugin-frontend.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/medium-editor-insert-plugin/2.5.0/css/medium-editor-insert-plugin.min.css" />
     <link rel="stylesheet" href="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.css') }}">
+    <link rel="stylesheet" href="{{ asset('ChangedDesign/plugins/medium-editor/css/medium-editor.css') }}">
+    <link rel="stylesheet" href="{{ asset('ChangedDesign/plugins/medium-editor/css/themes/default.css') }}">
     @yield('css')
 
     <?php echo \App\Http\SettingsHelper::getHeadScript()?>
@@ -83,11 +86,18 @@
 <script src="{{ asset('js/jquery.nicescroll.min.js')}}"></script>
 <script src="{{ asset('bootstrap-select-1.13.2/js/bootstrap-select.min.js')}}"></script>
 <script src="{{ asset('jquery-confirm/jquery-confirm.min.js') }}"></script>
+<script src="{{ asset('ChangedDesign/plugins/medium-editor/js/medium-editor.js') }}"></script>
 <script src="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote.js') }}"></script>
 <script src="{{ asset('ChangedDesign/plugins/summernote-0.8.11/summernote-image-attributes.js') }}"></script>
 <script type="text/javascript" src="{{ asset('ChangedDesign/js/text-editor.js') }}"></script>
 <script src="{{ asset('toastr/toastr.min.js')}}"></script>
 <script src="{{ asset('slick1.8/slick.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.runtime.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.ui.widget@1.10.3/jquery.ui.widget.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.iframe-transport/1.0.1/jquery.iframe-transport.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.28.0/js/jquery.fileupload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/medium-editor-insert-plugin/2.5.0/js/medium-editor-insert-plugin.min.js"></script>
 
 @if ($errors->any())
     @foreach ($errors->all() as $error)

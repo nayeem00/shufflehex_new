@@ -5,10 +5,23 @@
 @endsection
 
 @section('content')
+    <style>
+        .profile-sidebar-nav .nav li{
+            width: 24%;
+            text-align: center;
+        }
+        .box-nav{
+            margin-bottom: 15px;
+        }
 
-    <div class="box saved-stories m-auto" style="max-width: 920px">
+        .box  {
+            box-shadow: 2px 3px 15px rgb(0,0,0,0.5);
+            border-radius: 5px;
+        }
+    </style>
+    <div class="box saved-stories m-auto box-nav" style="">
 
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default ">
 
             <div class="profile-sidebar-nav">
 
@@ -33,18 +46,17 @@
                 <div class="collapse navbar-collapse tab-bar" id="add">
 
                     <ul class="nav nav-pills">
+                        <li role="presentation" class="active"><a data-toggle="pill" href="#writeArticle">Write Article</a></li>
 
-                        <li role="presentation" class="active"><a data-toggle="pill" href="#addLink">Add Link</a></li>
-
-                        <li role="presentation"><a data-toggle="pill" href="#writeArticle">Write Article</a></li>
+                        <li role="presentation" ><a data-toggle="pill" href="#addLink">Add Link</a></li>
 
                         <li role="presentation"><a data-toggle="pill" href="#uploadImage">Upload Image</a></li>
 
                         <li role="presentation"><a data-toggle="pill" href="#submitVideo">Submit Video</a></li>
 
-                        <li role="presentation"><a data-toggle="pill" href="#createList">Create List</a></li>
+                        {{--<li role="presentation"><a data-toggle="pill" href="#createList">Create List</a></li>--}}
 
-                        <li role="presentation"><a data-toggle="pill" href="#createPoll">Create Poll</a></li>
+                        {{--<li role="presentation"><a data-toggle="pill" href="#createPoll">Create Poll</a></li>--}}
 
                     </ul>
 
@@ -53,11 +65,12 @@
             </div>
 
         </nav>
+    </div>
 
-
+    <div class="box saved-stories m-auto" style="">
         <div class="tab-content w-100">
 
-            <div id="addLink" class="tab-pane fadeIn w-100 active">
+            <div id="addLink" class="tab-pane fade w-100">
 
                 <div class="add-link">
 
@@ -147,7 +160,7 @@
 
             </div>
 
-            <div id="writeArticle" class="tab-pane fade">
+            <div id="writeArticle" class="tab-pane fadeIn active">
 
                 <div class="add-article">
 
@@ -219,11 +232,11 @@
 
                         <div class="form-group article-box">
 
-                            <label>Write Article</label>
+                            <label for="articledesc">Write Article</label>
 
-                            <textarea id="" name="description" class="summernote-full"></textarea>
-
-                            {{--<textarea style="width:70%;height:200px;" name="area5" id="area5">Some Initial Content was in this textarea </textarea>--}}
+                            <textarea name="description" id="articledesc" rows="5" minlength="5"
+                                      class="form-control medium-default">
+                            </textarea>
 
                         </div>
 

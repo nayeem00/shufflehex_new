@@ -43,13 +43,21 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+//        print_r($request->description);die();
         $this->validate($request,[
             'title'=>'required',
             'category'=>'required',
             'image'=>'required|mimes:jpg,jpeg,bmp,png,gif',
-            'description'=>'required'
+            'description'=>'required|min:50'
         ]);
-//        dd($request);
+        print_r(strlen(trim($request->description)));
+//        print_r($request->description);
+//        die();
+//        if(strlen($request->description) < 500){
+//            echo "Article Must be minimum 500 Character";
+//            die();
+//        }
+////        dd($request);
         if ($request->category != '') {
             $categoryCheck = Category::where('category',$request->category)->first();
             if (!$categoryCheck){
